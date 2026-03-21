@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta timestamp="2026-03-21 14:31" />
     <title>FRACTURE | UE5 Tactical Shooter - Rompe el Tiempo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -30,17 +28,23 @@
             --text-secondary: #94a3b8;
             --text-tertiary: #64748b;
             --border-subtle: rgba(148, 163, 184, 0.15);
+            --chronomancer: #9b59b6;
+            --titan: #e74c3c;
+            --specter: #2ecc71;
+            --architect: #f39c12;
+            --paradox: #00d4ff;
+            --vanguard: #ff4655;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Navigation - UE5 Style */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -73,15 +77,12 @@
             background: linear-gradient(135deg, var(--ue5-cyan), var(--accent-primary));
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
             position: relative;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            animation: logoPulse 3s infinite;
         }
 
-        .logo-mark::after {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            background: var(--bg-primary);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
         }
 
         .nav-links {
@@ -98,10 +99,26 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--ue5-cyan);
+            transition: width 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--ue5-cyan);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-cta {
@@ -114,8 +131,25 @@
             letter-spacing: 0.5px;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
         }
 
         .nav-cta:hover {
@@ -123,7 +157,7 @@
             box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
         }
 
-        /* Hero - UE5 Cinematic Style */
+        /* Hero with Canvas Animation */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -131,27 +165,21 @@
             justify-content: center;
             padding: 8rem 4% 4rem;
             position: relative;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-                linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
             overflow: hidden;
         }
 
-        .hero-background img {
+        #heroCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .ue5-badge {
@@ -167,6 +195,12 @@
             padding: 0.5rem 1rem;
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.3);
+            animation: badgeGlow 2s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
         }
 
         .hero h1 {
@@ -179,15 +213,17 @@
             text-transform: uppercase;
         }
 
-        .hero h1 span {
-            display: block;
-        }
-
         .hero h1 .accent {
             background: linear-gradient(135deg, var(--ue5-cyan), var(--accent-primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: textShine 3s infinite;
+        }
+
+        @keyframes textShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
         }
 
         .hero-subtitle {
@@ -217,10 +253,12 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
         }
 
@@ -235,6 +273,23 @@
             border: 1px solid var(--border-subtle);
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
         }
 
         .btn-secondary:hover {
@@ -253,6 +308,7 @@
         .stat {
             display: flex;
             flex-direction: column;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .stat-value {
@@ -261,32 +317,23 @@
             font-weight: 700;
             color: var(--ue5-cyan);
             line-height: 1;
+            animation: countUp 2s ease-out;
         }
 
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0.3rem;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Section styling */
-        section {
+        /* Roles Section - Interactive Cards */
+        .roles-section {
             padding: 6rem 4%;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
 
         .section-header {
-            margin-bottom: 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .section-title-group {
-            max-width: 600px;
+            margin-bottom: 4rem;
+            text-align: center;
         }
 
         .section-label {
@@ -303,315 +350,175 @@
             font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
             line-height: 1.1;
+            margin-bottom: 1rem;
         }
 
         .section-desc {
             color: var(--text-secondary);
             font-size: 1rem;
-            margin-top: 0.8rem;
-        }
-
-        /* AGENTS SHOWCASE - UE5 Style */
-        .agents-showcase {
-            background: linear-gradient(135deg, var(--accent-primary) 0%, #cc2938 100%);
-            padding: 6rem 4%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .agents-showcase::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .agents-showcase::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 100%);
-            pointer-events: none;
-        }
-
-        .agents-showcase-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            max-width: 1400px;
+            max-width: 600px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
-        .agents-visual {
-            position: relative;
-            height: 600px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .agent-character {
-            position: absolute;
-            bottom: 0;
-            transition: transform 0.3s;
-        }
-
-        .agent-character:hover {
-            transform: translateY(-10px);
-        }
-
-        .agent-character.main {
-            left: 5%;
-            z-index: 2;
-        }
-
-        .agent-character.secondary {
-            right: 5%;
-            z-index: 1;
-        }
-
-        .ue5-agent-model {
-            width: 300px;
-            height: 550px;
-            position: relative;
-            background: linear-gradient(180deg, rgba(0,212,255,0.1) 0%, transparent 100%);
-            border-radius: 20px 20px 0 0;
-            overflow: hidden;
-        }
-
-        .ue5-agent-model.blue-team {
-            border: 2px solid var(--ue5-cyan);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 40px rgba(0, 212, 255, 0.1);
-        }
-
-        .ue5-agent-model.red-team {
-            border: 2px solid var(--accent-primary);
-            box-shadow: 0 0 40px rgba(255, 70, 85, 0.3), inset 0 0 40px rgba(255, 70, 85, 0.1);
-        }
-
-        .agent-suit {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 400px;
-            background: linear-gradient(180deg, 
-                rgba(0,212,255,0.9) 0%, 
-                rgba(0,102,204,0.8) 50%,
-                rgba(0,50,100,0.9) 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 90% 100%, 10% 100%, 0% 30%);
-            border-radius: 100px 100px 0 0;
-        }
-
-        .agent-suit.red {
-            background: linear-gradient(180deg, 
-                rgba(255,70,85,0.9) 0%, 
-                rgba(200,30,50,0.8) 50%,
-                rgba(100,20,30,0.9) 100%);
-        }
-
-        .agent-visor {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 60px;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
-            border-radius: 60px 60px 20px 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-        }
-
-        .agent-visor::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 20px;
-            background: linear-gradient(90deg, transparent, var(--ue5-cyan), transparent);
-            border-radius: 10px;
-            box-shadow: 0 0 20px var(--ue5-cyan);
-        }
-
-        .agent-suit.red .agent-visor::after {
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-            box-shadow: 0 0 20px var(--accent-primary);
-        }
-
-        .agent-chest-light {
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, var(--ue5-cyan) 0%, transparent 70%);
-            border-radius: 50%;
-            box-shadow: 0 0 30px var(--ue5-cyan);
-            animation: pulse-light 2s infinite;
-        }
-
-        .agent-suit.red .agent-chest-light {
-            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
-            box-shadow: 0 0 30px var(--accent-primary);
-        }
-
-        @keyframes pulse-light {
-            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
-            50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); }
-        }
-
-        .agents-text {
-            color: var(--text-primary);
-            z-index: 1;
-        }
-
-        .agents-text h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 700;
-            line-height: 0.9;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        .agents-text .tagline {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.95);
-        }
-
-        .agents-text p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 2rem;
-        }
-
-        .agent-abilities {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .ability-tag {
-            padding: 0.6rem 1.2rem;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Features Grid */
-        .features {
-            background: var(--bg-secondary);
-        }
-
-        .features-grid {
+        .roles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .feature-card {
+        .role-card {
             background: var(--bg-tertiary);
+            border: 2px solid transparent;
             padding: 2.5rem;
-            border: 1px solid var(--border-subtle);
-            transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
         }
 
-        .feature-card::before {
+        .role-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--ue5-cyan), var(--accent-primary));
+            right: 0;
+            height: 4px;
+            background: var(--role-color);
             transform: scaleX(0);
-            transition: transform 0.3s;
+            transition: transform 0.4s;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--ue5-cyan);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .role-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            border-color: var(--role-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                        0 0 60px var(--role-glow);
         }
 
-        .feature-card:hover::before {
+        .role-card:hover::before {
             transform: scaleX(1);
         }
 
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
+        .role-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .role-icon-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--role-color);
+            opacity: 0.2;
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: iconRotate 10s linear infinite;
         }
 
-        .feature-card h3 {
+        @keyframes iconRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .role-card h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--role-color);
         }
 
-        .feature-card p {
+        .role-card .role-tagline {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .role-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
-        /* Game Modes */
-        .game-modes {
+        .role-abilities {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .ability {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .ability:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+
+        .ability-key {
+            width: 24px;
+            height: 24px;
+            background: var(--role-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            border-radius: 4px;
+        }
+
+        /* Game Modes with Canvas */
+        .modes-section {
+            padding: 6rem 4%;
             background: var(--bg-primary);
+            position: relative;
+        }
+
+        #modesCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         .modes-container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        .mode-tabs {
+        .mode-selector {
             display: flex;
             gap: 1rem;
             margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border-subtle);
-            flex-wrap: wrap;
+            overflow-x: auto;
+            padding-bottom: 1rem;
         }
 
         .mode-tab {
             padding: 1rem 2rem;
-            background: transparent;
-            border: none;
+            background: var(--bg-tertiary);
+            border: 2px solid transparent;
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 600;
@@ -619,21 +526,31 @@
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s;
+            white-space: nowrap;
             position: relative;
+            overflow: hidden;
+        }
+
+        .mode-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .mode-tab:hover::before {
+            left: 100%;
         }
 
         .mode-tab.active {
-            color: var(--ue5-cyan);
-        }
-
-        .mode-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--ue5-cyan);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(255, 70, 85, 0.1);
+            box-shadow: 0 0 20px rgba(255, 70, 85, 0.3);
         }
 
         .mode-content {
@@ -644,188 +561,63 @@
         }
 
         .mode-visual {
-            aspect-ratio: 16/9;
+            aspect-ratio: 16/10;
             background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
+            border: 2px solid var(--border-subtle);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .mode-visual::after {
-            content: 'UE5 GAMEPLAY';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-tertiary);
-            letter-spacing: 4px;
+        .mode-visual-canvas {
+            width: 100%;
+            height: 100%;
         }
 
         .mode-info h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-quaternary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .mode-info p {
+        .mode-info > p {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             line-height: 1.7;
+            font-size: 1.1rem;
         }
 
         .mode-features {
             list-style: none;
+            display: grid;
+            gap: 1rem;
         }
 
         .mode-features li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
+            padding: 1rem;
+            padding-left: 3rem;
             position: relative;
-            color: var(--text-secondary);
-        }
-
-        .mode-features li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--ue5-cyan);
-        }
-
-        /* Maps Section */
-        .maps {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-        }
-
-        .maps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .map-card {
-            aspect-ratio: 16/10;
             background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+            border-left: 3px solid var(--accent-primary);
             transition: all 0.3s;
         }
 
-        .map-card:hover {
-            transform: scale(1.02);
-            border-color: var(--ue5-cyan);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
-        }
-
-        .map-card.large {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .map-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(10,14,20,0.9) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-        }
-
-        .map-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .map-location {
-            font-size: 0.85rem;
-            color: var(--ue5-cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Weapons Arsenal */
-        .arsenal {
-            background: var(--bg-secondary);
-        }
-
-        .weapons-showcase {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .weapon-categories {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .weapon-cat {
-            padding: 1.5rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .weapon-cat:hover, .weapon-cat.active {
-            border-color: var(--accent-primary);
+        .mode-features li:hover {
+            transform: translateX(10px);
             background: rgba(255, 70, 85, 0.1);
         }
 
-        .weapon-cat-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-primary), #cc2938);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .mode-features li::before {
+            content: '◆';
+            position: absolute;
+            left: 1rem;
+            color: var(--accent-primary);
             font-size: 1.2rem;
-        }
-
-        .weapon-cat-info h4 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .weapon-cat-info span {
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-        }
-
-        .weapon-display {
-            aspect-ratio: 16/9;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .weapon-model {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 8px;
         }
 
         /* CTA Section */
@@ -837,26 +629,13 @@
             overflow: hidden;
         }
 
-        .cta-section::before {
-            content: '';
+        #ctaCanvas {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.03) 10px,
-                rgba(255,255,255,0.03) 20px
-            );
-            animation: slide 20s linear infinite;
-        }
-
-        @keyframes slide {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
         }
 
         .cta-content {
@@ -889,16 +668,23 @@
         }
 
         .platform-badge {
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        /* Footer */
+        .platform-badge:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Footer with Social Icons */
         footer {
             background: var(--bg-primary);
             padding: 4rem 4% 2rem;
@@ -970,46 +756,47 @@
             font-size: 0.8rem;
         }
 
+        /* Social Icons - Official SVGs */
         .social-links {
             display: flex;
             gap: 1rem;
         }
 
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--border-subtle);
+        .social-icon {
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.2s;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .social-links a:hover {
+        .social-icon:hover {
+            transform: translateY(-3px);
             border-color: var(--ue5-cyan);
-            color: var(--ue5-cyan);
-            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .social-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-secondary);
+            transition: fill 0.3s;
+        }
+
+        .social-icon:hover svg {
+            fill: var(--ue5-cyan);
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .agents-showcase-content,
-            .mode-content,
-            .weapons-showcase {
+            .mode-content {
                 grid-template-columns: 1fr;
             }
-
-            .maps-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .map-card.large {
-                grid-column: span 2;
-                grid-row: span 1;
-            }
-
+            
             .footer-content {
                 grid-template-columns: 1fr 1fr;
             }
@@ -1022,14 +809,7 @@
 
             .hero-stats {
                 gap: 2rem;
-            }
-
-            .maps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .map-card.large {
-                grid-column: span 1;
+                flex-wrap: wrap;
             }
 
             .footer-content {
@@ -1043,34 +823,23 @@
             }
         }
 
-        /* Scroll animations */
-        .fade-in {
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+            animation: particleFloat 3s ease-out forwards;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--ue5-blue);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--ue5-cyan);
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
         }
     </style>
 <base target="_blank">
@@ -1083,252 +852,278 @@
             FRACTURE
         </a>
         <ul class="nav-links">
-            <li><a href="#agents">Agentes</a></li>
-            <li><a href="#features">Características</a></li>
+            <li><a href="#roles">Roles</a></li>
             <li><a href="#modes">Modos</a></li>
-            <li><a href="#maps">Mapas</a></li>
             <li><a href="#arsenal">Arsenal</a></li>
+            <li><a href="#esports">Esports</a></li>
         </ul>
         <button class="nav-cta">Jugar Gratis</button>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Canvas Animation -->
     <section class="hero">
-        <div class="hero-background">
-            <div style="width:100%;height:100%;background:radial-gradient(circle at 50% 50%, rgba(0,102,204,0.2) 0%, transparent 70%)"></div>
-        </div>
-        <div class="ue5-badge">
-            <span>●</span> Powered by Unreal Engine 5
-        </div>
-        <h1>
-            <span>ROMPE</span>
-            <span class="accent">EL TIEMPO</span>
-        </h1>
-        <p class="hero-subtitle">
-            El shooter táctico 5v5 definitivo. Manipula el tiempo, domina habilidades únicas y lidera a tu equipo hacia la victoria en intensos combates estratégicos.
-        </p>
-        <div class="hero-cta-group">
-            <button class="btn-primary">Descargar Ahora</button>
-            <button class="btn-secondary">Ver Tráiler</button>
-        </div>
-        <div class="hero-stats">
-            <div class="stat">
-                <span class="stat-value">25M+</span>
-                <span class="stat-label">Jugadores</span>
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <div class="ue5-badge">
+                <span>◉</span> Powered by Unreal Engine 5
             </div>
-            <div class="stat">
-                <span class="stat-value">15</span>
-                <span class="stat-label">Agentes</span>
+            <h1>
+                <span>ROMPE</span>
+                <span class="accent">EL TIEMPO</span>
+            </h1>
+            <p class="hero-subtitle">
+                El shooter táctico 5v5 definitivo. Manipula el tiempo, domina habilidades únicas y lidera a tu equipo hacia la victoria en intensos combates estratégicos.
+            </p>
+            <div class="hero-cta-group">
+                <button class="btn-primary" onclick="createParticles(event)">Descargar Ahora</button>
+                <button class="btn-secondary">Ver Tráiler</button>
             </div>
-            <div class="stat">
-                <span class="stat-value">8</span>
-                <span class="stat-label">Mapas</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">4K</span>
-                <span class="stat-label">HDR UE5</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Agents Showcase -->
-    <section class="agents-showcase" id="agents">
-        <div class="agents-showcase-content">
-            <div class="agents-visual">
-                <div class="agent-character main">
-                    <div class="ue5-agent-model blue-team">
-                        <div class="agent-suit">
-                            <div class="agent-visor"></div>
-                            <div class="agent-chest-light"></div>
-                        </div>
-                    </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value" data-target="25">0</span>
+                    <span class="stat-label">M+ Jugadores</span>
                 </div>
-                <div class="agent-character secondary">
-                    <div class="ue5-agent-model red-team">
-                        <div class="agent-suit red">
-                            <div class="agent-visor"></div>
-                            <div class="agent-chest-light"></div>
-                        </div>
-                    </div>
+                <div class="stat">
+                    <span class="stat-value" data-target="6">0</span>
+                    <span class="stat-label">Roles Únicos</span>
                 </div>
-            </div>
-            <div class="agents-text">
-                <h2>ELIGE TU<br>AGENTE</h2>
-                <p class="tagline">Cada uno con habilidades únicas</p>
-                <p>Domina el campo de batalla con 15 agentes únicos, cada uno con habilidades tácticas que pueden cambiar el curso de la partida. Desde controladores del tiempo hasta especialistas en sigilo, encuentra tu estilo de juego perfecto.</p>
-                <div class="agent-abilities">
-                    <span class="ability-tag">Control Temporal</span>
-                    <span class="ability-tag">Teletransporte</span>
-                    <span class="ability-tag">Escudos</span>
-                    <span class="ability-tag">Reconocimiento</span>
+                <div class="stat">
+                    <span class="stat-value" data-target="12">0</span>
+                    <span class="stat-label">Mapas</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">4K</span>
+                    <span class="stat-label">HDR UE5</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+    <!-- Roles Section - Unique Roles -->
+    <section class="roles-section" id="roles">
         <div class="section-header">
-            <div class="section-title-group">
-                <div class="section-label">Características</div>
-                <h2 class="section-title">Tecnología de Última Generación</h2>
-                <p class="section-desc">Potenciado por Unreal Engine 5 para una experiencia visual y de juego sin precedentes.</p>
-            </div>
+            <div class="section-label">Roles Tácticos</div>
+            <h2 class="section-title">Domina Tu Especialidad</h2>
+            <p class="section-desc">6 roles únicos con habilidades que rompen las reglas de la realidad. Cada uno con un propósito definido en el campo de batalla.</p>
         </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Nanite Virtualized Geometry</h3>
-                <p>Geometría cinematográfica con detalles ilimitados. Cada textura, cada sombra, cada reflejo renderizado en tiempo real.</p>
+        
+        <div class="roles-grid">
+            <!-- CHRONOMANCER - Controlador Temporal -->
+            <div class="role-card" style="--role-color: #9b59b6; --role-glow: rgba(155, 89, 182, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>⏳</span>
+                </div>
+                <h3>CHRONOMANCER</h3>
+                <div class="role-tagline">Maestro del Tiempo</div>
+                <p>Manipula el flujo temporal para crear ventajas tácticas. Ralentiza enemigos, acelera aliados y crea bucles temporales defensivos.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Stasis Field - Congela el tiempo en un área</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Rewind - Retrocede 5 segundos en el tiempo</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Time Dilation - Ralentiza proyectiles enemigos</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Temporal Rift - Resetea habilidades del equipo</span>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">💡</div>
-                <h3>Lumen Global Illumination</h3>
-                <p>Iluminación global dinámica que responde en tiempo real a tus acciones. Las sombras se mueven, la luz cambia.</p>
+
+            <!-- TITAN - Tanque de Realidad -->
+            <div class="role-card" style="--role-color: #e74c3c; --role-glow: rgba(231, 76, 60, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>🛡️</span>
+                </div>
+                <h3>TITAN</h3>
+                <div class="role-tagline">Fortaleza Viviente</div>
+                <p>Crea barreras de materia pura y absorbe daño para proteger al equipo. Especialista en control de espacios y tanking estratégico.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Matter Wall - Muro de materia sólida</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Aegis - Escudo personal expandible</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Anchor - Inmoviliza y reduce daño recibido</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Colossus - Modo invulnerable por 8s</span>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Netcode de 128 Tick</h3>
-                <p>Registro de impactos preciso al milisegundo. Sin lag, sin compensación, solo habilidad pura.</p>
+
+            <!-- SPECTER - Asesino Dimensional -->
+            <div class="role-card" style="--role-color: #2ecc71; --role-glow: rgba(46, 204, 113, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>👻</span>
+                </div>
+                <h3>SPECTER</h3>
+                <div class="role-tagline">Fantasma del Vacío</div>
+                <p>Se desplaza entre dimensiones para eliminar objetivos prioritarios. Especialista en infiltración y eliminaciones quirúrgicas.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Void Step - Teletransporte corto</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Phase - Intangibilidad temporal</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Shadow Strike - Ataque desde dimensiones</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Annihilation - Elimina a un objetivo marcado</span>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>Servidores Globales</h3>
-                <p>Infraestructura en 15 regiones con ping ultra-bajo. Juega contra cualquiera, en cualquier lugar.</p>
+
+            <!-- ARCHITECT - Ingeniero de Realidad -->
+            <div class="role-card" style="--role-color: #f39c12; --role-glow: rgba(243, 156, 18, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>🔧</span>
+                </div>
+                <h3>ARCHITECT</h3>
+                <div class="role-tagline">Constructor de Mundos</div>
+                <p>Altera la geometría del mapa y crea estructuras tácticas. Controla el flujo del combate modificando el terreno.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Rampart - Crea plataformas elevadas</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Barrier - Muro desplegable instantáneo</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Turret - Torreta autónima defensiva</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Fortress - Crea una fortaleza móvil</span>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Anti-Cheat Vanguard</h3>
-                <p>Sistema anti-trampas de kernel-level que garantiza partidas justas en cada ronda.</p>
+
+            <!-- PARADOX - Ilusionista Cuántico -->
+            <div class="role-card" style="--role-color: #00d4ff; --role-glow: rgba(0, 212, 255, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>🎭</span>
+                </div>
+                <h3>PARADOX</h3>
+                <div class="role-tagline">Maestro del Engaño</div>
+                <p>Crea ilusiones cuánticas y duplicados para confundir al enemigo. Especialista en información falsa y distracciones.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Decoy - Crea un clon controlable</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Mirror Image - Refleja habilidades enemigas</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Swap - Intercambia posición con el clon</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Multiverse - Crea 3 clones simultáneos</span>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔊</div>
-                <h3>Audio Espacial 3D</h3>
-                <p>Escucha cada paso, cada recarga, cada habilidad con precisión milimétrica en el espacio 3D.</p>
+
+            <!-- VANGUARD - Líder de Asalto -->
+            <div class="role-card" style="--role-color: #ff4655; --role-glow: rgba(255, 70, 85, 0.3)">
+                <div class="role-icon">
+                    <div class="role-icon-bg"></div>
+                    <span>⚡</span>
+                </div>
+                <h3>VANGUARD</h3>
+                <div class="role-tagline">Fuerza de Choque</div>
+                <p>Líder de asalto que inicia el combate con movilidad extrema. Especialista en entradas agresivas y creación de oportunidades.</p>
+                <div class="role-abilities">
+                    <div class="ability">
+                        <span class="ability-key">Q</span>
+                        <span>Dash - Dash rápido en cualquier dirección</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">E</span>
+                        <span>Adrenaline - Velocidad de ataque aumentada</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">C</span>
+                        <span>Concussion - Granada de aturdimiento</span>
+                    </div>
+                    <div class="ability">
+                        <span class="ability-key">X</span>
+                        <span>Overdrive - Modo berserker 10s</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Game Modes -->
-    <section class="game-modes" id="modes">
+    <!-- Game Modes Section with Canvas -->
+    <section class="modes-section" id="modes">
+        <canvas id="modesCanvas"></canvas>
         <div class="modes-container">
             <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-label">Modos de Juego</div>
-                    <h2 class="section-title">Múltiples Formas de Dominar</h2>
+                <div class="section-label">Modos de Juego</div>
+                <h2 class="section-title">Múltiples Formas de Dominar</h2>
+                <p class="section-desc">Desde el competitivo clásico hasta modos innovadores que desafían la física.</p>
+            </div>
+
+            <div class="mode-selector">
+                <button class="mode-tab active" onclick="switchMode(0)">Singularity</button>
+                <button class="mode-tab" onclick="switchMode(1)">Time Loop</button>
+                <button class="mode-tab" onclick="switchMode(2)">Quantum Rush</button>
+                <button class="mode-tab" onclick="switchMode(3)">Fracture</button>
+                <button class="mode-tab" onclick="switchMode(4)">Annihilation</button>
+            </div>
+
+            <div class="mode-content" id="modeContent">
+                <div class="mode-visual">
+                    <canvas id="modeVisualCanvas" class="mode-visual-canvas"></canvas>
                 </div>
-            </div>
-            <div class="mode-tabs">
-                <button class="mode-tab active">Desactivación</button>
-                <button class="mode-tab">Captura la Zona</button>
-                <button class="mode-tab">Deathmatch</button>
-                <button class="mode-tab">Fractura Temporal</button>
-            </div>
-            <div class="mode-content">
-                <div class="mode-visual"></div>
                 <div class="mode-info">
-                    <h3>Desactivación</h3>
-                    <p>El modo clásico 5v5. Atacantes deben plantar el dispositivo temporal mientras los defensores intentan detenerlos. Rondas de alta tensión donde cada decisión cuenta.</p>
+                    <h3>SINGULARITY</h3>
+                    <p>El modo competitivo definitivo 5v5. Los atacantes deben capturar el núcleo de singularidad mientras los defensores lo protegen. Una vez capturado, el tiempo se distorsiona creando rondas de 45 segundos de alta tensión.</p>
                     <ul class="mode-features">
-                        <li>Mejor de 24 rondas</li>
-                        <li>Economía táctica entre rondas</li>
-                        <li>Una vida por ronda</li>
-                        <li>Comunicación de equipo esencial</li>
+                        <li>Mejor de 24 rondas (12-12 posible)</li>
+                        <li>Sistema económico con compra de habilidades temporales</li>
+                        <li>Una vida por ronda - sin respawns</li>
+                        <li>Rondas de tiempo comprimido (45s efectivos)</li>
+                        <li>Overtime: Primera victoria con ventaja de 2 rondas</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Maps Section -->
-    <section class="maps" id="maps">
-        <div class="section-header">
-            <div class="section-title-group">
-                <div class="section-label">Arenas</div>
-                <h2 class="section-title">Mapas Diseñados para la Estrategia</h2>
-            </div>
-        </div>
-        <div class="maps-grid">
-            <div class="map-card large">
-                <div class="map-overlay">
-                    <div class="map-name">NEXUS PRIME</div>
-                    <div class="map-location">Ciudad Neo-Tokio</div>
-                </div>
-            </div>
-            <div class="map-card">
-                <div class="map-overlay">
-                    <div class="map-name">SECTOR 7</div>
-                    <div class="map-location">Instalación Subterránea</div>
-                </div>
-            </div>
-            <div class="map-card">
-                <div class="map-overlay">
-                    <div class="map-name">ATLAS STATION</div>
-                    <div class="map-location">Estación Espacial</div>
-                </div>
-            </div>
-            <div class="map-card">
-                <div class="map-overlay">
-                    <div class="map-name">VOID HARBOR</div>
-                    <div class="map-location">Puerto Cuántico</div>
-                </div>
-            </div>
-            <div class="map-card">
-                <div class="map-overlay">
-                    <div class="map-name">CHRONO KEEP</div>
-                    <div class="map-location">Fortaleza Temporal</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Arsenal Section -->
-    <section class="arsenal" id="arsenal">
-        <div class="section-header">
-            <div class="section-title-group">
-                <div class="section-label">Armamento</div>
-                <h2 class="section-title">Arsenal Completo</h2>
-            </div>
-        </div>
-        <div class="weapons-showcase">
-            <div class="weapon-categories">
-                <div class="weapon-cat active">
-                    <div class="weapon-cat-icon">🔫</div>
-                    <div class="weapon-cat-info">
-                        <h4>Armas Primarias</h4>
-                        <span>Rifles, SMGs, Escopetas</span>
-                    </div>
-                </div>
-                <div class="weapon-cat">
-                    <div class="weapon-cat-icon">🔪</div>
-                    <div class="weapon-cat-info">
-                        <h4>Armas Secundarias</h4>
-                        <span>Pistolas, Revólveres</span>
-                    </div>
-                </div>
-                <div class="weapon-cat">
-                    <div class="weapon-cat-icon">💣</div>
-                    <div class="weapon-cat-info">
-                        <h4>Utilidades</h4>
-                        <span>Granadas, C4, Drones</span>
-                    </div>
-                </div>
-                <div class="weapon-cat">
-                    <div class="weapon-cat-icon">🛡️</div>
-                    <div class="weapon-cat-info">
-                        <h4>Protección</h4>
-                        <span>Chalecos, Cascos, Escudos</span>
-                    </div>
-                </div>
-            </div>
-            <div class="weapon-display">
-                <div class="weapon-model">ARSENAL UE5</div>
-            </div>
-        </div>
-    </section>
-
     <!-- CTA Section -->
     <section class="cta-section">
+        <canvas id="ctaCanvas"></canvas>
         <div class="cta-content">
             <h2>Únete a la Fractura</h2>
             <p>Descarga gratis y comienza tu camino hacia la maestría táctica. Disponible en todas las plataformas.</p>
@@ -1336,15 +1131,15 @@
                 Jugar Ahora Gratis
             </button>
             <div class="platforms">
-                <span class="platform-badge">PC</span>
-                <span class="platform-badge">PlayStation 5</span>
-                <span class="platform-badge">Xbox Series X</span>
-                <span class="platform-badge">Steam</span>
+                <div class="platform-badge">PC (Steam/Epic)</div>
+                <div class="platform-badge">PlayStation 5</div>
+                <div class="platform-badge">Xbox Series X|S</div>
+                <div class="platform-badge">GeForce Now</div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer with Official Social Icons -->
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
@@ -1385,48 +1180,530 @@
         <div class="footer-bottom">
             <p>&copy; 2026 Fracture Studios. Todos los derechos reservados. Powered by Unreal Engine 5.</p>
             <div class="social-links">
-                <a href="#">𝕏</a>
-                <a href="#">f</a>
-                <a href="#">▶</a>
-                <a href="#">📷</a>
-                <a href="#">💬</a>
+                <!-- X (Twitter) -->
+                <a href="#" class="social-icon" aria-label="X">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="#" class="social-icon" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <!-- YouTube -->
+                <a href="#" class="social-icon" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <!-- Discord -->
+                <a href="#" class="social-icon" aria-label="Discord">
+                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                </a>
+                <!-- Twitch -->
+                <a href="#" class="social-icon" aria-label="Twitch">
+                    <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+                </a>
+                <!-- TikTok -->
+                <a href="#" class="social-icon" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                </a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Simple scroll animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        // Hero Canvas Animation - Particle System
+        const heroCanvas = document.getElementById('heroCanvas');
+        const heroCtx = heroCanvas.getContext('2d');
+        
+        function resizeHeroCanvas() {
+            heroCanvas.width = window.innerWidth;
+            heroCanvas.height = window.innerHeight;
+        }
+        resizeHeroCanvas();
+        window.addEventListener('resize', resizeHeroCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * heroCanvas.width;
+                this.y = Math.random() * heroCanvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.life = Math.random() * 100 + 100;
+                this.hue = Math.random() > 0.5 ? 200 : 340; // Cyan or Red
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+                
+                if (this.life <= 0 || this.x < 0 || this.x > heroCanvas.width || this.y < 0 || this.y > heroCanvas.height) {
+                    this.reset();
+                }
+            }
+            
+            draw() {
+                heroCtx.beginPath();
+                heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                heroCtx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life / 200})`;
+                heroCtx.fill();
+            }
+        }
+
+        const particles = Array.from({ length: 100 }, () => new Particle());
+
+        function animateHero() {
+            heroCtx.fillStyle = 'rgba(10, 14, 20, 0.1)';
+            heroCtx.fillRect(0, 0, heroCanvas.width, heroCanvas.height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        heroCtx.beginPath();
+                        heroCtx.moveTo(p1.x, p1.y);
+                        heroCtx.lineTo(p2.x, p2.y);
+                        heroCtx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - distance / 100)})`;
+                        heroCtx.stroke();
+                    }
+                });
+            });
+            
+            requestAnimationFrame(animateHero);
+        }
+        animateHero();
+
+        // Modes Canvas Animation
+        const modesCanvas = document.getElementById('modesCanvas');
+        const modesCtx = modesCanvas.getContext('2d');
+        
+        function resizeModesCanvas() {
+            const rect = modesCanvas.parentElement.getBoundingClientRect();
+            modesCanvas.width = rect.width;
+            modesCanvas.height = rect.height;
+        }
+        resizeModesCanvas();
+        window.addEventListener('resize', resizeModesCanvas);
+
+        let modeTime = 0;
+        function animateModes() {
+            modesCtx.clearRect(0, 0, modesCanvas.width, modesCanvas.height);
+            modeTime += 0.01;
+            
+            // Draw grid
+            modesCtx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
+            modesCtx.lineWidth = 1;
+            
+            for (let i = 0; i < modesCanvas.width; i += 50) {
+                modesCtx.beginPath();
+                modesCtx.moveTo(i, 0);
+                modesCtx.lineTo(i, modesCanvas.height);
+                modesCtx.stroke();
+            }
+            
+            for (let i = 0; i < modesCanvas.height; i += 50) {
+                modesCtx.beginPath();
+                modesCtx.moveTo(0, i);
+                modesCtx.lineTo(modesCanvas.width, i);
+                modesCtx.stroke();
+            }
+            
+            // Draw animated waves
+            modesCtx.beginPath();
+            modesCtx.strokeStyle = 'rgba(255, 70, 85, 0.3)';
+            modesCtx.lineWidth = 2;
+            
+            for (let x = 0; x < modesCanvas.width; x += 5) {
+                const y = modesCanvas.height / 2 + Math.sin(x * 0.01 + modeTime) * 50;
+                if (x === 0) modesCtx.moveTo(x, y);
+                else modesCtx.lineTo(x, y);
+            }
+            modesCtx.stroke();
+            
+            requestAnimationFrame(animateModes);
+        }
+        animateModes();
+
+        // Mode Visual Canvas
+        const modeVisualCanvas = document.getElementById('modeVisualCanvas');
+        const modeVisualCtx = modeVisualCanvas.getContext('2d');
+        
+        function resizeModeVisual() {
+            const rect = modeVisualCanvas.parentElement.getBoundingClientRect();
+            modeVisualCanvas.width = rect.width;
+            modeVisualCanvas.height = rect.height;
+        }
+        resizeModeVisual();
+        window.addEventListener('resize', resizeModeVisual);
+
+        const modeAnimations = {
+            0: (time) => { // Singularity - Black hole effect
+                modeVisualCtx.fillStyle = '#111820';
+                modeVisualCtx.fillRect(0, 0, modeVisualCanvas.width, modeVisualCanvas.height);
+                
+                const cx = modeVisualCanvas.width / 2;
+                const cy = modeVisualCanvas.height / 2;
+                
+                // Black hole
+                const gradient = modeVisualCtx.createRadialGradient(cx, cy, 0, cx, cy, 100);
+                gradient.addColorStop(0, '#000');
+                gradient.addColorStop(0.5, '#9b59b6');
+                gradient.addColorStop(1, 'transparent');
+                
+                modeVisualCtx.fillStyle = gradient;
+                modeVisualCtx.beginPath();
+                modeVisualCtx.arc(cx, cy, 100 + Math.sin(time) * 10, 0, Math.PI * 2);
+                modeVisualCtx.fill();
+                
+                // Accretion disk
+                modeVisualCtx.strokeStyle = '#9b59b6';
+                modeVisualCtx.lineWidth = 3;
+                for (let i = 0; i < 20; i++) {
+                    const angle = time * 2 + i * 0.3;
+                    const r = 80 + i * 3;
+                    modeVisualCtx.beginPath();
+                    modeVisualCtx.arc(cx, cy, r, angle, angle + 1);
+                    modeVisualCtx.stroke();
+                }
+            },
+            1: (time) => { // Time Loop - Clock spiral
+                modeVisualCtx.fillStyle = '#111820';
+                modeVisualCtx.fillRect(0, 0, modeVisualCanvas.width, modeVisualCanvas.height);
+                
+                const cx = modeVisualCanvas.width / 2;
+                const cy = modeVisualCanvas.height / 2;
+                
+                modeVisualCtx.strokeStyle = '#00d4ff';
+                modeVisualCtx.lineWidth = 2;
+                
+                for (let i = 0; i < 50; i++) {
+                    const angle = time + i * 0.2;
+                    const r = i * 3;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    
+                    modeVisualCtx.beginPath();
+                    modeVisualCtx.arc(x, y, 3, 0, Math.PI * 2);
+                    modeVisualCtx.stroke();
+                }
+            },
+            2: (time) => { // Quantum Rush - Speed lines
+                modeVisualCtx.fillStyle = 'rgba(17, 24, 32, 0.3)';
+                modeVisualCtx.fillRect(0, 0, modeVisualCanvas.width, modeVisualCanvas.height);
+                
+                modeVisualCtx.strokeStyle = '#2ecc71';
+                modeVisualCtx.lineWidth = 2;
+                
+                for (let i = 0; i < 30; i++) {
+                    const x = (time * 200 + i * 50) % (modeVisualCanvas.width + 100) - 50;
+                    const y = Math.sin(i + time) * 50 + modeVisualCanvas.height / 2;
+                    
+                    modeVisualCtx.beginPath();
+                    modeVisualCtx.moveTo(x, y);
+                    modeVisualCtx.lineTo(x + 40, y);
+                    modeVisualCtx.stroke();
+                }
+            },
+            3: (time) => { // Fracture - Shattering effect
+                modeVisualCtx.fillStyle = '#111820';
+                modeVisualCtx.fillRect(0, 0, modeVisualCanvas.width, modeVisualCanvas.height);
+                
+                modeVisualCtx.strokeStyle = '#ff4655';
+                modeVisualCtx.lineWidth = 2;
+                
+                const cx = modeVisualCanvas.width / 2;
+                const cy = modeVisualCanvas.height / 2;
+                
+                for (let i = 0; i < 8; i++) {
+                    const angle = (time * 0.5) + i * (Math.PI / 4);
+                    const r = 50 + Math.sin(time * 2 + i) * 30;
+                    
+                    modeVisualCtx.beginPath();
+                    modeVisualCtx.moveTo(cx, cy);
+                    modeVisualCtx.lineTo(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r);
+                    modeVisualCtx.stroke();
+                }
+            },
+            4: (time) => { // Annihilation - Explosion particles
+                modeVisualCtx.fillStyle = 'rgba(17, 24, 32, 0.2)';
+                modeVisualCtx.fillRect(0, 0, modeVisualCanvas.width, modeVisualCanvas.height);
+                
+                const cx = modeVisualCanvas.width / 2;
+                const cy = modeVisualCanvas.height / 2;
+                
+                for (let i = 0; i < 20; i++) {
+                    const angle = time + i * 0.3;
+                    const r = (time * 50 + i * 10) % 150;
+                    
+                    modeVisualCtx.fillStyle = '#e74c3c';
+                    modeVisualCtx.beginPath();
+                    modeVisualCtx.arc(
+                        cx + Math.cos(angle) * r,
+                        cy + Math.sin(angle) * r,
+                        4, 0, Math.PI * 2
+                    );
+                    modeVisualCtx.fill();
+                }
+            }
         };
 
+        let currentMode = 0;
+        let modeVisualTime = 0;
+
+        function animateModeVisual() {
+            modeVisualTime += 0.05;
+            if (modeAnimations[currentMode]) {
+                modeAnimations[currentMode](modeVisualTime);
+            }
+            requestAnimationFrame(animateModeVisual);
+        }
+        animateModeVisual();
+
+        // Mode Data
+        const modesData = [
+            {
+                name: 'SINGULARITY',
+                desc: 'El modo competitivo definitivo 5v5. Los atacantes deben capturar el núcleo de singularidad mientras los defensores lo protegen. Una vez capturado, el tiempo se distorsiona creando rondas de 45 segundos de alta tensión.',
+                features: [
+                    'Mejor de 24 rondas (12-12 posible)',
+                    'Sistema económico con compra de habilidades temporales',
+                    'Una vida por ronda - sin respawns',
+                    'Rondas de tiempo comprimido (45s efectivos)',
+                    'Overtime: Primera victoria con ventaja de 2 rondas'
+                ]
+            },
+            {
+                name: 'TIME LOOP',
+                desc: 'Modo experimental donde cada jugador revive automáticamente cada 30 segundos en su posición inicial. La clave está en romper el ciclo del enemigo eliminando sus "anclas temporales" escondidas en el mapa.',
+                features: [
+                    'Respawn automático cada 30 segundos',
+                    '3 anclas temporales por equipo',
+                    'Destruir anclas enemigas = victoria',
+                    'Habilidades de tiempo potenciadas 200%',
+                    'Mapas con bucles temporales'
+                ]
+            },
+            {
+                name: 'QUANTUM RUSH',
+                desc: 'Modo arcade de ritmo frenético. Todos los jugadores tienen velocidad de movimiento duplicada, recargas instantáneas y cooldowns reducidos. Primero en 30 eliminaciones gana.',
+                features: [
+                    'Velocidad de movimiento x2',
+                    'Sin tiempo de recarga',
+                    'Cooldowns reducidos 70%',
+                    'Power-ups aleatorios en el mapa',
+                    'Partidas de 5 minutos máximo'
+                ]
+            },
+            {
+                name: 'FRACTURE',
+                desc: 'El mapa se divide en 3 dimensiones paralelas. Los equipos pueden cambiar de dimensión usando portales estratégicos. Cada dimensión tiene diferentes físicas y ventajas tácticas.',
+                features: [
+                    '3 dimensiones simultáneas',
+                    'Portales de intercambio estratégicos',
+                    'Gravedad alterada en dimensión Alpha',
+                    'Invisibilidad parcial en dimensión Beta',
+                    'Daño aumentado en dimensión Gamma'
+                ]
+            },
+            {
+                name: 'ANNIHILATION',
+                desc: 'Modo battle royale táctico. 50 jugadores, un mapa que colapsa temporalmente hacia el centro. El último equipo en pie gana. Incluye vehículos temporales y armas experimentales.',
+                features: [
+                    '50 jugadores (25 equipos de 2)',
+                    'Zona segura que colapsa hacia el centro',
+                    'Vehículos de desplazamiento temporal',
+                    'Armas legendarias únicas',
+                    'Revive a tu compañero en beacon points'
+                ]
+            }
+        ];
+
+        function switchMode(index) {
+            currentMode = index;
+            modeVisualTime = 0;
+            
+            // Update tabs
+            document.querySelectorAll('.mode-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            
+            // Update content with animation
+            const content = document.getElementById('modeContent');
+            content.style.opacity = '0';
+            content.style.transform = 'translateX(20px)';
+            
+            setTimeout(() => {
+                const data = modesData[index];
+                content.innerHTML = `
+                    <div class="mode-visual">
+                        <canvas id="modeVisualCanvas" class="mode-visual-canvas"></canvas>
+                    </div>
+                    <div class="mode-info">
+                        <h3>${data.name}</h3>
+                        <p>${data.desc}</p>
+                        <ul class="mode-features">
+                            ${data.features.map(f => `<li>${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                // Reinitialize canvas
+                const newCanvas = document.getElementById('modeVisualCanvas');
+                const ctx = newCanvas.getContext('2d');
+                const rect = newCanvas.parentElement.getBoundingClientRect();
+                newCanvas.width = rect.width;
+                newCanvas.height = rect.height;
+                
+                content.style.transition = 'all 0.3s';
+                content.style.opacity = '1';
+                content.style.transform = 'translateX(0)';
+            }, 300);
+        }
+
+        // CTA Canvas Animation
+        const ctaCanvas = document.getElementById('ctaCanvas');
+        const ctaCtx = ctaCanvas.getContext('2d');
+        
+        function resizeCtaCanvas() {
+            const rect = ctaCanvas.parentElement.getBoundingClientRect();
+            ctaCanvas.width = rect.width;
+            ctaCanvas.height = rect.height;
+        }
+        resizeCtaCanvas();
+        window.addEventListener('resize', resizeCtaCanvas);
+
+        let ctaTime = 0;
+        function animateCta() {
+            ctaCtx.clearRect(0, 0, ctaCanvas.width, ctaCanvas.height);
+            ctaTime += 0.02;
+            
+            // Draw hexagon grid
+            ctaCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctaCtx.lineWidth = 1;
+            
+            const hexSize = 30;
+            for (let y = 0; y < ctaCanvas.height + hexSize; y += hexSize * 1.5) {
+                for (let x = 0; x < ctaCanvas.width + hexSize; x += hexSize * 1.732) {
+                    const offsetX = (y / (hexSize * 1.5)) % 2 === 0 ? 0 : hexSize * 0.866;
+                    
+                    ctaCtx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (Math.PI / 3) * i;
+                        const hx = x + offsetX + hexSize * Math.cos(angle);
+                        const hy = y + hexSize * Math.sin(angle);
+                        if (i === 0) ctaCtx.moveTo(hx, hy);
+                        else ctaCtx.lineTo(hx, hy);
+                    }
+                    ctaCtx.closePath();
+                    ctaCtx.stroke();
+                }
+            }
+            
+            // Animated pulse
+            const gradient = ctaCtx.createRadialGradient(
+                ctaCanvas.width / 2, ctaCanvas.height / 2, 0,
+                ctaCanvas.width / 2, ctaCanvas.height / 2, 300
+            );
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${0.1 + Math.sin(ctaTime) * 0.05})`);
+            gradient.addColorStop(1, 'transparent');
+            
+            ctaCtx.fillStyle = gradient;
+            ctaCtx.fillRect(0, 0, ctaCanvas.width, ctaCanvas.height);
+            
+            requestAnimationFrame(animateCta);
+        }
+        animateCta();
+
+        // Particle Effect on Button Click
+        function createParticles(e) {
+            const button = e.target;
+            const rect = button.getBoundingClientRect();
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = rect.left + rect.width / 2 + 'px';
+                particle.style.top = rect.top + rect.height / 2 + 'px';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.background = `hsl(${Math.random() * 60 + 180}, 100%, 50%)`;
+                particle.style.borderRadius = '50%';
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 3000);
+            }
+        }
+
+        // Animated Counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-value[data-target]');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (target > 10 ? '' : '');
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Intersection Observer for animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('roles-section')) {
+                        animateCounters();
+                    }
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.feature-card, .map-card, .mode-content').forEach(el => {
-            el.classList.add('fade-in');
-            observer.observe(el);
-        });
+        observer.observe(document.querySelector('.roles-section'));
 
-        // Tab switching
-        document.querySelectorAll('.mode-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
+        // Role Card 3D Tilt Effect
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
             });
-        });
-
-        // Weapon category switching
-        document.querySelectorAll('.weapon-cat').forEach(cat => {
-            cat.addEventListener('click', function() {
-                document.querySelectorAll('.weapon-cat').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
             });
         });
     </script>
