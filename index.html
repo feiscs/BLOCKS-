@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta timestamp="2026-03-21 13:49" />
+    <meta timestamp="2026-03-21 14:31" />
     <title>FRACTURE | El Shooter Táctico Que Rompe el Tiempo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,7 @@
             overflow-x: hidden;
         }
 
-        /* Navigation - Clean horizontal */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -117,7 +117,7 @@
             transform: translateY(-1px);
         }
 
-        /* Hero - Large typography, minimal */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -610,6 +610,179 @@
             flex-shrink: 0;
         }
 
+        /* Trailer Section - NEW */
+        .trailer-section {
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trailer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(255, 70, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 212, 170, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .trailer-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .trailer-main {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            aspect-ratio: 16/9;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .trailer-play-btn {
+            width: 100px;
+            height: 100px;
+            background: var(--accent-primary);
+            clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 30% 0%);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trailer-play-btn:hover {
+            transform: scale(1.1);
+            background: #ff5a66;
+        }
+
+        .trailer-play-btn::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 25px solid var(--text-primary);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 8px;
+        }
+
+        .trailer-duration {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(15, 20, 25, 0.9);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .trailer-structure {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .trailer-act {
+            margin-bottom: 2rem;
+            border-left: 3px solid;
+            padding-left: 1.5rem;
+        }
+
+        .trailer-act.act-1 {
+            border-color: var(--accent-tertiary);
+        }
+
+        .trailer-act.act-2 {
+            border-color: var(--accent-primary);
+        }
+
+        .trailer-act.act-3 {
+            border-color: var(--accent-secondary);
+        }
+
+        .trailer-act-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .trailer-act-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .trailer-act.act-1 .trailer-act-title {
+            color: var(--accent-tertiary);
+        }
+
+        .trailer-act.act-2 .trailer-act-title {
+            color: var(--accent-primary);
+        }
+
+        .trailer-act.act-3 .trailer-act-title {
+            color: var(--accent-secondary);
+        }
+
+        .trailer-act-time {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary);
+        }
+
+        .trailer-moments {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .trailer-moment {
+            display: grid;
+            grid-template-columns: 60px 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            align-items: center;
+        }
+
+        @media (max-width: 700px) {
+            .trailer-moment {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+
+        .moment-time {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+
+        .moment-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .moment-visual {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
         /* Footer */
         footer {
             background: var(--bg-secondary);
@@ -649,6 +822,7 @@
             }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <!-- Navigation -->
@@ -662,7 +836,7 @@
             <li><a href="#agents">Agentes</a></li>
             <li><a href="#economy">Economía</a></li>
             <li><a href="#prime">Prime</a></li>
-            <li><a href="#esports">Esports</a></li>
+            <li><a href="#trailer">Tráiler</a></li>
         </ul>
         <button class="nav-cta">Juega Gratis</button>
     </nav>
@@ -682,7 +856,7 @@
         </p>
         <div class="hero-cta-group">
             <button class="btn-primary">Descargar Ahora</button>
-            <button class="btn-secondary">Ver Tráiler</button>
+            <button class="btn-secondary" onclick="document.getElementById('trailer').scrollIntoView({behavior: 'smooth'})">Ver Tráiler</button>
         </div>
         <div class="hero-stats">
             <div class="stat">
@@ -861,9 +1035,106 @@
         <button class="btn-primary" style="margin-top: 2rem;">Comenzar Prueba</button>
     </section>
 
+    <!-- Trailer Section - NEW -->
+    <section class="trailer-section" id="trailer">
+        <div class="section-header">
+            <div class="section-title-group">
+                <div class="section-label">Cinemática</div>
+                <h2 class="section-title">Ver Tráiler</h2>
+                <p class="section-desc">2 minutos 15 segundos que redefinen el tiempo.</p>
+            </div>
+        </div>
+        
+        <div class="trailer-container">
+            <!-- Main Video Player -->
+            <div class="trailer-main">
+                <div class="trailer-play-btn"></div>
+                <div class="trailer-duration">02:15</div>
+            </div>
+
+            <!-- Trailer Structure -->
+            <div class="trailer-structure">
+                <!-- Act I -->
+                <div class="trailer-act act-1">
+                    <div class="trailer-act-header">
+                        <h3 class="trailer-act-title">Acto I: El Despertar</h3>
+                        <span class="trailer-act-time">0:00 - 0:45</span>
+                    </div>
+                    <div class="trailer-moments">
+                        <div class="trailer-moment">
+                            <span class="moment-time">0:00</span>
+                            <span class="moment-desc">Apertura con glitch temporal — el logo FRACTURE se forma de fragmentos de realidad</span>
+                            <span class="moment-visual">Efectos de distorsión cromática, sonido de cristales rotos</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">0:12</span>
+                            <span class="moment-desc">Primer vistazo al mundo: ciudad fracturada entre dos líneas temporales</span>
+                            <span class="moment-visual">Split-screen de día/noche simultáneo, arquitectura distorsionada</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">0:28</span>
+                            <span class="moment-desc">KAIROS emerge del tiempo congelado — primer uso de habilidad temporal</span>
+                            <span class="moment-visual">Efecto de partículas doradas, cámara lenta extrema</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Act II -->
+                <div class="trailer-act act-2">
+                    <div class="trailer-act-header">
+                        <h3 class="trailer-act-title">Acto II: La Fractura</h3>
+                        <span class="trailer-act-time">0:45 - 1:30</span>
+                    </div>
+                    <div class="trailer-moments">
+                        <div class="trailer-moment">
+                            <span class="moment-time">0:45</span>
+                            <span class="moment-desc">Combate 5v5 en la Singularidad — el núcleo orbital gira entre dimensiones</span>
+                            <span class="moment-visual">Gameplay rápido, transiciones entre realidades, HUD minimalista</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">1:02</span>
+                            <span class="moment-desc">ECHO crea su red de ilusiones — 6 clones atacan simultáneamente</span>
+                            <span class="moment-visual">Efecto espejo, reflejos morados, confusión táctica</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">1:18</span>
+                            <span class="moment-desc">NEXUS abre un portal que dobla el espacio — balas atraviesan dimensiones</span>
+                            <span class="moment-visual">Distorsión gravitacional, lentes de agua, geometría imposible</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Act III -->
+                <div class="trailer-act act-3">
+                    <div class="trailer-act-header">
+                        <h3 class="trailer-act-title">Acto III: El Eco</h3>
+                        <span class="trailer-act-time">1:30 - 2:15</span>
+                    </div>
+                    <div class="trailer-moments">
+                        <div class="trailer-moment">
+                            <span class="moment-time">1:30</span>
+                            <span class="moment-desc">Clímax: los tres agentes usan habilidades simultáneas — el tiempo se rompe</span>
+                            <span class="moment-visual">Efecto de triple exposición, colores saturados, caos controlado</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">1:55</span>
+                            <span class="moment-desc">La realidad se recompone — victoria en cámara ultra-lenta</span>
+                            <span class="moment-visual">Partículas regresando al centro, silencio total, impacto final</span>
+                        </div>
+                        <div class="trailer-moment">
+                            <span class="moment-time">2:08</span>
+                            <span class="moment-desc">Logo FRACTURE + tagline: "El tiempo es tu arma"</span>
+                            <span class="moment-visual">Fade to black, texto glitch, CTA "Juega Gratis"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
-        <div class="footer-timestamp">TIMESTAMP: 2026-03-21 13:49 UTC</div>
+        <div class="footer-timestamp">TIMESTAMP: 2026-03-21 14:31 UTC</div>
         <p>© 2026 Fracture Game Inc. Todos los derechos reservados.</p>
         <p class="disclaimer">
             FRACTURE es un juego independiente. No está afiliado, asociado, autorizado, respaldado, 
