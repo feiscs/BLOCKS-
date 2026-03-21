@@ -33,7 +33,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -137,17 +137,21 @@
                 linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
 
-        .hero::before {
-            content: '';
+        .hero-background {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(0,212,255,0.1)"/></svg>');
-            background-size: 50px 50px;
-            opacity: 0.5;
-            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
         }
 
         .ue5-badge {
@@ -163,11 +167,6 @@
             padding: 0.5rem 1rem;
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .ue5-badge::before {
-            content: '◆';
-            color: var(--ue5-cyan);
         }
 
         .hero h1 {
@@ -381,7 +380,6 @@
             z-index: 1;
         }
 
-        /* UE5 Style Agent Models */
         .ue5-agent-model {
             width: 300px;
             height: 550px;
@@ -399,26 +397,6 @@
         .ue5-agent-model.red-team {
             border: 2px solid var(--accent-primary);
             box-shadow: 0 0 40px rgba(255, 70, 85, 0.3), inset 0 0 40px rgba(255, 70, 85, 0.1);
-        }
-
-        .ue5-agent-model::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            filter: blur(40px);
-        }
-
-        .ue5-agent-model.blue-team::before {
-            background: var(--ue5-cyan);
-        }
-
-        .ue5-agent-model.red-team::before {
-            background: var(--accent-primary);
         }
 
         .agent-suit {
@@ -501,11 +479,6 @@
             z-index: 1;
         }
 
-        .agents-text .section-label {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-        }
-
         .agents-text h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(3rem, 8vw, 5rem);
@@ -527,434 +500,47 @@
         .agents-text p {
             font-size: 1.1rem;
             line-height: 1.7;
+            color: rgba(255,255,255,0.85);
             margin-bottom: 2rem;
-            opacity: 0.95;
-            max-width: 500px;
         }
 
-        @media (max-width: 900px) {
-            .agents-showcase-content {
-                grid-template-columns: 1fr;
-            }
-            .agents-visual {
-                height: 400px;
-                order: -1;
-            }
-            .ue5-agent-model {
-                width: 220px;
-                height: 400px;
-            }
-        }
-
-        /* AGENTS GRID - UE5 Characters */
-        .agents-grid-section {
-            background: var(--bg-primary);
-            padding: 4rem 4% 6rem;
-        }
-
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 1200px) {
-            .agents-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .agents-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .agent-card {
-            background: var(--bg-secondary);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .agent-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border-color: var(--ue5-cyan);
-        }
-
-        .agent-image-container {
-            height: 320px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .agent-image-bg {
-            position: absolute;
-            inset: 0;
-            transition: transform 0.5s;
-        }
-
-        .agent-card:hover .agent-image-bg {
-            transform: scale(1.1);
-        }
-
-        /* UE5 Agent Styles */
-        .agent-card.kairos .agent-image-bg {
-            background: linear-gradient(135deg, #0a1628, #1a2d4a);
-        }
-
-        .agent-card.echo .agent-image-bg {
-            background: linear-gradient(135deg, #0a2820, #1a4a3d);
-        }
-
-        .agent-card.nexus .agent-image-bg {
-            background: linear-gradient(135deg, #1a0a28, #3d1a4a);
-        }
-
-        .agent-card.vex .agent-image-bg {
-            background: linear-gradient(135deg, #281a0a, #4a3d1a);
-        }
-
-        .agent-card.stryker .agent-image-bg {
-            background: linear-gradient(135deg, #280a0a, #4a1a1a);
-        }
-
-        .agent-illustration {
-            position: absolute;
-            inset: 0;
+        .agent-abilities {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        /* UE5 Style Agent Silhouettes */
-        .ue5-silhouette {
-            width: 140px;
-            height: 260px;
-            position: relative;
-            background: linear-gradient(180deg, 
-                rgba(0,212,255,0.8) 0%, 
-                rgba(0,102,204,0.6) 100%);
-            clip-path: polygon(30% 0%, 70% 0%, 90% 20%, 85% 100%, 15% 100%, 10% 20%);
-            border-radius: 60px 60px 0 0;
-        }
-
-        .ue5-silhouette.echo {
-            background: linear-gradient(180deg, 
-                rgba(0,212,170,0.8) 0%, 
-                rgba(0,150,120,0.6) 100%);
-        }
-
-        .ue5-silhouette.nexus {
-            background: linear-gradient(180deg, 
-                rgba(189,0,255,0.8) 0%, 
-                rgba(120,0,180,0.6) 100%);
-        }
-
-        .ue5-silhouette.vex {
-            background: linear-gradient(180deg, 
-                rgba(255,149,0,0.8) 0%, 
-                rgba(200,100,0,0.6) 100%);
-        }
-
-        .ue5-silhouette.stryker {
-            background: linear-gradient(180deg, 
-                rgba(255,70,85,0.8) 0%, 
-                rgba(200,30,50,0.6) 100%);
-        }
-
-        .ue5-silhouette::before {
-            content: '';
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 40px;
-            background: #0a0e14;
-            border-radius: 30px 30px 10px 10px;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .ue5-silhouette::after {
-            content: '';
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 8px;
-            background: var(--ue5-cyan);
-            border-radius: 4px;
-            box-shadow: 0 0 15px var(--ue5-cyan);
-        }
-
-        .ue5-silhouette.echo::after { background: var(--accent-secondary); box-shadow: 0 0 15px var(--accent-secondary); }
-        .ue5-silhouette.nexus::after { background: var(--accent-quinary); box-shadow: 0 0 15px var(--accent-quinary); }
-        .ue5-silhouette.vex::after { background: var(--accent-quaternary); box-shadow: 0 0 15px var(--accent-quaternary); }
-        .ue5-silhouette.stryker::after { background: var(--accent-primary); box-shadow: 0 0 15px var(--accent-primary); }
-
-        .agent-initial {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            opacity: 0.3;
-        }
-
-        .agent-info-bar {
-            padding: 1rem;
-            background: var(--bg-primary);
-            border-top: 3px solid;
-            position: relative;
-        }
-
-        .agent-card.kairos .agent-info-bar { border-color: var(--ue5-cyan); }
-        .agent-card.echo .agent-info-bar { border-color: var(--accent-secondary); }
-        .agent-card.nexus .agent-info-bar { border-color: var(--accent-quinary); }
-        .agent-card.vex .agent-info-bar { border-color: var(--accent-quaternary); }
-        .agent-card.stryker .agent-info-bar { border-color: var(--accent-primary); }
-
-        .agent-name-grid {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
+        .ability-tag {
+            padding: 0.6rem 1.2rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            backdrop-filter: blur(10px);
         }
 
-        .agent-role-grid {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0.3rem;
-        }
-
-        .agent-abilities-mini {
-            display: flex;
-            gap: 0.3rem;
-            margin-top: 0.8rem;
-        }
-
-        .ability-mini {
-            width: 24px;
-            height: 24px;
-            background: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--text-tertiary);
-            border: 1px solid var(--border-subtle);
-        }
-
-        /* MAPS SECTION - UE5 Clean Architecture */
-        .maps-section {
+        /* Features Grid */
+        .features {
             background: var(--bg-secondary);
-            padding: 6rem 4%;
         }
 
-        .maps-showcase {
+        .features-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        @media (max-width: 900px) {
-            .maps-showcase {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .map-featured {
-            position: relative;
-            height: 500px;
-            background: linear-gradient(135deg, #e8eef5 0%, #d0dce8 100%);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .map-featured::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                linear-gradient(90deg, transparent 49%, rgba(0,102,204,0.1) 50%, transparent 51%),
-                linear-gradient(0deg, transparent 49%, rgba(0,102,204,0.1) 50%, transparent 51%);
-            background-size: 40px 40px;
-            opacity: 0.5;
-        }
-
-        .map-geometry {
-            position: absolute;
-            inset: 0;
-        }
-
-        .arch-structure {
-            position: absolute;
-            background: linear-gradient(180deg, #f5f7fa 0%, #e0e6ed 100%);
-            border: 2px solid rgba(0,102,204,0.2);
-        }
-
-        .arch-structure:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            width: 30%;
-            height: 60%;
-            clip-path: polygon(0% 100%, 0% 20%, 50% 0%, 100% 20%, 100% 100%);
-        }
-
-        .arch-structure:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            width: 25%;
-            height: 50%;
-            clip-path: polygon(0% 100%, 0% 30%, 50% 0%, 100% 30%, 100% 100%);
-        }
-
-        .arch-structure:nth-child(3) {
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 40%;
-            clip-path: polygon(0% 100%, 20% 0%, 80% 0%, 100% 100%);
-        }
-
-        .neon-accent {
-            position: absolute;
-            background: var(--ue5-cyan);
-            box-shadow: 0 0 20px var(--ue5-cyan);
-        }
-
-        .neon-accent.horizontal {
-            height: 3px;
-            width: 100px;
-            top: 50%;
-            left: 20%;
-        }
-
-        .neon-accent.vertical {
-            width: 3px;
-            height: 80px;
-            top: 30%;
-            right: 30%;
-        }
-
-        .map-info {
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            background: rgba(10, 14, 20, 0.9);
-            padding: 1.5rem;
-            border-left: 4px solid var(--ue5-cyan);
-        }
-
-        .map-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .map-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .maps-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .map-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .map-card:hover {
-            border-color: var(--ue5-cyan);
-            transform: translateX(10px);
-        }
-
-        .map-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--ue5-cyan);
-            transform: scaleY(0);
-            transition: transform 0.3s;
-        }
-
-        .map-card:hover::before {
-            transform: scaleY(1);
-        }
-
-        .map-card-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .map-card-type {
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-        }
-
-        /* Gameplay section */
-        .gameplay-section {
-            background: var(--bg-primary);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 900px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .feature-card {
-            background: var(--bg-secondary);
+            background: var(--bg-tertiary);
+            padding: 2.5rem;
             border: 1px solid var(--border-subtle);
-            padding: 2rem;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-        }
-
-        .feature-card:hover {
-            border-color: var(--ue5-cyan);
-            transform: translateY(-5px);
         }
 
         .feature-card::before {
@@ -962,427 +548,532 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--ue5-cyan), transparent);
+            background: linear-gradient(90deg, var(--ue5-cyan), var(--accent-primary));
             transform: scaleX(0);
             transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--ue5-cyan);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .feature-card:hover::before {
             transform: scaleX(1);
         }
 
-        .feature-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--ue5-cyan);
-            line-height: 1;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         }
 
-        .feature-title {
+        .feature-card h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.3rem;
-            font-weight: 700;
             margin-bottom: 0.8rem;
+            color: var(--text-primary);
         }
 
-        .feature-desc {
+        .feature-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        /* Economy section */
-        .economy-section {
-            background: var(--bg-secondary);
-        }
-
-        .currency-showcase {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 900px) {
-            .currency-showcase {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .currency-card {
+        /* Game Modes */
+        .game-modes {
             background: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.3s;
         }
 
-        .currency-card:hover {
-            border-color: var(--ue5-cyan);
-            transform: translateY(-5px);
-        }
-
-        .currency-card:nth-child(1) { border-color: var(--ue5-cyan); }
-        .currency-card:nth-child(2) { border-color: var(--accent-secondary); }
-        .currency-card:nth-child(3) { border-color: var(--accent-quinary); }
-
-        .currency-symbol {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .currency-card:nth-child(1) .currency-symbol {
-            background: var(--ue5-cyan);
-            color: var(--bg-primary);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .currency-card:nth-child(2) .currency-symbol {
-            background: var(--accent-secondary);
-            color: var(--bg-primary);
-        }
-
-        .currency-card:nth-child(3) .currency-symbol {
-            background: var(--accent-quinary);
-            color: var(--text-primary);
-        }
-
-        .currency-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .currency-type {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-tertiary);
-            margin-bottom: 1.5rem;
-        }
-
-        .currency-desc {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            text-align: left;
-        }
-
-        /* Prime section */
-        .prime-section {
-            background: var(--bg-primary);
-            text-align: center;
-        }
-
-        .prime-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
-            color: var(--text-primary);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
-        }
-
-        .prime-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .prime-price {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--ue5-cyan);
-            margin: 2rem 0;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .prime-price span {
-            font-size: 1.2rem;
-            color: var(--text-tertiary);
-            font-weight: 400;
-        }
-
-        .prime-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            max-width: 600px;
-            margin: 2rem auto;
-            text-align: left;
-        }
-
-        @media (max-width: 600px) {
-            .prime-features {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .prime-feature {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-left: 3px solid var(--ue5-cyan);
-        }
-
-        .prime-feature-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--ue5-cyan);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
-            color: var(--bg-primary);
-        }
-
-        /* Trailer Section with CANVAS */
-        .trailer-section {
-            background: var(--bg-secondary);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .trailer-container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .canvas-container {
-            position: relative;
-            max-width: 1000px;
-            margin: 0 auto 3rem;
-            border: 2px solid var(--border-subtle);
-            background: var(--bg-primary);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        #trailerCanvas {
-            display: block;
-            width: 100%;
-            height: auto;
-            cursor: pointer;
-        }
-
-        .canvas-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            background: rgba(10, 14, 20, 0.4);
-            transition: opacity 0.3s;
-        }
-
-        .canvas-container:hover .canvas-overlay {
-            opacity: 0;
-        }
-
-        .canvas-play-btn {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
-            clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 30% 0%);
-            animation: pulse-play 2s infinite;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-        }
-
-        @keyframes pulse-play {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .canvas-duration {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            padding: 0.5rem 1rem;
-            background: rgba(10, 14, 20, 0.9);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            pointer-events: none;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .canvas-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .canvas-btn {
-            padding: 0.8rem 1.5rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .canvas-btn:hover {
-            border-color: var(--ue5-cyan);
-            color: var(--ue5-cyan);
-        }
-
-        .canvas-btn.active {
-            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
-            color: var(--text-primary);
-            border-color: var(--ue5-cyan);
-        }
-
-        /* UE5 Tutorials Section */
-        .ue5-tutorials {
-            background: linear-gradient(180deg, var(--bg-primary) 0%, #0d1520 100%);
-            padding: 4rem 4%;
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        .tutorials-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            max-width: 1000px;
+        .modes-container {
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .tutorials-grid {
-                grid-template-columns: 1fr;
-            }
+        .mode-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
         }
 
-        .tutorial-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-subtle);
-            padding: 2rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .tutorial-card:hover {
-            border-color: var(--ue5-cyan);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.2);
-        }
-
-        .tutorial-source {
-            font-size: 0.75rem;
-            color: var(--ue5-cyan);
+        .mode-tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
         }
 
-        .tutorial-title {
+        .mode-tab.active {
+            color: var(--ue5-cyan);
+        }
+
+        .mode-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--ue5-cyan);
+        }
+
+        .mode-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mode-visual {
+            aspect-ratio: 16/9;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-visual::after {
+            content: 'UE5 GAMEPLAY';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
+            font-size: 2rem;
             font-weight: 700;
+            color: var(--text-tertiary);
+            letter-spacing: 4px;
+        }
+
+        .mode-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
-        .tutorial-desc {
+        .mode-info p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
         }
 
-        .tutorial-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        .mode-features {
+            list-style: none;
+        }
+
+        .mode-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .mode-features li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
             color: var(--ue5-cyan);
+        }
+
+        /* Maps Section */
+        .maps {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .maps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .map-card {
+            aspect-ratio: 16/10;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .map-card:hover {
+            transform: scale(1.02);
+            border-color: var(--ue5-cyan);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .map-card.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10,14,20,0.9) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .map-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .map-location {
             font-size: 0.85rem;
+            color: var(--ue5-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Weapons Arsenal */
+        .arsenal {
+            background: var(--bg-secondary);
+        }
+
+        .weapons-showcase {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .weapon-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .weapon-cat {
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weapon-cat:hover, .weapon-cat.active {
+            border-color: var(--accent-primary);
+            background: rgba(255, 70, 85, 0.1);
+        }
+
+        .weapon-cat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), #cc2938);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .weapon-cat-info h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .weapon-cat-info span {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        .weapon-display {
+            aspect-ratio: 16/9;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .weapon-model {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--ue5-blue) 0%, var(--accent-primary) 100%);
+            padding: 6rem 4%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.03) 10px,
+                rgba(255,255,255,0.03) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .platforms {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .platform-badge {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Footer */
         footer {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
+            padding: 4rem 4% 2rem;
             border-top: 1px solid var(--border-subtle);
-            padding: 3rem 4%;
-            text-align: center;
         }
 
-        .footer-timestamp {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .logo {
             margin-bottom: 1rem;
         }
 
-        .ue5-powered {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 102, 204, 0.1);
-            border: 1px solid rgba(0, 102, 204, 0.3);
-            color: var(--ue5-cyan);
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        footer p {
-            color: var(--text-tertiary);
+        .footer-brand p {
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        footer .disclaimer {
-            margin-top: 1rem;
+        .footer-links h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--ue5-cyan);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-tertiary);
             font-size: 0.8rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--ue5-cyan);
+            color: var(--ue5-cyan);
+            transform: translateY(-2px);
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .agents-showcase-content,
+            .mode-content,
+            .weapons-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .maps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .map-card.large {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
             .hero-stats {
                 gap: 2rem;
             }
+
+            .maps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .map-card.large {
+                grid-column: span 1;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ue5-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ue5-cyan);
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <!-- Navigation -->
@@ -1392,537 +1083,352 @@
             FRACTURE
         </a>
         <ul class="nav-links">
-            <li><a href="#gameplay">Juego</a></li>
             <li><a href="#agents">Agentes</a></li>
+            <li><a href="#features">Características</a></li>
+            <li><a href="#modes">Modos</a></li>
             <li><a href="#maps">Mapas</a></li>
-            <li><a href="#economy">Economía</a></li>
-            <li><a href="#trailer">Tráiler</a></li>
+            <li><a href="#arsenal">Arsenal</a></li>
         </ul>
-        <button class="nav-cta">Juega Gratis</button>
+        <button class="nav-cta">Jugar Gratis</button>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="ue5-badge">Powered by Unreal Engine 5.7</div>
+        <div class="hero-background">
+            <div style="width:100%;height:100%;background:radial-gradient(circle at 50% 50%, rgba(0,102,204,0.2) 0%, transparent 70%)"></div>
+        </div>
+        <div class="ue5-badge">
+            <span>●</span> Powered by Unreal Engine 5
+        </div>
         <h1>
-            <span>ROMPE EL</span>
-            <span class="accent">TIEMPO.</span>
-            <span>DOMINA EL</span>
-            <span>FUTURO.</span>
+            <span>ROMPE</span>
+            <span class="accent">EL TIEMPO</span>
         </h1>
         <p class="hero-subtitle">
-            El shooter táctico 5v5 desarrollado en Unreal Engine 5.7 con Nanite, Lumen y física de próxima generación. 
-            Manipula el tiempo en arquitectura futurista de alta fidelidad.
+            El shooter táctico 5v5 definitivo. Manipula el tiempo, domina habilidades únicas y lidera a tu equipo hacia la victoria en intensos combates estratégicos.
         </p>
         <div class="hero-cta-group">
-            <button class="btn-primary">Descargar en Epic Games</button>
-            <button class="btn-secondary" onclick="document.getElementById('trailer').scrollIntoView({behavior: 'smooth'})">Ver Tráiler UE5</button>
+            <button class="btn-primary">Descargar Ahora</button>
+            <button class="btn-secondary">Ver Tráiler</button>
         </div>
         <div class="hero-stats">
             <div class="stat">
-                <span class="stat-value">UE5</span>
-                <span class="stat-label">Unreal Engine 5.7</span>
+                <span class="stat-value">25M+</span>
+                <span class="stat-label">Jugadores</span>
             </div>
             <div class="stat">
-                <span class="stat-value">5v5</span>
-                <span class="stat-label">Tactical Shooter</span>
+                <span class="stat-value">15</span>
+                <span class="stat-label">Agentes</span>
             </div>
             <div class="stat">
-                <span class="stat-value">60</span>
-                <span class="stat-label">FPS Estable</span>
+                <span class="stat-value">8</span>
+                <span class="stat-label">Mapas</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">4K</span>
+                <span class="stat-label">HDR UE5</span>
             </div>
         </div>
     </section>
 
-    <!-- AGENTS SHOWCASE - UE5 Style -->
+    <!-- Agents Showcase -->
     <section class="agents-showcase" id="agents">
         <div class="agents-showcase-content">
             <div class="agents-visual">
                 <div class="agent-character main">
                     <div class="ue5-agent-model blue-team">
-                        <div class="agent-suit"></div>
-                        <div class="agent-visor"></div>
-                        <div class="agent-chest-light"></div>
+                        <div class="agent-suit">
+                            <div class="agent-visor"></div>
+                            <div class="agent-chest-light"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="agent-character secondary">
                     <div class="ue5-agent-model red-team">
-                        <div class="agent-suit red"></div>
-                        <div class="agent-visor"></div>
-                        <div class="agent-chest-light"></div>
+                        <div class="agent-suit red">
+                            <div class="agent-visor"></div>
+                            <div class="agent-chest-light"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="agents-text">
-                <div class="section-label">Agentes UE5</div>
-                <h2>TUS<br>AGENTES</h2>
-                <p class="tagline">LA CREATIVIDAD ES TU MEJOR ARMA</p>
-                <p>
-                    Modelados en Unreal Engine 5.7 con trajes de alta tecnología, materiales PBR 
-                    y emisivos dinámicos. Cada agente cuenta con esqueletos personalizados y 
-                    animaciones de captura de movimiento.
-                </p>
-                <button class="btn-dark">Ver Todos los Agentes</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- AGENTS GRID - 5 AGENTES UE5 -->
-    <section class="agents-grid-section">
-        <div class="agents-grid">
-            <!-- KAIROS -->
-            <div class="agent-card kairos">
-                <div class="agent-image-container">
-                    <div class="agent-image-bg"></div>
-                    <div class="agent-illustration">
-                        <div class="ue5-silhouette"></div>
-                        <span class="agent-initial">K</span>
-                    </div>
-                </div>
-                <div class="agent-info-bar">
-                    <div class="agent-name-grid">KAIROS</div>
-                    <div class="agent-role-grid">Controlador Temporal</div>
-                    <div class="agent-abilities-mini">
-                        <div class="ability-mini">Q</div>
-                        <div class="ability-mini">E</div>
-                        <div class="ability-mini">C</div>
-                        <div class="ability-mini" style="background: var(--ue5-cyan); color: var(--bg-primary);">X</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ECHO -->
-            <div class="agent-card echo">
-                <div class="agent-image-container">
-                    <div class="agent-image-bg"></div>
-                    <div class="agent-illustration">
-                        <div class="ue5-silhouette echo"></div>
-                        <span class="agent-initial">E</span>
-                    </div>
-                </div>
-                <div class="agent-info-bar">
-                    <div class="agent-name-grid">ECHO</div>
-                    <div class="agent-role-grid">Duelista de Ilusiones</div>
-                    <div class="agent-abilities-mini">
-                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Q</div>
-                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">E</div>
-                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">C</div>
-                        <div class="ability-mini" style="background: var(--accent-secondary); color: var(--bg-primary);">X</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NEXUS -->
-            <div class="agent-card nexus">
-                <div class="agent-image-container">
-                    <div class="agent-image-bg"></div>
-                    <div class="agent-illustration">
-                        <div class="ue5-silhouette nexus"></div>
-                        <span class="agent-initial">N</span>
-                    </div>
-                </div>
-                <div class="agent-info-bar">
-                    <div class="agent-name-grid">NEXUS</div>
-                    <div class="agent-role-grid">Iniciador de Portales</div>
-                    <div class="agent-abilities-mini">
-                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">Q</div>
-                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">E</div>
-                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">C</div>
-                        <div class="ability-mini" style="background: var(--accent-quinary); color: var(--text-primary);">X</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VEX - Centinela -->
-            <div class="agent-card vex">
-                <div class="agent-image-container">
-                    <div class="agent-image-bg"></div>
-                    <div class="agent-illustration">
-                        <div class="ue5-silhouette vex"></div>
-                        <span class="agent-initial">V</span>
-                    </div>
-                </div>
-                <div class="agent-info-bar">
-                    <div class="agent-name-grid">VEX</div>
-                    <div class="agent-role-grid">Centinela de Sombras</div>
-                    <div class="agent-abilities-mini">
-                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">Q</div>
-                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">E</div>
-                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">C</div>
-                        <div class="ability-mini" style="background: var(--accent-quaternary); color: var(--bg-primary);">X</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STRYKER - Artillero -->
-            <div class="agent-card stryker">
-                <div class="agent-image-container">
-                    <div class="agent-image-bg"></div>
-                    <div class="agent-illustration">
-                        <div class="ue5-silhouette stryker"></div>
-                        <span class="agent-initial">S</span>
-                    </div>
-                </div>
-                <div class="agent-info-bar">
-                    <div class="agent-name-grid">STRYKER</div>
-                    <div class="agent-role-grid">Artillero Pesado</div>
-                    <div class="agent-abilities-mini">
-                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">Q</div>
-                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">E</div>
-                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">C</div>
-                        <div class="ability-mini" style="background: var(--accent-primary); color: white;">X</div>
-                    </div>
+                <h2>ELIGE TU<br>AGENTE</h2>
+                <p class="tagline">Cada uno con habilidades únicas</p>
+                <p>Domina el campo de batalla con 15 agentes únicos, cada uno con habilidades tácticas que pueden cambiar el curso de la partida. Desde controladores del tiempo hasta especialistas en sigilo, encuentra tu estilo de juego perfecto.</p>
+                <div class="agent-abilities">
+                    <span class="ability-tag">Control Temporal</span>
+                    <span class="ability-tag">Teletransporte</span>
+                    <span class="ability-tag">Escudos</span>
+                    <span class="ability-tag">Reconocimiento</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MAPS SECTION - UE5 Clean Architecture -->
-    <section class="maps-section" id="maps">
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Entornos UE5</div>
-                <h2 class="section-title">Mapas Nanite</h2>
-                <p class="section-desc">Arquitectura futurista con geometría ilimitada y iluminación Lumen en tiempo real.</p>
-            </div>
-        </div>
-        
-        <div class="maps-showcase">
-            <div class="map-featured">
-                <div class="map-geometry">
-                    <div class="arch-structure"></div>
-                    <div class="arch-structure"></div>
-                    <div class="arch-structure"></div>
-                    <div class="neon-accent horizontal"></div>
-                    <div class="neon-accent vertical"></div>
-                </div>
-                <div class="map-info">
-                    <div class="map-name">NEXUS PRIME</div>
-                    <div class="map-desc">Instalación de investigación temporal con geometría limpia y portales activos</div>
-                </div>
-            </div>
-            
-            <div class="maps-list">
-                <div class="map-card">
-                    <div class="map-card-name">VERTIGO STATION</div>
-                    <div class="map-card-type">3 Niveles Verticales</div>
-                </div>
-                <div class="map-card">
-                    <div class="map-card-name">ECHO CHAMBER</div>
-                    <div class="map-card-type">Simetría Perfecta</div>
-                </div>
-                <div class="map-card">
-                    <div class="map-card-name">FRACTURE POINT</div>
-                    <div class="map-card-type">Zonas de Colapso Temporal</div>
-                </div>
-                <div class="map-card">
-                    <div class="map-card-name">CLEAN ROOM</div>
-                    <div class="map-card-type">Combate Cercano</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gameplay -->
-    <section class="gameplay-section" id="gameplay">
-        <div class="section-header">
-            <div class="section-title-group">
-                <div class="section-label">Tecnología UE5</div>
-                <h2 class="section-title">Fidelidad de Próxima Generación</h2>
-                <p class="section-desc">Aprovecha el poder de Unreal Engine 5.7 para una experiencia sin precedentes.</p>
+                <div class="section-label">Características</div>
+                <h2 class="section-title">Tecnología de Última Generación</h2>
+                <p class="section-desc">Potenciado por Unreal Engine 5 para una experiencia visual y de juego sin precedentes.</p>
             </div>
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-number">01</div>
-                <h3 class="feature-title">Nanite Virtualized Geometry</h3>
-                <p class="feature-desc">Geometría cinematográfica con millones de polígonos en tiempo real. Sin límites de LOD.</p>
+                <div class="feature-icon">⚡</div>
+                <h3>Nanite Virtualized Geometry</h3>
+                <p>Geometría cinematográfica con detalles ilimitados. Cada textura, cada sombra, cada reflejo renderizado en tiempo real.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-number">02</div>
-                <h3 class="feature-title">Lumen Global Illumination</h3>
-                <p class="feature-desc">Iluminación global dinámica con rebotes de luz en tiempo real. Reflejos realistas.</p>
+                <div class="feature-icon">💡</div>
+                <h3>Lumen Global Illumination</h3>
+                <p>Iluminación global dinámica que responde en tiempo real a tus acciones. Las sombras se mueven, la luz cambia.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-number">03</div>
-                <h3 class="feature-title">Chaos Physics & Destruction</h3>
-                <p class="feature-desc">Física de cuerpo rígido y destrucción procedural en tiempo real. Rompe el entorno.</p>
+                <div class="feature-icon">🎯</div>
+                <h3>Netcode de 128 Tick</h3>
+                <p>Registro de impactos preciso al milisegundo. Sin lag, sin compensación, solo habilidad pura.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Servidores Globales</h3>
+                <p>Infraestructura en 15 regiones con ping ultra-bajo. Juega contra cualquiera, en cualquier lugar.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Anti-Cheat Vanguard</h3>
+                <p>Sistema anti-trampas de kernel-level que garantiza partidas justas en cada ronda.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔊</div>
+                <h3>Audio Espacial 3D</h3>
+                <p>Escucha cada paso, cada recarga, cada habilidad con precisión milimétrica en el espacio 3D.</p>
             </div>
         </div>
     </section>
 
-    <!-- Economy -->
-    <section class="economy-section" id="economy">
+    <!-- Game Modes -->
+    <section class="game-modes" id="modes">
+        <div class="modes-container">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-label">Modos de Juego</div>
+                    <h2 class="section-title">Múltiples Formas de Dominar</h2>
+                </div>
+            </div>
+            <div class="mode-tabs">
+                <button class="mode-tab active">Desactivación</button>
+                <button class="mode-tab">Captura la Zona</button>
+                <button class="mode-tab">Deathmatch</button>
+                <button class="mode-tab">Fractura Temporal</button>
+            </div>
+            <div class="mode-content">
+                <div class="mode-visual"></div>
+                <div class="mode-info">
+                    <h3>Desactivación</h3>
+                    <p>El modo clásico 5v5. Atacantes deben plantar el dispositivo temporal mientras los defensores intentan detenerlos. Rondas de alta tensión donde cada decisión cuenta.</p>
+                    <ul class="mode-features">
+                        <li>Mejor de 24 rondas</li>
+                        <li>Economía táctica entre rondas</li>
+                        <li>Una vida por ronda</li>
+                        <li>Comunicación de equipo esencial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maps Section -->
+    <section class="maps" id="maps">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Economía</div>
-                <h2 class="section-title">Tres Monedas. Cero Pay-to-Win.</h2>
-                <p class="section-desc">Todo ganable con tiempo. Nada obligatorio con dinero.</p>
+                <div class="section-label">Arenas</div>
+                <h2 class="section-title">Mapas Diseñados para la Estrategia</h2>
             </div>
         </div>
-        <div class="currency-showcase">
-            <div class="currency-card">
-                <div class="currency-symbol">◆</div>
-                <h3 class="currency-name">FRAGMENTS</h3>
-                <div class="currency-type">Premium</div>
-                <p class="currency-desc">Cosméticos, pases de batalla, skins de equipo. Comprado o ganado en eventos.</p>
+        <div class="maps-grid">
+            <div class="map-card large">
+                <div class="map-overlay">
+                    <div class="map-name">NEXUS PRIME</div>
+                    <div class="map-location">Ciudad Neo-Tokio</div>
+                </div>
             </div>
-            <div class="currency-card">
-                <div class="currency-symbol">◇</div>
-                <h3 class="currency-name">SHARDS</h3>
-                <div class="currency-type">Progresión</div>
-                <p class="currency-desc">Desbloquea agentes, acelera maestría. Ganado jugando o comprado directamente.</p>
+            <div class="map-card">
+                <div class="map-overlay">
+                    <div class="map-name">SECTOR 7</div>
+                    <div class="map-location">Instalación Subterránea</div>
+                </div>
             </div>
-            <div class="currency-card">
-                <div class="currency-symbol">○</div>
-                <h3 class="currency-name">ECHOES</h3>
-                <div class="currency-type">Gameplay</div>
-                <p class="currency-desc">Mejoras tácticas en partida, información, predicciones. Solo ganado jugando.</p>
+            <div class="map-card">
+                <div class="map-overlay">
+                    <div class="map-name">ATLAS STATION</div>
+                    <div class="map-location">Estación Espacial</div>
+                </div>
+            </div>
+            <div class="map-card">
+                <div class="map-overlay">
+                    <div class="map-name">VOID HARBOR</div>
+                    <div class="map-location">Puerto Cuántico</div>
+                </div>
+            </div>
+            <div class="map-card">
+                <div class="map-overlay">
+                    <div class="map-name">CHRONO KEEP</div>
+                    <div class="map-location">Fortaleza Temporal</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Prime -->
-    <section class="prime-section" id="prime">
-        <div class="prime-badge">Membresía Premium</div>
-        <h2 class="prime-title">FRACTURE PRIME</h2>
-        <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
-            La experiencia definitiva UE5. Conveniencia sin ventaja. Progreso acelerado.
-        </p>
-        <div class="prime-price">$9.99<span>/mes</span></div>
-        <div class="prime-features">
-            <div class="prime-feature">
-                <div class="prime-feature-icon">◆</div>
-                <div>
-                    <strong>1,000 FRAGMENTS</strong><br>
-                    <span style="color: var(--text-tertiary); font-size: 0.85rem;">Recupera tu inversión</span>
-                </div>
-            </div>
-            <div class="prime-feature">
-                <div class="prime-feature-icon">👤</div>
-                <div>
-                    <strong>Agente Mensual</strong><br>
-                    <span style="color: var(--text-tertiary); font-size: 0.85rem;">Incluye variantes exclusivas</span>
-                </div>
-            </div>
-            <div class="prime-feature">
-                <div class="prime-feature-icon">⚡</div>
-                <div>
-                    <strong>Cola Prioritaria</strong><br>
-                    <span style="color: var(--text-tertiary); font-size: 0.85rem;">-30% tiempo de espera</span>
-                </div>
-            </div>
-            <div class="prime-feature">
-                <div class="prime-feature-icon">📈</div>
-                <div>
-                    <strong>EXP x1.5</strong><br>
-                    <span style="color: var(--text-tertiary); font-size: 0.85rem;">Maestría acelerada</span>
-                </div>
-            </div>
-        </div>
-        <button class="btn-primary" style="margin-top: 2rem;">Comenzar Prueba</button>
-    </section>
-
-    <!-- Trailer Section with HTML5 CANVAS -->
-    <section class="trailer-section" id="trailer">
+    <!-- Arsenal Section -->
+    <section class="arsenal" id="arsenal">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Cinemática UE5</div>
-                <h2 class="section-title">Ver Tráiler</h2>
-                <p class="section-desc">2 minutos 15 segundos de gameplay real en Unreal Engine 5.7.</p>
+                <div class="section-label">Armamento</div>
+                <h2 class="section-title">Arsenal Completo</h2>
             </div>
         </div>
-        
-        <div class="trailer-container">
-            <div class="canvas-container">
-                <canvas id="trailerCanvas" width="1000" height="562"></canvas>
-                <div class="canvas-overlay" id="canvasOverlay">
-                    <div class="canvas-play-btn"></div>
+        <div class="weapons-showcase">
+            <div class="weapon-categories">
+                <div class="weapon-cat active">
+                    <div class="weapon-cat-icon">🔫</div>
+                    <div class="weapon-cat-info">
+                        <h4>Armas Primarias</h4>
+                        <span>Rifles, SMGs, Escopetas</span>
+                    </div>
                 </div>
-                <div class="canvas-duration">02:15</div>
+                <div class="weapon-cat">
+                    <div class="weapon-cat-icon">🔪</div>
+                    <div class="weapon-cat-info">
+                        <h4>Armas Secundarias</h4>
+                        <span>Pistolas, Revólveres</span>
+                    </div>
+                </div>
+                <div class="weapon-cat">
+                    <div class="weapon-cat-icon">💣</div>
+                    <div class="weapon-cat-info">
+                        <h4>Utilidades</h4>
+                        <span>Granadas, C4, Drones</span>
+                    </div>
+                </div>
+                <div class="weapon-cat">
+                    <div class="weapon-cat-icon">🛡️</div>
+                    <div class="weapon-cat-info">
+                        <h4>Protección</h4>
+                        <span>Chalecos, Cascos, Escudos</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="canvas-controls">
-                <button class="canvas-btn active" onclick="setTrailerScene('act1')">Acto I: El Despertar</button>
-                <button class="canvas-btn" onclick="setTrailerScene('act2')">Acto II: La Fractura</button>
-                <button class="canvas-btn" onclick="setTrailerScene('act3')">Acto III: El Eco</button>
-                <button class="canvas-btn" onclick="toggleAnimation()">Pausar/Play</button>
+            <div class="weapon-display">
+                <div class="weapon-model">ARSENAL UE5</div>
             </div>
         </div>
     </section>
 
-    <!-- UE5 TUTORIALS SECTION -->
-    <section class="ue5-tutorials">
-        <div class="section-header" style="text-align: center; justify-content: center;">
-            <div class="section-title-group">
-                <div class="section-label">Aprende UE5</div>
-                <h2 class="section-title">Crea Tu Propio Juego</h2>
-                <p class="section-desc">Tutoriales oficiales de Epic Games para desarrollar en Unreal Engine 5.</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Únete a la Fractura</h2>
+            <p>Descarga gratis y comienza tu camino hacia la maestría táctica. Disponible en todas las plataformas.</p>
+            <button class="btn-primary" style="background: white; color: var(--bg-primary);">
+                Jugar Ahora Gratis
+            </button>
+            <div class="platforms">
+                <span class="platform-badge">PC</span>
+                <span class="platform-badge">PlayStation 5</span>
+                <span class="platform-badge">Xbox Series X</span>
+                <span class="platform-badge">Steam</span>
             </div>
-        </div>
-        
-        <div class="tutorials-grid">
-            <a href="https://dev.epicgames.com/community/learning/tutorials/e2V/your-first-game-in-unreal-engine-5" target="_blank" class="tutorial-card">
-                <div class="tutorial-source">Epic Games Official</div>
-                <div class="tutorial-title">Your First Game in Unreal Engine 5</div>
-                <div class="tutorial-desc">
-                    Tutorial completo paso a paso para crear tu primer juego en UE5. 
-                    Blueprints, cinemáticas y packaging.
-                </div>
-                <div class="tutorial-link">Ver Tutorial →</div>
-            </a>
-
-            <a href="https://www.fab.com/listings/93faede1-4434-47c0-85f1-bf27c0820ad0" target="_blank" class="tutorial-card">
-                <div class="tutorial-source">Fab Marketplace</div>
-                <div class="tutorial-title">UE5 Game Assets & Templates</div>
-                <div class="tutorial-desc">
-                    Assets profesionales, templates y sistemas listos para usar en tu 
-                    proyecto de FRACTURE. Personajes, armas y entornos.
-                </div>
-                <div class="tutorial-link">Explorar Assets →</div>
-            </a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-timestamp">TIMESTAMP: 2026-03-21 14:31 UTC</div>
-        <div class="ue5-powered">◆ Powered by Unreal Engine 5.7</div>
-        <p>© 2026 Fracture Game Inc. Todos los derechos reservados.</p>
-        <p class="disclaimer">
-            FRACTURE es un juego independiente desarrollado en Unreal Engine 5. 
-            Unreal Engine es marca registrada de Epic Games, Inc.
-        </p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-mark"></div>
+                    FRACTURE
+                </a>
+                <p>El shooter táctico definitivo potenciado por Unreal Engine 5. Rompe el tiempo, domina el campo de batalla.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Juego</h4>
+                <ul>
+                    <li><a href="#">Agentes</a></li>
+                    <li><a href="#">Mapas</a></li>
+                    <li><a href="#">Arsenal</a></li>
+                    <li><a href="#">Modos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Competitivo</h4>
+                <ul>
+                    <li><a href="#">Clasificatorias</a></li>
+                    <li><a href="#">Torneos</a></li>
+                    <li><a href="#">Esports</a></li>
+                    <li><a href="#">Leaderboards</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="#">Centro de Ayuda</a></li>
+                    <li><a href="#">Código de Conducta</a></li>
+                    <li><a href="#">Estado del Servidor</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Fracture Studios. Todos los derechos reservados. Powered by Unreal Engine 5.</p>
+            <div class="social-links">
+                <a href="#">𝕏</a>
+                <a href="#">f</a>
+                <a href="#">▶</a>
+                <a href="#">📷</a>
+                <a href="#">💬</a>
+            </div>
+        </div>
     </footer>
 
-    <!-- JavaScript for Canvas Animation -->
     <script>
-        const canvas = document.getElementById('trailerCanvas');
-        const ctx = canvas.getContext('2d');
-        let animationId;
-        let isPlaying = true;
-        let currentScene = 'act1';
-
-        const scenes = {
-            act1: { colors: ['#00d4ff', '#0066cc', '#0a0e14'], title: 'EL DESPERTAR' },
-            act2: { colors: ['#ff4655', '#00d4aa', '#111820'], title: 'LA FRACTURA' },
-            act3: { colors: ['#00d4aa', '#bd00ff', '#1a2330'], title: 'EL ECO' }
+        // Simple scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        class Particle {
-            constructor(scene) { this.reset(scene); }
-            reset(scene) {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 2;
-                this.speedY = (Math.random() - 0.5) * 2;
-                this.color = scenes[scene].colors[Math.floor(Math.random() * 2)];
-                this.life = 1;
-                this.decay = Math.random() * 0.01 + 0.005;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.life -= this.decay;
-                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset(currentScene);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-        }
+            });
+        }, observerOptions);
 
-        for (let scene in scenes) {
-            scenes[scene].particles = [];
-            for (let i = 0; i < 100; i++) scenes[scene].particles.push(new Particle(scene));
-        }
+        document.querySelectorAll('.feature-card, .map-card, .mode-content').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
 
-        function drawGlitch(text, x, y, time) {
-            const glitchOffset = Math.sin(time * 0.01) * 5;
-            ctx.fillStyle = '#ff4655';
-            ctx.fillText(text, x - glitchOffset, y);
-            ctx.fillStyle = '#00d4aa';
-            ctx.fillText(text, x + glitchOffset, y);
-            ctx.fillStyle = '#f0f4f8';
-            ctx.fillText(text, x, y);
-        }
+        // Tab switching
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
-        function drawGeometricShapes(time, scene) {
-            const colors = scenes[scene].colors;
-            ctx.save();
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            ctx.rotate(time * 0.001);
-            ctx.strokeStyle = colors[0];
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(0, -100);
-            ctx.lineTo(100, 0);
-            ctx.lineTo(0, 100);
-            ctx.lineTo(-100, 0);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.restore();
-
-            for (let i = 0; i < 3; i++) {
-                const radius = 50 + i * 40 + Math.sin(time * 0.002 + i) * 20;
-                ctx.beginPath();
-                ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2);
-                ctx.strokeStyle = colors[i % colors.length];
-                ctx.globalAlpha = 0.3 - i * 0.1;
-                ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
-        }
-
-        function drawSceneContent(time, scene) {
-            ctx.font = 'bold 60px "Space Grotesk", sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            drawGlitch(scenes[scene].title, canvas.width / 2, canvas.height / 2 - 50, time);
-            ctx.font = '300 20px Inter, sans-serif';
-            ctx.fillStyle = '#94a3b8';
-            const subtitles = { act1: 'Unreal Engine 5.7', act2: 'Nanite & Lumen', act3: 'Chaos Physics' };
-            ctx.fillText(subtitles[scene], canvas.width / 2, canvas.height / 2 + 30);
-        }
-
-        function animate(time) {
-            if (!isPlaying) return;
-            ctx.fillStyle = 'rgba(10, 14, 20, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            scenes[currentScene].particles.forEach(p => { p.update(); p.draw(); });
-            drawGeometricShapes(time, currentScene);
-            drawSceneContent(time, currentScene);
-            animationId = requestAnimationFrame(animate);
-        }
-
-        function setTrailerScene(scene) {
-            currentScene = scene;
-            document.querySelectorAll('.canvas-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            scenes[scene].particles.forEach(p => p.reset(scene));
-        }
-
-        function toggleAnimation() {
-            isPlaying = !isPlaying;
-            if (isPlaying) {
-                animate(0);
-                document.getElementById('canvasOverlay').style.opacity = '0';
-            } else {
-                cancelAnimationFrame(animationId);
-                document.getElementById('canvasOverlay').style.opacity = '1';
-            }
-        }
-
-        canvas.addEventListener('click', toggleAnimation);
-        animate(0);
+        // Weapon category switching
+        document.querySelectorAll('.weapon-cat').forEach(cat => {
+            cat.addEventListener('click', function() {
+                document.querySelectorAll('.weapon-cat').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
