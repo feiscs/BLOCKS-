@@ -22,6 +22,8 @@
             --accent-primary: #ff4655;
             --accent-secondary: #00d4aa;
             --accent-tertiary: #bd00ff;
+            --accent-quaternary: #ff9500;
+            --accent-quinary: #00d4ff;
             --text-primary: #f9f9f9;
             --text-secondary: #8b978b;
             --text-tertiary: #5a6b5c;
@@ -223,6 +225,24 @@
             background: rgba(139, 151, 139, 0.1);
         }
 
+        .btn-dark {
+            padding: 1rem 2.5rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-dark:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
         .hero-stats {
             display: flex;
             gap: 4rem;
@@ -292,6 +312,352 @@
             margin-top: 0.8rem;
         }
 
+        /* AGENTS SHOWCASE SECTION - NEW DESIGN */
+        .agents-showcase {
+            background: var(--accent-primary);
+            padding: 6rem 4%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agents-showcase::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .agents-showcase-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .agents-visual {
+            position: relative;
+            height: 600px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .agent-character {
+            position: absolute;
+            bottom: 0;
+            transition: transform 0.3s;
+        }
+
+        .agent-character:hover {
+            transform: translateY(-10px);
+        }
+
+        .agent-character.main {
+            left: 10%;
+            z-index: 2;
+        }
+
+        .agent-character.secondary {
+            right: 10%;
+            z-index: 1;
+        }
+
+        /* Character placeholders with CSS art */
+        .character-placeholder {
+            width: 280px;
+            height: 500px;
+            position: relative;
+        }
+
+        .character-placeholder.kairos {
+            background: linear-gradient(180deg, #1a0a2e 0%, #0f1419 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            border-left: 4px solid var(--accent-tertiary);
+        }
+
+        .character-placeholder.kairos::before {
+            content: 'K';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--accent-tertiary);
+            opacity: 0.3;
+        }
+
+        .character-placeholder.echo {
+            background: linear-gradient(180deg, #0a2e1a 0%, #0f1419 100%);
+            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+            border-right: 4px solid var(--accent-secondary);
+        }
+
+        .character-placeholder.echo::before {
+            content: 'E';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            opacity: 0.3;
+        }
+
+        .agents-text {
+            color: var(--text-primary);
+            z-index: 1;
+        }
+
+        .agents-text .section-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .agents-text h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .agents-text .tagline {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .agents-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 500px;
+        }
+
+        @media (max-width: 900px) {
+            .agents-showcase-content {
+                grid-template-columns: 1fr;
+            }
+            .agents-visual {
+                height: 400px;
+                order: -1;
+            }
+            .character-placeholder {
+                width: 200px;
+                height: 350px;
+            }
+        }
+
+        /* AGENTS GRID SECTION */
+        .agents-grid-section {
+            background: var(--bg-primary);
+            padding: 4rem 4% 6rem;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) {
+            .agents-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .agents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .agent-card {
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .agent-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .agent-image-container {
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-image-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            transition: transform 0.5s;
+        }
+
+        .agent-card:hover .agent-image-bg {
+            transform: scale(1.1);
+        }
+
+        /* Role color indicators */
+        .agent-card.kairos .agent-image-bg {
+            background: linear-gradient(135deg, #2d1b4e, #1a0a2e);
+        }
+
+        .agent-card.echo .agent-image-bg {
+            background: linear-gradient(135deg, #1b4e2d, #0a2e1a);
+        }
+
+        .agent-card.nexus .agent-image-bg {
+            background: linear-gradient(135deg, #4e1b4e, #2e0a2e);
+        }
+
+        .agent-card.vex .agent-image-bg {
+            background: linear-gradient(135deg, #4e2d1b, #2e1a0a);
+        }
+
+        .agent-card.stryker .agent-image-bg {
+            background: linear-gradient(135deg, #1b2d4e, #0a1a2e);
+        }
+
+        .agent-illustration {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-silhouette {
+            width: 150px;
+            height: 250px;
+            position: relative;
+        }
+
+        /* Silhouette shapes for each agent */
+        .agent-silhouette.kairos-shape {
+            background: linear-gradient(180deg, var(--accent-tertiary) 0%, transparent 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 90% 100%, 10% 100%, 0% 25%);
+            opacity: 0.6;
+        }
+
+        .agent-silhouette.echo-shape {
+            background: linear-gradient(180deg, var(--accent-secondary) 0%, transparent 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 40%, 80% 100%, 20% 100%, 0% 40%);
+            opacity: 0.6;
+        }
+
+        .agent-silhouette.nexus-shape {
+            background: linear-gradient(180deg, var(--accent-quinary) 0%, transparent 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            opacity: 0.6;
+        }
+
+        .agent-silhouette.vex-shape {
+            background: linear-gradient(180deg, var(--accent-quaternary) 0%, transparent 100%);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 60%, 70% 100%, 30% 100%, 0% 60%);
+            opacity: 0.6;
+        }
+
+        .agent-silhouette.stryker-shape {
+            background: linear-gradient(180deg, #ff6b6b 0%, transparent 100%);
+            clip-path: polygon(50% 10%, 90% 30%, 100% 70%, 50% 100%, 0% 70%, 10% 30%);
+            opacity: 0.6;
+        }
+
+        .agent-initial {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            opacity: 0.9;
+        }
+
+        .agent-info-bar {
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-top: 3px solid;
+            position: relative;
+        }
+
+        .agent-card.kairos .agent-info-bar {
+            border-color: var(--accent-tertiary);
+        }
+
+        .agent-card.echo .agent-info-bar {
+            border-color: var(--accent-secondary);
+        }
+
+        .agent-card.nexus .agent-info-bar {
+            border-color: var(--accent-quinary);
+        }
+
+        .agent-card.vex .agent-info-bar {
+            border-color: var(--accent-quaternary);
+        }
+
+        .agent-card.stryker .agent-info-bar {
+            border-color: #ff6b6b;
+        }
+
+        .agent-name-grid {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .agent-role-grid {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.3rem;
+        }
+
+        .agent-abilities-mini {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.8rem;
+        }
+
+        .ability-mini {
+            width: 24px;
+            height: 24px;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+
         /* Gameplay section */
         .gameplay-section {
             background: var(--bg-secondary);
@@ -344,110 +710,6 @@
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.6;
-        }
-
-        /* Agents section */
-        .agents-section {
-            background: var(--bg-primary);
-        }
-
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 900px) {
-            .agents-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .agent-card {
-            background: var(--bg-secondary);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .agent-image {
-            height: 320px;
-            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .agent-image::before {
-            content: attr(data-agent);
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: rgba(249, 249, 249, 0.05);
-        }
-
-        .agent-placeholder {
-            width: 120px;
-            height: 120px;
-            border: 2px solid var(--accent-primary);
-            transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .agent-placeholder::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            background: var(--accent-primary);
-            transform: rotate(0deg);
-        }
-
-        .agent-info {
-            padding: 1.5rem;
-        }
-
-        .agent-role {
-            color: var(--accent-secondary);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .agent-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .agent-abilities {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .ability {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .ability.ultimate {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
         }
 
         /* Economy section */
@@ -610,24 +872,11 @@
             flex-shrink: 0;
         }
 
-        /* Trailer Section - NEW */
+        /* Trailer Section with CANVAS */
         .trailer-section {
             background: var(--bg-secondary);
             position: relative;
             overflow: hidden;
-        }
-
-        .trailer-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(255, 70, 85, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, rgba(0, 212, 170, 0.1) 0%, transparent 50%);
-            pointer-events: none;
         }
 
         .trailer-container {
@@ -635,57 +884,95 @@
             z-index: 1;
         }
 
-        .trailer-main {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
-            aspect-ratio: 16/9;
+        .canvas-container {
+            position: relative;
             max-width: 1000px;
             margin: 0 auto 3rem;
+            border: 2px solid var(--border-subtle);
+            background: var(--bg-primary);
+        }
+
+        #trailerCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
+            pointer-events: none;
+            background: rgba(15, 20, 25, 0.3);
+            transition: opacity 0.3s;
         }
 
-        .trailer-play-btn {
-            width: 100px;
-            height: 100px;
+        .canvas-container:hover .canvas-overlay {
+            opacity: 0;
+        }
+
+        .canvas-play-btn {
+            width: 80px;
+            height: 80px;
             background: var(--accent-primary);
             clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 30% 0%);
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            animation: pulse-play 2s infinite;
         }
 
-        .trailer-play-btn:hover {
-            transform: scale(1.1);
-            background: #ff5a66;
+        @keyframes pulse-play {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
-        .trailer-play-btn::before {
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 25px solid var(--text-primary);
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
-            margin-left: 8px;
-        }
-
-        .trailer-duration {
+        .canvas-duration {
             position: absolute;
-            bottom: 1.5rem;
-            right: 1.5rem;
+            bottom: 1rem;
+            right: 1rem;
             padding: 0.5rem 1rem;
             background: rgba(15, 20, 25, 0.9);
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.9rem;
             color: var(--text-secondary);
+            pointer-events: none;
         }
 
+        .canvas-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .canvas-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .canvas-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .canvas-btn.active {
+            background: var(--accent-primary);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+
+        /* Trailer Structure */
         .trailer-structure {
             max-width: 1000px;
             margin: 0 auto;
@@ -756,6 +1043,12 @@
             padding: 1rem;
             background: var(--bg-primary);
             align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .trailer-moment:hover {
+            background: var(--bg-tertiary);
         }
 
         @media (max-width: 700px) {
@@ -864,12 +1157,148 @@
                 <span class="stat-label">Competitivo Táctico</span>
             </div>
             <div class="stat">
-                <span class="stat-value">3</span>
-                <span class="stat-label">Manipuladores Temporales</span>
+                <span class="stat-value">5</span>
+                <span class="stat-label">Manipuladores</span>
             </div>
             <div class="stat">
                 <span class="stat-value">∞</span>
                 <span class="stat-label">Posibilidades</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGENTS SHOWCASE - TUS AGENTES STYLE -->
+    <section class="agents-showcase" id="agents">
+        <div class="agents-showcase-content">
+            <div class="agents-visual">
+                <div class="agent-character main">
+                    <div class="character-placeholder kairos"></div>
+                </div>
+                <div class="agent-character secondary">
+                    <div class="character-placeholder echo"></div>
+                </div>
+            </div>
+            <div class="agents-text">
+                <div class="section-label">Manipuladores Temporales</div>
+                <h2>TUS<br>AGENTES</h2>
+                <p class="tagline">LA CREATIVIDAD ES TU MEJOR ARMA</p>
+                <p>
+                    Más allá de las armas y las balas, podrás elegir a un agente dotado de 
+                    habilidades versátiles, veloces y letales con las que crearás oportunidades 
+                    para sobresalir. Ningún agente se jugará igual, ni ningún momento memorable 
+                    se verá igual.
+                </p>
+                <button class="btn-dark">Ver Todos los Agentes</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGENTS GRID - 5 AGENTES -->
+    <section class="agents-grid-section">
+        <div class="agents-grid">
+            <!-- KAIROS -->
+            <div class="agent-card kairos">
+                <div class="agent-image-container">
+                    <div class="agent-image-bg"></div>
+                    <div class="agent-illustration">
+                        <div class="agent-silhouette kairos-shape"></div>
+                        <span class="agent-initial">K</span>
+                    </div>
+                </div>
+                <div class="agent-info-bar">
+                    <div class="agent-name-grid">KAIROS</div>
+                    <div class="agent-role-grid">Controlador Temporal</div>
+                    <div class="agent-abilities-mini">
+                        <div class="ability-mini">Q</div>
+                        <div class="ability-mini">E</div>
+                        <div class="ability-mini">C</div>
+                        <div class="ability-mini" style="background: var(--accent-tertiary); color: white;">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECHO -->
+            <div class="agent-card echo">
+                <div class="agent-image-container">
+                    <div class="agent-image-bg"></div>
+                    <div class="agent-illustration">
+                        <div class="agent-silhouette echo-shape"></div>
+                        <span class="agent-initial">E</span>
+                    </div>
+                </div>
+                <div class="agent-info-bar">
+                    <div class="agent-name-grid">ECHO</div>
+                    <div class="agent-role-grid">Duelista de Ilusiones</div>
+                    <div class="agent-abilities-mini">
+                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Q</div>
+                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">E</div>
+                        <div class="ability-mini" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">C</div>
+                        <div class="ability-mini" style="background: var(--accent-secondary); color: var(--bg-primary);">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEXUS -->
+            <div class="agent-card nexus">
+                <div class="agent-image-container">
+                    <div class="agent-image-bg"></div>
+                    <div class="agent-illustration">
+                        <div class="agent-silhouette nexus-shape"></div>
+                        <span class="agent-initial">N</span>
+                    </div>
+                </div>
+                <div class="agent-info-bar">
+                    <div class="agent-name-grid">NEXUS</div>
+                    <div class="agent-role-grid">Iniciador de Portales</div>
+                    <div class="agent-abilities-mini">
+                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">Q</div>
+                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">E</div>
+                        <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">C</div>
+                        <div class="ability-mini" style="background: var(--accent-quinary); color: var(--bg-primary);">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VEX - NUEVO: Centinela de Sombras -->
+            <div class="agent-card vex">
+                <div class="agent-image-container">
+                    <div class="agent-image-bg"></div>
+                    <div class="agent-illustration">
+                        <div class="agent-silhouette vex-shape"></div>
+                        <span class="agent-initial">V</span>
+                    </div>
+                </div>
+                <div class="agent-info-bar">
+                    <div class="agent-name-grid">VEX</div>
+                    <div class="agent-role-grid">Centinela de Sombras</div>
+                    <div class="agent-abilities-mini">
+                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">Q</div>
+                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">E</div>
+                        <div class="ability-mini" style="border-color: var(--accent-quaternary); color: var(--accent-quaternary);">C</div>
+                        <div class="ability-mini" style="background: var(--accent-quaternary); color: var(--bg-primary);">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STRYKER - NUEVO: Artillero Pesado -->
+            <div class="agent-card stryker">
+                <div class="agent-image-container">
+                    <div class="agent-image-bg"></div>
+                    <div class="agent-illustration">
+                        <div class="agent-silhouette stryker-shape"></div>
+                        <span class="agent-initial">S</span>
+                    </div>
+                </div>
+                <div class="agent-info-bar">
+                    <div class="agent-name-grid">STRYKER</div>
+                    <div class="agent-role-grid">Artillero Pesado</div>
+                    <div class="agent-abilities-mini">
+                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">Q</div>
+                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">E</div>
+                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">C</div>
+                        <div class="ability-mini" style="background: #ff6b6b; color: white;">X</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -898,67 +1327,6 @@
                 <div class="feature-number">03</div>
                 <h3 class="feature-title">Singularidad</h3>
                 <p class="feature-desc">Captura núcleos en movimiento orbital. No hay planta estática — el objetivo fluye constantemente. Ataque y defensa simultáneos.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Agents -->
-    <section class="agents-section" id="agents">
-        <div class="section-header">
-            <div class="section-title-group">
-                <div class="section-label">Manipuladores</div>
-                <h2 class="section-title">Elige tu Fractura</h2>
-                <p class="section-desc">Tres realidades. Tres formas de romper el tiempo.</p>
-            </div>
-        </div>
-        <div class="agents-grid">
-            <div class="agent-card">
-                <div class="agent-image" data-agent="K">
-                    <div class="agent-placeholder"></div>
-                </div>
-                <div class="agent-info">
-                    <div class="agent-role">Controlador Temporal</div>
-                    <h3 class="agent-name">KAIROS</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Deja residuos que rebobinan enemigos, acelera aliados, congela proyectiles.</p>
-                    <div class="agent-abilities">
-                        <div class="ability">Q</div>
-                        <div class="ability">E</div>
-                        <div class="ability">C</div>
-                        <div class="ability ultimate">X</div>
-                    </div>
-                </div>
-            </div>
-            <div class="agent-card">
-                <div class="agent-image" data-agent="E">
-                    <div class="agent-placeholder" style="border-color: var(--accent-secondary);"></div>
-                </div>
-                <div class="agent-info">
-                    <div class="agent-role" style="color: var(--accent-secondary);">Duelista de Ilusiones</div>
-                    <h3 class="agent-name">ECHO</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Crea clones que confunden, intercambia posiciones, mimetiza enemigos.</p>
-                    <div class="agent-abilities">
-                        <div class="ability" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">Q</div>
-                        <div class="ability" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">E</div>
-                        <div class="ability" style="border-color: var(--accent-secondary); color: var(--accent-secondary);">C</div>
-                        <div class="ability ultimate">X</div>
-                    </div>
-                </div>
-            </div>
-            <div class="agent-card">
-                <div class="agent-image" data-agent="N">
-                    <div class="agent-placeholder" style="border-color: var(--accent-tertiary);"></div>
-                </div>
-                <div class="agent-info">
-                    <div class="agent-role" style="color: var(--accent-tertiary);">Iniciador de Portales</div>
-                    <h3 class="agent-name">NEXUS</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Crea portales personales, vínculos de equipo, anclas de retorno. Rompe la geometría.</p>
-                    <div class="agent-abilities">
-                        <div class="ability" style="border-color: var(--accent-tertiary); color: var(--accent-tertiary);">Q</div>
-                        <div class="ability" style="border-color: var(--accent-tertiary); color: var(--accent-tertiary);">E</div>
-                        <div class="ability" style="border-color: var(--accent-tertiary); color: var(--accent-tertiary);">C</div>
-                        <div class="ability ultimate">X</div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1035,21 +1403,32 @@
         <button class="btn-primary" style="margin-top: 2rem;">Comenzar Prueba</button>
     </section>
 
-    <!-- Trailer Section - NEW -->
+    <!-- Trailer Section with HTML5 CANVAS -->
     <section class="trailer-section" id="trailer">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Cinemática</div>
+                <div class="section-label">Cinemática Interactiva</div>
                 <h2 class="section-title">Ver Tráiler</h2>
-                <p class="section-desc">2 minutos 15 segundos que redefinen el tiempo.</p>
+                <p class="section-desc">2 minutos 15 segundos que redefinen el tiempo. Canvas interactivo con JavaScript.</p>
             </div>
         </div>
         
         <div class="trailer-container">
-            <!-- Main Video Player -->
-            <div class="trailer-main">
-                <div class="trailer-play-btn"></div>
-                <div class="trailer-duration">02:15</div>
+            <!-- HTML5 Canvas Container -->
+            <div class="canvas-container">
+                <canvas id="trailerCanvas" width="1000" height="562"></canvas>
+                <div class="canvas-overlay" id="canvasOverlay">
+                    <div class="canvas-play-btn"></div>
+                </div>
+                <div class="canvas-duration">02:15</div>
+            </div>
+
+            <!-- Canvas Controls -->
+            <div class="canvas-controls">
+                <button class="canvas-btn active" onclick="setTrailerScene('act1')">Acto I: El Despertar</button>
+                <button class="canvas-btn" onclick="setTrailerScene('act2')">Acto II: La Fractura</button>
+                <button class="canvas-btn" onclick="setTrailerScene('act3')">Acto III: El Eco</button>
+                <button class="canvas-btn" onclick="toggleAnimation()">Pausar/Play</button>
             </div>
 
             <!-- Trailer Structure -->
@@ -1061,17 +1440,17 @@
                         <span class="trailer-act-time">0:00 - 0:45</span>
                     </div>
                     <div class="trailer-moments">
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act1', 0)">
                             <span class="moment-time">0:00</span>
                             <span class="moment-desc">Apertura con glitch temporal — el logo FRACTURE se forma de fragmentos de realidad</span>
                             <span class="moment-visual">Efectos de distorsión cromática, sonido de cristales rotos</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act1', 1)">
                             <span class="moment-time">0:12</span>
                             <span class="moment-desc">Primer vistazo al mundo: ciudad fracturada entre dos líneas temporales</span>
                             <span class="moment-visual">Split-screen de día/noche simultáneo, arquitectura distorsionada</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act1', 2)">
                             <span class="moment-time">0:28</span>
                             <span class="moment-desc">KAIROS emerge del tiempo congelado — primer uso de habilidad temporal</span>
                             <span class="moment-visual">Efecto de partículas doradas, cámara lenta extrema</span>
@@ -1086,17 +1465,17 @@
                         <span class="trailer-act-time">0:45 - 1:30</span>
                     </div>
                     <div class="trailer-moments">
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act2', 0)">
                             <span class="moment-time">0:45</span>
                             <span class="moment-desc">Combate 5v5 en la Singularidad — el núcleo orbital gira entre dimensiones</span>
                             <span class="moment-visual">Gameplay rápido, transiciones entre realidades, HUD minimalista</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act2', 1)">
                             <span class="moment-time">1:02</span>
                             <span class="moment-desc">ECHO crea su red de ilusiones — 6 clones atacan simultáneamente</span>
                             <span class="moment-visual">Efecto espejo, reflejos morados, confusión táctica</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act2', 2)">
                             <span class="moment-time">1:18</span>
                             <span class="moment-desc">NEXUS abre un portal que dobla el espacio — balas atraviesan dimensiones</span>
                             <span class="moment-visual">Distorsión gravitacional, lentes de agua, geometría imposible</span>
@@ -1111,17 +1490,17 @@
                         <span class="trailer-act-time">1:30 - 2:15</span>
                     </div>
                     <div class="trailer-moments">
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act3', 0)">
                             <span class="moment-time">1:30</span>
                             <span class="moment-desc">Clímax: los tres agentes usan habilidades simultáneas — el tiempo se rompe</span>
                             <span class="moment-visual">Efecto de triple exposición, colores saturados, caos controlado</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act3', 1)">
                             <span class="moment-time">1:55</span>
                             <span class="moment-desc">La realidad se recompone — victoria en cámara ultra-lenta</span>
                             <span class="moment-visual">Partículas regresando al centro, silencio total, impacto final</span>
                         </div>
-                        <div class="trailer-moment">
+                        <div class="trailer-moment" onclick="setTrailerScene('act3', 2)">
                             <span class="moment-time">2:08</span>
                             <span class="moment-desc">Logo FRACTURE + tagline: "El tiempo es tu arma"</span>
                             <span class="moment-visual">Fade to black, texto glitch, CTA "Juega Gratis"</span>
@@ -1142,5 +1521,214 @@
             de sus subsidiarias o afiliadas. Valorant es marca registrada de Riot Games, Inc.
         </p>
     </footer>
+
+    <!-- JavaScript for Canvas Animation -->
+    <script>
+        // Canvas Setup
+        const canvas = document.getElementById('trailerCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let isPlaying = true;
+        let currentScene = 'act1';
+        let sceneProgress = 0;
+
+        // Scene configurations
+        const scenes = {
+            act1: {
+                colors: ['#bd00ff', '#ff4655', '#0f1419'],
+                particles: [],
+                title: 'EL DESPERTAR'
+            },
+            act2: {
+                colors: ['#ff4655', '#00d4aa', '#1a1f2e'],
+                particles: [],
+                title: 'LA FRACTURA'
+            },
+            act3: {
+                colors: ['#00d4aa', '#bd00ff', '#242b3d'],
+                particles: [],
+                title: 'EL ECO'
+            }
+        };
+
+        // Particle class for visual effects
+        class Particle {
+            constructor(scene) {
+                this.reset(scene);
+            }
+
+            reset(scene) {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.color = scenes[scene].colors[Math.floor(Math.random() * 2)];
+                this.life = 1;
+                this.decay = Math.random() * 0.01 + 0.005;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= this.decay;
+
+                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset(currentScene);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            for (let scene in scenes) {
+                scenes[scene].particles = [];
+                for (let i = 0; i < 100; i++) {
+                    scenes[scene].particles.push(new Particle(scene));
+                }
+            }
+        }
+
+        // Draw glitch effect
+        function drawGlitch(text, x, y, time) {
+            const glitchOffset = Math.sin(time * 0.01) * 5;
+            
+            // Red channel offset
+            ctx.fillStyle = '#ff4655';
+            ctx.fillText(text, x - glitchOffset, y);
+            
+            // Cyan channel offset
+            ctx.fillStyle = '#00d4aa';
+            ctx.fillText(text, x + glitchOffset, y);
+            
+            // Main text
+            ctx.fillStyle = '#f9f9f9';
+            ctx.fillText(text, x, y);
+        }
+
+        // Draw geometric shapes
+        function drawGeometricShapes(time, scene) {
+            const colors = scenes[scene].colors;
+            
+            // Rotating diamond
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(time * 0.001);
+            ctx.strokeStyle = colors[0];
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, -100);
+            ctx.lineTo(100, 0);
+            ctx.lineTo(0, 100);
+            ctx.lineTo(-100, 0);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+
+            // Pulsing circles
+            for (let i = 0; i < 3; i++) {
+                const radius = 50 + i * 40 + Math.sin(time * 0.002 + i) * 20;
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = colors[i % colors.length];
+                ctx.globalAlpha = 0.3 - i * 0.1;
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // Draw scene-specific content
+        function drawSceneContent(time, scene) {
+            ctx.font = 'bold 60px "Space Grotesk", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Draw title with glitch effect
+            drawGlitch(scenes[scene].title, canvas.width / 2, canvas.height / 2 - 50, time);
+            
+            // Draw subtitle
+            ctx.font = '300 20px Inter, sans-serif';
+            ctx.fillStyle = '#8b978b';
+            const subtitles = {
+                act1: 'El tiempo se detiene...',
+                act2: 'La realidad se divide...',
+                act3: 'Todo converge...'
+            };
+            ctx.fillText(subtitles[scene], canvas.width / 2, canvas.height / 2 + 30);
+        }
+
+        // Main animation loop
+        function animate(time) {
+            if (!isPlaying) return;
+
+            // Clear canvas with fade effect
+            ctx.fillStyle = 'rgba(15, 20, 25, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            scenes[currentScene].particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw geometric shapes
+            drawGeometricShapes(time, currentScene);
+
+            // Draw scene content
+            drawSceneContent(time, currentScene);
+
+            // Update scene progress
+            sceneProgress += 0.001;
+            if (sceneProgress > 1) sceneProgress = 0;
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Set trailer scene
+        function setTrailerScene(scene, moment = null) {
+            currentScene = scene;
+            sceneProgress = 0;
+            
+            // Update button states
+            document.querySelectorAll('.canvas-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Reset particles for new scene
+            scenes[scene].particles.forEach(p => p.reset(scene));
+        }
+
+        // Toggle animation
+        function toggleAnimation() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                animate(0);
+                document.getElementById('canvasOverlay').style.opacity = '0';
+            } else {
+                cancelAnimationFrame(animationId);
+                document.getElementById('canvasOverlay').style.opacity = '1';
+            }
+        }
+
+        // Canvas click handler
+        canvas.addEventListener('click', () => {
+            toggleAnimation();
+        });
+
+        // Initialize
+        initParticles();
+        animate(0);
+    </script>
 </body>
 </html>
