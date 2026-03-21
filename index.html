@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta timestamp="2026-03-21 14:31" />
-    <title>FRACTURE | El Shooter Táctico Que Rompe el Tiempo</title>
+    <title>FRACTURE | UE5 Tactical Shooter - Rompe el Tiempo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
@@ -16,18 +16,20 @@
         }
 
         :root {
-            --bg-primary: #0f1419;
-            --bg-secondary: #1a1f2e;
-            --bg-tertiary: #242b3d;
+            --bg-primary: #0a0e14;
+            --bg-secondary: #111820;
+            --bg-tertiary: #1a2330;
             --accent-primary: #ff4655;
             --accent-secondary: #00d4aa;
-            --accent-tertiary: #bd00ff;
+            --accent-tertiary: #00d4ff;
             --accent-quaternary: #ff9500;
-            --accent-quinary: #00d4ff;
-            --text-primary: #f9f9f9;
-            --text-secondary: #8b978b;
-            --text-tertiary: #5a6b5c;
-            --border-subtle: rgba(139, 151, 139, 0.2);
+            --accent-quinary: #bd00ff;
+            --ue5-blue: #0066cc;
+            --ue5-cyan: #00d4ff;
+            --text-primary: #f0f4f8;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+            --border-subtle: rgba(148, 163, 184, 0.15);
         }
 
         body {
@@ -38,14 +40,14 @@
             overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* Navigation - UE5 Style */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 1.2rem 4%;
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             display: flex;
             justify-content: space-between;
@@ -55,22 +57,23 @@
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.8rem;
         }
 
         .logo-mark {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--ue5-cyan), var(--accent-primary));
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
             position: relative;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
         .logo-mark::after {
@@ -98,12 +101,12 @@
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: var(--ue5-cyan);
         }
 
         .nav-cta {
-            padding: 0.7rem 1.5rem;
-            background: var(--accent-primary);
+            padding: 0.8rem 1.8rem;
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
             color: var(--text-primary);
             font-size: 0.8rem;
             font-weight: 600;
@@ -111,15 +114,16 @@
             letter-spacing: 0.5px;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
         }
 
         .nav-cta:hover {
-            background: #ff5a66;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
         }
 
-        /* Hero */
+        /* Hero - UE5 Cinematic Style */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -128,43 +132,52 @@
             padding: 8rem 4% 4rem;
             position: relative;
             background: 
-                radial-gradient(ellipse at 70% 20%, rgba(189, 0, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 30% 80%, rgba(255, 70, 85, 0.1) 0%, transparent 50%);
+                radial-gradient(ellipse at 20% 50%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
 
-        .hero-badge {
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(0,212,255,0.1)"/></svg>');
+            background-size: 50px 50px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .ue5-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--accent-secondary);
+            color: var(--ue5-cyan);
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
         }
 
-        .hero-badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--accent-secondary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+        .ue5-badge::before {
+            content: '◆';
+            color: var(--ue5-cyan);
         }
 
         .hero h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-size: clamp(4rem, 12vw, 8rem);
             font-weight: 700;
-            line-height: 0.95;
-            letter-spacing: -2px;
+            line-height: 0.9;
+            letter-spacing: -3px;
             margin-bottom: 1.5rem;
+            text-transform: uppercase;
         }
 
         .hero h1 span {
@@ -172,26 +185,30 @@
         }
 
         .hero h1 .accent {
-            color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--ue5-cyan), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
-            max-width: 550px;
+            max-width: 600px;
             margin-bottom: 2.5rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .hero-cta-group {
             display: flex;
             gap: 1rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
-            padding: 1rem 2.5rem;
-            background: var(--accent-primary);
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
             color: var(--text-primary);
             font-size: 0.9rem;
             font-weight: 600;
@@ -199,16 +216,17 @@
             letter-spacing: 0.5px;
             border: none;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
         }
 
         .btn-primary:hover {
-            background: #ff5a66;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
         }
 
         .btn-secondary {
-            padding: 1rem 2.5rem;
+            padding: 1.2rem 3rem;
             background: transparent;
             color: var(--text-primary);
             font-size: 0.9rem;
@@ -217,30 +235,12 @@
             letter-spacing: 0.5px;
             border: 1px solid var(--border-subtle);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
         .btn-secondary:hover {
-            border-color: var(--text-secondary);
-            background: rgba(139, 151, 139, 0.1);
-        }
-
-        .btn-dark {
-            padding: 1rem 2.5rem;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-dark:hover {
-            background: var(--bg-secondary);
-            transform: translateY(-2px);
+            border-color: var(--ue5-cyan);
+            background: rgba(0, 212, 255, 0.1);
         }
 
         .hero-stats {
@@ -260,7 +260,7 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--ue5-cyan);
             line-height: 1;
         }
 
@@ -291,7 +291,7 @@
         }
 
         .section-label {
-            color: var(--accent-primary);
+            color: var(--ue5-cyan);
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -312,9 +312,9 @@
             margin-top: 0.8rem;
         }
 
-        /* AGENTS SHOWCASE SECTION - NEW DESIGN */
+        /* AGENTS SHOWCASE - UE5 Style */
         .agents-showcase {
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #cc2938 100%);
             padding: 6rem 4%;
             position: relative;
             overflow: hidden;
@@ -331,6 +331,17 @@
             pointer-events: none;
         }
 
+        .agents-showcase::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 100%);
+            pointer-events: none;
+        }
+
         .agents-showcase-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -338,6 +349,8 @@
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .agents-visual {
@@ -359,58 +372,128 @@
         }
 
         .agent-character.main {
-            left: 10%;
+            left: 5%;
             z-index: 2;
         }
 
         .agent-character.secondary {
-            right: 10%;
+            right: 5%;
             z-index: 1;
         }
 
-        /* Character placeholders with CSS art */
-        .character-placeholder {
-            width: 280px;
-            height: 500px;
+        /* UE5 Style Agent Models */
+        .ue5-agent-model {
+            width: 300px;
+            height: 550px;
             position: relative;
+            background: linear-gradient(180deg, rgba(0,212,255,0.1) 0%, transparent 100%);
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
         }
 
-        .character-placeholder.kairos {
-            background: linear-gradient(180deg, #1a0a2e 0%, #0f1419 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-            border-left: 4px solid var(--accent-tertiary);
+        .ue5-agent-model.blue-team {
+            border: 2px solid var(--ue5-cyan);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 40px rgba(0, 212, 255, 0.1);
         }
 
-        .character-placeholder.kairos::before {
-            content: 'K';
+        .ue5-agent-model.red-team {
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 0 40px rgba(255, 70, 85, 0.3), inset 0 0 40px rgba(255, 70, 85, 0.1);
+        }
+
+        .ue5-agent-model::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .ue5-agent-model.blue-team::before {
+            background: var(--ue5-cyan);
+        }
+
+        .ue5-agent-model.red-team::before {
+            background: var(--accent-primary);
+        }
+
+        .agent-suit {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 400px;
+            background: linear-gradient(180deg, 
+                rgba(0,212,255,0.9) 0%, 
+                rgba(0,102,204,0.8) 50%,
+                rgba(0,50,100,0.9) 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 90% 100%, 10% 100%, 0% 30%);
+            border-radius: 100px 100px 0 0;
+        }
+
+        .agent-suit.red {
+            background: linear-gradient(180deg, 
+                rgba(255,70,85,0.9) 0%, 
+                rgba(200,30,50,0.8) 50%,
+                rgba(100,20,30,0.9) 100%);
+        }
+
+        .agent-visor {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+            border-radius: 60px 60px 20px 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .agent-visor::after {
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 8rem;
-            font-weight: 700;
-            color: var(--accent-tertiary);
-            opacity: 0.3;
+            width: 80px;
+            height: 20px;
+            background: linear-gradient(90deg, transparent, var(--ue5-cyan), transparent);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--ue5-cyan);
         }
 
-        .character-placeholder.echo {
-            background: linear-gradient(180deg, #0a2e1a 0%, #0f1419 100%);
-            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-            border-right: 4px solid var(--accent-secondary);
+        .agent-suit.red .agent-visor::after {
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            box-shadow: 0 0 20px var(--accent-primary);
         }
 
-        .character-placeholder.echo::before {
-            content: 'E';
+        .agent-chest-light {
             position: absolute;
-            top: 50%;
+            top: 35%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 8rem;
-            font-weight: 700;
-            color: var(--accent-secondary);
-            opacity: 0.3;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--ue5-cyan) 0%, transparent 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--ue5-cyan);
+            animation: pulse-light 2s infinite;
+        }
+
+        .agent-suit.red .agent-chest-light {
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+            box-shadow: 0 0 30px var(--accent-primary);
+        }
+
+        @keyframes pulse-light {
+            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); }
         }
 
         .agents-text {
@@ -419,7 +502,7 @@
         }
 
         .agents-text .section-label {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.9);
             font-size: 0.9rem;
         }
 
@@ -437,7 +520,8 @@
             font-weight: 600;
             margin-bottom: 1.5rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.95);
         }
 
         .agents-text p {
@@ -456,13 +540,13 @@
                 height: 400px;
                 order: -1;
             }
-            .character-placeholder {
-                width: 200px;
-                height: 350px;
+            .ue5-agent-model {
+                width: 220px;
+                height: 400px;
             }
         }
 
-        /* AGENTS GRID SECTION */
+        /* AGENTS GRID - UE5 Characters */
         .agents-grid-section {
             background: var(--bg-primary);
             padding: 4rem 4% 6rem;
@@ -499,7 +583,8 @@
 
         .agent-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: var(--ue5-cyan);
         }
 
         .agent-image-container {
@@ -511,7 +596,6 @@
         .agent-image-bg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
             transition: transform 0.5s;
         }
 
@@ -519,25 +603,25 @@
             transform: scale(1.1);
         }
 
-        /* Role color indicators */
+        /* UE5 Agent Styles */
         .agent-card.kairos .agent-image-bg {
-            background: linear-gradient(135deg, #2d1b4e, #1a0a2e);
+            background: linear-gradient(135deg, #0a1628, #1a2d4a);
         }
 
         .agent-card.echo .agent-image-bg {
-            background: linear-gradient(135deg, #1b4e2d, #0a2e1a);
+            background: linear-gradient(135deg, #0a2820, #1a4a3d);
         }
 
         .agent-card.nexus .agent-image-bg {
-            background: linear-gradient(135deg, #4e1b4e, #2e0a2e);
+            background: linear-gradient(135deg, #1a0a28, #3d1a4a);
         }
 
         .agent-card.vex .agent-image-bg {
-            background: linear-gradient(135deg, #4e2d1b, #2e1a0a);
+            background: linear-gradient(135deg, #281a0a, #4a3d1a);
         }
 
         .agent-card.stryker .agent-image-bg {
-            background: linear-gradient(135deg, #1b2d4e, #0a1a2e);
+            background: linear-gradient(135deg, #280a0a, #4a1a1a);
         }
 
         .agent-illustration {
@@ -548,42 +632,72 @@
             justify-content: center;
         }
 
-        .agent-silhouette {
-            width: 150px;
-            height: 250px;
+        /* UE5 Style Agent Silhouettes */
+        .ue5-silhouette {
+            width: 140px;
+            height: 260px;
             position: relative;
+            background: linear-gradient(180deg, 
+                rgba(0,212,255,0.8) 0%, 
+                rgba(0,102,204,0.6) 100%);
+            clip-path: polygon(30% 0%, 70% 0%, 90% 20%, 85% 100%, 15% 100%, 10% 20%);
+            border-radius: 60px 60px 0 0;
         }
 
-        /* Silhouette shapes for each agent */
-        .agent-silhouette.kairos-shape {
-            background: linear-gradient(180deg, var(--accent-tertiary) 0%, transparent 100%);
-            clip-path: polygon(50% 0%, 100% 25%, 90% 100%, 10% 100%, 0% 25%);
-            opacity: 0.6;
+        .ue5-silhouette.echo {
+            background: linear-gradient(180deg, 
+                rgba(0,212,170,0.8) 0%, 
+                rgba(0,150,120,0.6) 100%);
         }
 
-        .agent-silhouette.echo-shape {
-            background: linear-gradient(180deg, var(--accent-secondary) 0%, transparent 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 40%, 80% 100%, 20% 100%, 0% 40%);
-            opacity: 0.6;
+        .ue5-silhouette.nexus {
+            background: linear-gradient(180deg, 
+                rgba(189,0,255,0.8) 0%, 
+                rgba(120,0,180,0.6) 100%);
         }
 
-        .agent-silhouette.nexus-shape {
-            background: linear-gradient(180deg, var(--accent-quinary) 0%, transparent 100%);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            opacity: 0.6;
+        .ue5-silhouette.vex {
+            background: linear-gradient(180deg, 
+                rgba(255,149,0,0.8) 0%, 
+                rgba(200,100,0,0.6) 100%);
         }
 
-        .agent-silhouette.vex-shape {
-            background: linear-gradient(180deg, var(--accent-quaternary) 0%, transparent 100%);
-            clip-path: polygon(30% 0%, 70% 0%, 100% 60%, 70% 100%, 30% 100%, 0% 60%);
-            opacity: 0.6;
+        .ue5-silhouette.stryker {
+            background: linear-gradient(180deg, 
+                rgba(255,70,85,0.8) 0%, 
+                rgba(200,30,50,0.6) 100%);
         }
 
-        .agent-silhouette.stryker-shape {
-            background: linear-gradient(180deg, #ff6b6b 0%, transparent 100%);
-            clip-path: polygon(50% 10%, 90% 30%, 100% 70%, 50% 100%, 0% 70%, 10% 30%);
-            opacity: 0.6;
+        .ue5-silhouette::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 40px;
+            background: #0a0e14;
+            border-radius: 30px 30px 10px 10px;
+            border: 2px solid rgba(255,255,255,0.3);
         }
+
+        .ue5-silhouette::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 8px;
+            background: var(--ue5-cyan);
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--ue5-cyan);
+        }
+
+        .ue5-silhouette.echo::after { background: var(--accent-secondary); box-shadow: 0 0 15px var(--accent-secondary); }
+        .ue5-silhouette.nexus::after { background: var(--accent-quinary); box-shadow: 0 0 15px var(--accent-quinary); }
+        .ue5-silhouette.vex::after { background: var(--accent-quaternary); box-shadow: 0 0 15px var(--accent-quaternary); }
+        .ue5-silhouette.stryker::after { background: var(--accent-primary); box-shadow: 0 0 15px var(--accent-primary); }
 
         .agent-initial {
             position: absolute;
@@ -591,10 +705,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 700;
             color: var(--text-primary);
-            opacity: 0.9;
+            opacity: 0.3;
         }
 
         .agent-info-bar {
@@ -604,25 +718,11 @@
             position: relative;
         }
 
-        .agent-card.kairos .agent-info-bar {
-            border-color: var(--accent-tertiary);
-        }
-
-        .agent-card.echo .agent-info-bar {
-            border-color: var(--accent-secondary);
-        }
-
-        .agent-card.nexus .agent-info-bar {
-            border-color: var(--accent-quinary);
-        }
-
-        .agent-card.vex .agent-info-bar {
-            border-color: var(--accent-quaternary);
-        }
-
-        .agent-card.stryker .agent-info-bar {
-            border-color: #ff6b6b;
-        }
+        .agent-card.kairos .agent-info-bar { border-color: var(--ue5-cyan); }
+        .agent-card.echo .agent-info-bar { border-color: var(--accent-secondary); }
+        .agent-card.nexus .agent-info-bar { border-color: var(--accent-quinary); }
+        .agent-card.vex .agent-info-bar { border-color: var(--accent-quaternary); }
+        .agent-card.stryker .agent-info-bar { border-color: var(--accent-primary); }
 
         .agent-name-grid {
             font-family: 'Space Grotesk', sans-serif;
@@ -656,11 +756,179 @@
             font-size: 0.65rem;
             font-weight: 700;
             color: var(--text-tertiary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* MAPS SECTION - UE5 Clean Architecture */
+        .maps-section {
+            background: var(--bg-secondary);
+            padding: 6rem 4%;
+        }
+
+        .maps-showcase {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .maps-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .map-featured {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(135deg, #e8eef5 0%, #d0dce8 100%);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .map-featured::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(0,102,204,0.1) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(0,102,204,0.1) 50%, transparent 51%);
+            background-size: 40px 40px;
+            opacity: 0.5;
+        }
+
+        .map-geometry {
+            position: absolute;
+            inset: 0;
+        }
+
+        .arch-structure {
+            position: absolute;
+            background: linear-gradient(180deg, #f5f7fa 0%, #e0e6ed 100%);
+            border: 2px solid rgba(0,102,204,0.2);
+        }
+
+        .arch-structure:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 30%;
+            height: 60%;
+            clip-path: polygon(0% 100%, 0% 20%, 50% 0%, 100% 20%, 100% 100%);
+        }
+
+        .arch-structure:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            width: 25%;
+            height: 50%;
+            clip-path: polygon(0% 100%, 0% 30%, 50% 0%, 100% 30%, 100% 100%);
+        }
+
+        .arch-structure:nth-child(3) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 40%;
+            clip-path: polygon(0% 100%, 20% 0%, 80% 0%, 100% 100%);
+        }
+
+        .neon-accent {
+            position: absolute;
+            background: var(--ue5-cyan);
+            box-shadow: 0 0 20px var(--ue5-cyan);
+        }
+
+        .neon-accent.horizontal {
+            height: 3px;
+            width: 100px;
+            top: 50%;
+            left: 20%;
+        }
+
+        .neon-accent.vertical {
+            width: 3px;
+            height: 80px;
+            top: 30%;
+            right: 30%;
+        }
+
+        .map-info {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(10, 14, 20, 0.9);
+            padding: 1.5rem;
+            border-left: 4px solid var(--ue5-cyan);
+        }
+
+        .map-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .maps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .map-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-card:hover {
+            border-color: var(--ue5-cyan);
+            transform: translateX(10px);
+        }
+
+        .map-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--ue5-cyan);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .map-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .map-card-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .map-card-type {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
         }
 
         /* Gameplay section */
         .gameplay-section {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
         }
 
         .features-grid {
@@ -676,27 +944,43 @@
         }
 
         .feature-card {
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-subtle);
             padding: 2rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
         .feature-card:hover {
-            border-color: var(--accent-primary);
+            border-color: var(--ue5-cyan);
+            transform: translateY(-5px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--ue5-cyan), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
         }
 
         .feature-number {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 3rem;
             font-weight: 700;
-            color: var(--text-tertiary);
+            color: var(--ue5-cyan);
             line-height: 1;
             margin-bottom: 1rem;
-        }
-
-        .feature-card:hover .feature-number {
-            color: var(--accent-primary);
+            opacity: 0.5;
         }
 
         .feature-title {
@@ -734,19 +1018,17 @@
             border: 1px solid var(--border-subtle);
             padding: 2.5rem 2rem;
             text-align: center;
+            transition: all 0.3s;
         }
 
-        .currency-card:nth-child(1) {
-            border-color: var(--accent-primary);
+        .currency-card:hover {
+            border-color: var(--ue5-cyan);
+            transform: translateY(-5px);
         }
 
-        .currency-card:nth-child(2) {
-            border-color: var(--accent-secondary);
-        }
-
-        .currency-card:nth-child(3) {
-            border-color: var(--accent-tertiary);
-        }
+        .currency-card:nth-child(1) { border-color: var(--ue5-cyan); }
+        .currency-card:nth-child(2) { border-color: var(--accent-secondary); }
+        .currency-card:nth-child(3) { border-color: var(--accent-quinary); }
 
         .currency-symbol {
             width: 70px;
@@ -761,8 +1043,9 @@
         }
 
         .currency-card:nth-child(1) .currency-symbol {
-            background: var(--accent-primary);
-            color: var(--text-primary);
+            background: var(--ue5-cyan);
+            color: var(--bg-primary);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
         }
 
         .currency-card:nth-child(2) .currency-symbol {
@@ -771,7 +1054,7 @@
         }
 
         .currency-card:nth-child(3) .currency-symbol {
-            background: var(--accent-tertiary);
+            background: var(--accent-quinary);
             color: var(--text-primary);
         }
 
@@ -807,13 +1090,14 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.6rem 1.2rem;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
             color: var(--text-primary);
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
         }
 
         .prime-title {
@@ -827,8 +1111,9 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 4rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--ue5-cyan);
             margin: 2rem 0;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
         }
 
         .prime-price span {
@@ -858,18 +1143,19 @@
             gap: 1rem;
             padding: 1rem;
             background: var(--bg-secondary);
-            border-left: 3px solid var(--accent-primary);
+            border-left: 3px solid var(--ue5-cyan);
         }
 
         .prime-feature-icon {
             width: 40px;
             height: 40px;
-            background: var(--accent-primary);
+            background: var(--ue5-cyan);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             flex-shrink: 0;
+            color: var(--bg-primary);
         }
 
         /* Trailer Section with CANVAS */
@@ -890,6 +1176,8 @@
             margin: 0 auto 3rem;
             border: 2px solid var(--border-subtle);
             background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         #trailerCanvas {
@@ -910,7 +1198,7 @@
             align-items: center;
             justify-content: center;
             pointer-events: none;
-            background: rgba(15, 20, 25, 0.3);
+            background: rgba(10, 14, 20, 0.4);
             transition: opacity 0.3s;
         }
 
@@ -921,9 +1209,10 @@
         .canvas-play-btn {
             width: 80px;
             height: 80px;
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
             clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 30% 0%);
             animation: pulse-play 2s infinite;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
         }
 
         @keyframes pulse-play {
@@ -936,11 +1225,12 @@
             bottom: 1rem;
             right: 1rem;
             padding: 0.5rem 1rem;
-            background: rgba(15, 20, 25, 0.9);
+            background: rgba(10, 14, 20, 0.9);
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.9rem;
             color: var(--text-secondary);
             pointer-events: none;
+            border: 1px solid var(--border-subtle);
         }
 
         .canvas-controls {
@@ -952,128 +1242,94 @@
         }
 
         .canvas-btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             background: var(--bg-tertiary);
             border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .canvas-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--text-primary);
+            border-color: var(--ue5-cyan);
+            color: var(--ue5-cyan);
         }
 
         .canvas-btn.active {
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, var(--ue5-blue), var(--ue5-cyan));
             color: var(--text-primary);
-            border-color: var(--accent-primary);
+            border-color: var(--ue5-cyan);
         }
 
-        /* Trailer Structure */
-        .trailer-structure {
+        /* UE5 Tutorials Section */
+        .ue5-tutorials {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, #0d1520 100%);
+            padding: 4rem 4%;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
         }
 
-        .trailer-act {
-            margin-bottom: 2rem;
-            border-left: 3px solid;
-            padding-left: 1.5rem;
-        }
-
-        .trailer-act.act-1 {
-            border-color: var(--accent-tertiary);
-        }
-
-        .trailer-act.act-2 {
-            border-color: var(--accent-primary);
-        }
-
-        .trailer-act.act-3 {
-            border-color: var(--accent-secondary);
-        }
-
-        .trailer-act-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .trailer-act-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .trailer-act.act-1 .trailer-act-title {
-            color: var(--accent-tertiary);
-        }
-
-        .trailer-act.act-2 .trailer-act-title {
-            color: var(--accent-primary);
-        }
-
-        .trailer-act.act-3 .trailer-act-title {
-            color: var(--accent-secondary);
-        }
-
-        .trailer-act-time {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            padding: 0.3rem 0.8rem;
-            background: var(--bg-primary);
-        }
-
-        .trailer-moments {
-            display: grid;
-            gap: 0.8rem;
-        }
-
-        .trailer-moment {
-            display: grid;
-            grid-template-columns: 60px 1fr 1fr;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-primary);
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .trailer-moment:hover {
-            background: var(--bg-tertiary);
-        }
-
-        @media (max-width: 700px) {
-            .trailer-moment {
+        @media (max-width: 768px) {
+            .tutorials-grid {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
             }
         }
 
-        .moment-time {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-tertiary);
+        .tutorial-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 2rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        .moment-desc {
+        .tutorial-card:hover {
+            border-color: var(--ue5-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.2);
+        }
+
+        .tutorial-source {
+            font-size: 0.75rem;
+            color: var(--ue5-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tutorial-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-desc {
             color: var(--text-secondary);
             font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        .moment-visual {
-            color: var(--text-tertiary);
+        .tutorial-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: var(--ue5-cyan);
             font-size: 0.85rem;
-            font-style: italic;
+            font-weight: 600;
         }
 
         /* Footer */
@@ -1088,6 +1344,18 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.8rem;
             color: var(--text-tertiary);
+            margin-bottom: 1rem;
+        }
+
+        .ue5-powered {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 102, 204, 0.1);
+            border: 1px solid rgba(0, 102, 204, 0.3);
+            color: var(--ue5-cyan);
+            font-size: 0.8rem;
             margin-bottom: 1rem;
         }
 
@@ -1115,7 +1383,6 @@
             }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
     <!-- Navigation -->
@@ -1127,8 +1394,8 @@
         <ul class="nav-links">
             <li><a href="#gameplay">Juego</a></li>
             <li><a href="#agents">Agentes</a></li>
+            <li><a href="#maps">Mapas</a></li>
             <li><a href="#economy">Economía</a></li>
-            <li><a href="#prime">Prime</a></li>
             <li><a href="#trailer">Tráiler</a></li>
         </ul>
         <button class="nav-cta">Juega Gratis</button>
@@ -1136,64 +1403,71 @@
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-badge">Temporada 1 — El Gran Colapso</div>
+        <div class="ue5-badge">Powered by Unreal Engine 5.7</div>
         <h1>
             <span>ROMPE EL</span>
             <span class="accent">TIEMPO.</span>
             <span>DOMINA EL</span>
-            <span>ESPACIO.</span>
+            <span>FUTURO.</span>
         </h1>
         <p class="hero-subtitle">
-            El shooter táctico 5v5 donde la realidad es tu arma. Manipula el tiempo, 
-            desafía la física y conquista un mundo fracturado.
+            El shooter táctico 5v5 desarrollado en Unreal Engine 5.7 con Nanite, Lumen y física de próxima generación. 
+            Manipula el tiempo en arquitectura futurista de alta fidelidad.
         </p>
         <div class="hero-cta-group">
-            <button class="btn-primary">Descargar Ahora</button>
-            <button class="btn-secondary" onclick="document.getElementById('trailer').scrollIntoView({behavior: 'smooth'})">Ver Tráiler</button>
+            <button class="btn-primary">Descargar en Epic Games</button>
+            <button class="btn-secondary" onclick="document.getElementById('trailer').scrollIntoView({behavior: 'smooth'})">Ver Tráiler UE5</button>
         </div>
         <div class="hero-stats">
             <div class="stat">
+                <span class="stat-value">UE5</span>
+                <span class="stat-label">Unreal Engine 5.7</span>
+            </div>
+            <div class="stat">
                 <span class="stat-value">5v5</span>
-                <span class="stat-label">Competitivo Táctico</span>
+                <span class="stat-label">Tactical Shooter</span>
             </div>
             <div class="stat">
-                <span class="stat-value">5</span>
-                <span class="stat-label">Manipuladores</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">∞</span>
-                <span class="stat-label">Posibilidades</span>
+                <span class="stat-value">60</span>
+                <span class="stat-label">FPS Estable</span>
             </div>
         </div>
     </section>
 
-    <!-- AGENTS SHOWCASE - TUS AGENTES STYLE -->
+    <!-- AGENTS SHOWCASE - UE5 Style -->
     <section class="agents-showcase" id="agents">
         <div class="agents-showcase-content">
             <div class="agents-visual">
                 <div class="agent-character main">
-                    <div class="character-placeholder kairos"></div>
+                    <div class="ue5-agent-model blue-team">
+                        <div class="agent-suit"></div>
+                        <div class="agent-visor"></div>
+                        <div class="agent-chest-light"></div>
+                    </div>
                 </div>
                 <div class="agent-character secondary">
-                    <div class="character-placeholder echo"></div>
+                    <div class="ue5-agent-model red-team">
+                        <div class="agent-suit red"></div>
+                        <div class="agent-visor"></div>
+                        <div class="agent-chest-light"></div>
+                    </div>
                 </div>
             </div>
             <div class="agents-text">
-                <div class="section-label">Manipuladores Temporales</div>
+                <div class="section-label">Agentes UE5</div>
                 <h2>TUS<br>AGENTES</h2>
                 <p class="tagline">LA CREATIVIDAD ES TU MEJOR ARMA</p>
                 <p>
-                    Más allá de las armas y las balas, podrás elegir a un agente dotado de 
-                    habilidades versátiles, veloces y letales con las que crearás oportunidades 
-                    para sobresalir. Ningún agente se jugará igual, ni ningún momento memorable 
-                    se verá igual.
+                    Modelados en Unreal Engine 5.7 con trajes de alta tecnología, materiales PBR 
+                    y emisivos dinámicos. Cada agente cuenta con esqueletos personalizados y 
+                    animaciones de captura de movimiento.
                 </p>
                 <button class="btn-dark">Ver Todos los Agentes</button>
             </div>
         </div>
     </section>
 
-    <!-- AGENTS GRID - 5 AGENTES -->
+    <!-- AGENTS GRID - 5 AGENTES UE5 -->
     <section class="agents-grid-section">
         <div class="agents-grid">
             <!-- KAIROS -->
@@ -1201,7 +1475,7 @@
                 <div class="agent-image-container">
                     <div class="agent-image-bg"></div>
                     <div class="agent-illustration">
-                        <div class="agent-silhouette kairos-shape"></div>
+                        <div class="ue5-silhouette"></div>
                         <span class="agent-initial">K</span>
                     </div>
                 </div>
@@ -1212,7 +1486,7 @@
                         <div class="ability-mini">Q</div>
                         <div class="ability-mini">E</div>
                         <div class="ability-mini">C</div>
-                        <div class="ability-mini" style="background: var(--accent-tertiary); color: white;">X</div>
+                        <div class="ability-mini" style="background: var(--ue5-cyan); color: var(--bg-primary);">X</div>
                     </div>
                 </div>
             </div>
@@ -1222,7 +1496,7 @@
                 <div class="agent-image-container">
                     <div class="agent-image-bg"></div>
                     <div class="agent-illustration">
-                        <div class="agent-silhouette echo-shape"></div>
+                        <div class="ue5-silhouette echo"></div>
                         <span class="agent-initial">E</span>
                     </div>
                 </div>
@@ -1243,7 +1517,7 @@
                 <div class="agent-image-container">
                     <div class="agent-image-bg"></div>
                     <div class="agent-illustration">
-                        <div class="agent-silhouette nexus-shape"></div>
+                        <div class="ue5-silhouette nexus"></div>
                         <span class="agent-initial">N</span>
                     </div>
                 </div>
@@ -1254,17 +1528,17 @@
                         <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">Q</div>
                         <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">E</div>
                         <div class="ability-mini" style="border-color: var(--accent-quinary); color: var(--accent-quinary);">C</div>
-                        <div class="ability-mini" style="background: var(--accent-quinary); color: var(--bg-primary);">X</div>
+                        <div class="ability-mini" style="background: var(--accent-quinary); color: var(--text-primary);">X</div>
                     </div>
                 </div>
             </div>
 
-            <!-- VEX - NUEVO: Centinela de Sombras -->
+            <!-- VEX - Centinela -->
             <div class="agent-card vex">
                 <div class="agent-image-container">
                     <div class="agent-image-bg"></div>
                     <div class="agent-illustration">
-                        <div class="agent-silhouette vex-shape"></div>
+                        <div class="ue5-silhouette vex"></div>
                         <span class="agent-initial">V</span>
                     </div>
                 </div>
@@ -1280,12 +1554,12 @@
                 </div>
             </div>
 
-            <!-- STRYKER - NUEVO: Artillero Pesado -->
+            <!-- STRYKER - Artillero -->
             <div class="agent-card stryker">
                 <div class="agent-image-container">
                     <div class="agent-image-bg"></div>
                     <div class="agent-illustration">
-                        <div class="agent-silhouette stryker-shape"></div>
+                        <div class="ue5-silhouette stryker"></div>
                         <span class="agent-initial">S</span>
                     </div>
                 </div>
@@ -1293,11 +1567,57 @@
                     <div class="agent-name-grid">STRYKER</div>
                     <div class="agent-role-grid">Artillero Pesado</div>
                     <div class="agent-abilities-mini">
-                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">Q</div>
-                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">E</div>
-                        <div class="ability-mini" style="border-color: #ff6b6b; color: #ff6b6b;">C</div>
-                        <div class="ability-mini" style="background: #ff6b6b; color: white;">X</div>
+                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">Q</div>
+                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">E</div>
+                        <div class="ability-mini" style="border-color: var(--accent-primary); color: var(--accent-primary);">C</div>
+                        <div class="ability-mini" style="background: var(--accent-primary); color: white;">X</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAPS SECTION - UE5 Clean Architecture -->
+    <section class="maps-section" id="maps">
+        <div class="section-header">
+            <div class="section-title-group">
+                <div class="section-label">Entornos UE5</div>
+                <h2 class="section-title">Mapas Nanite</h2>
+                <p class="section-desc">Arquitectura futurista con geometría ilimitada y iluminación Lumen en tiempo real.</p>
+            </div>
+        </div>
+        
+        <div class="maps-showcase">
+            <div class="map-featured">
+                <div class="map-geometry">
+                    <div class="arch-structure"></div>
+                    <div class="arch-structure"></div>
+                    <div class="arch-structure"></div>
+                    <div class="neon-accent horizontal"></div>
+                    <div class="neon-accent vertical"></div>
+                </div>
+                <div class="map-info">
+                    <div class="map-name">NEXUS PRIME</div>
+                    <div class="map-desc">Instalación de investigación temporal con geometría limpia y portales activos</div>
+                </div>
+            </div>
+            
+            <div class="maps-list">
+                <div class="map-card">
+                    <div class="map-card-name">VERTIGO STATION</div>
+                    <div class="map-card-type">3 Niveles Verticales</div>
+                </div>
+                <div class="map-card">
+                    <div class="map-card-name">ECHO CHAMBER</div>
+                    <div class="map-card-type">Simetría Perfecta</div>
+                </div>
+                <div class="map-card">
+                    <div class="map-card-name">FRACTURE POINT</div>
+                    <div class="map-card-type">Zonas de Colapso Temporal</div>
+                </div>
+                <div class="map-card">
+                    <div class="map-card-name">CLEAN ROOM</div>
+                    <div class="map-card-type">Combate Cercano</div>
                 </div>
             </div>
         </div>
@@ -1307,26 +1627,26 @@
     <section class="gameplay-section" id="gameplay">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Sistema de Juego</div>
-                <h2 class="section-title">La Realidad es tu Arma</h2>
-                <p class="section-desc">Sin habilidades tradicionales. Solo estados temporales que alteran las reglas del combate.</p>
+                <div class="section-label">Tecnología UE5</div>
+                <h2 class="section-title">Fidelidad de Próxima Generación</h2>
+                <p class="section-desc">Aprovecha el poder de Unreal Engine 5.7 para una experiencia sin precedentes.</p>
             </div>
         </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-number">01</div>
-                <h3 class="feature-title">Estados Temporales</h3>
-                <p class="feature-desc">Rebobina tu posición, congela el tiempo localmente, o divide tu realidad. Cada estado consume energía de equipo — estrategia colectiva, no individual.</p>
+                <h3 class="feature-title">Nanite Virtualized Geometry</h3>
+                <p class="feature-desc">Geometría cinematográfica con millones de polígonos en tiempo real. Sin límites de LOD.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-number">02</div>
-                <h3 class="feature-title">Armas Evolutivas</h3>
-                <p class="feature-desc">Seis núcleos base con módulos intercambiables. Tu VORTEX nivel 80 es único. Evoluciona con uso, no con dinero.</p>
+                <h3 class="feature-title">Lumen Global Illumination</h3>
+                <p class="feature-desc">Iluminación global dinámica con rebotes de luz en tiempo real. Reflejos realistas.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-number">03</div>
-                <h3 class="feature-title">Singularidad</h3>
-                <p class="feature-desc">Captura núcleos en movimiento orbital. No hay planta estática — el objetivo fluye constantemente. Ataque y defensa simultáneos.</p>
+                <h3 class="feature-title">Chaos Physics & Destruction</h3>
+                <p class="feature-desc">Física de cuerpo rígido y destrucción procedural en tiempo real. Rompe el entorno.</p>
             </div>
         </div>
     </section>
@@ -1367,7 +1687,7 @@
         <div class="prime-badge">Membresía Premium</div>
         <h2 class="prime-title">FRACTURE PRIME</h2>
         <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
-            La experiencia definitiva. Conveniencia sin ventaja. Progreso acelerado.
+            La experiencia definitiva UE5. Conveniencia sin ventaja. Progreso acelerado.
         </p>
         <div class="prime-price">$9.99<span>/mes</span></div>
         <div class="prime-features">
@@ -1407,14 +1727,13 @@
     <section class="trailer-section" id="trailer">
         <div class="section-header">
             <div class="section-title-group">
-                <div class="section-label">Cinemática Interactiva</div>
+                <div class="section-label">Cinemática UE5</div>
                 <h2 class="section-title">Ver Tráiler</h2>
-                <p class="section-desc">2 minutos 15 segundos que redefinen el tiempo. Canvas interactivo con JavaScript.</p>
+                <p class="section-desc">2 minutos 15 segundos de gameplay real en Unreal Engine 5.7.</p>
             </div>
         </div>
         
         <div class="trailer-container">
-            <!-- HTML5 Canvas Container -->
             <div class="canvas-container">
                 <canvas id="trailerCanvas" width="1000" height="562"></canvas>
                 <div class="canvas-overlay" id="canvasOverlay">
@@ -1423,140 +1742,75 @@
                 <div class="canvas-duration">02:15</div>
             </div>
 
-            <!-- Canvas Controls -->
             <div class="canvas-controls">
                 <button class="canvas-btn active" onclick="setTrailerScene('act1')">Acto I: El Despertar</button>
                 <button class="canvas-btn" onclick="setTrailerScene('act2')">Acto II: La Fractura</button>
                 <button class="canvas-btn" onclick="setTrailerScene('act3')">Acto III: El Eco</button>
                 <button class="canvas-btn" onclick="toggleAnimation()">Pausar/Play</button>
             </div>
+        </div>
+    </section>
 
-            <!-- Trailer Structure -->
-            <div class="trailer-structure">
-                <!-- Act I -->
-                <div class="trailer-act act-1">
-                    <div class="trailer-act-header">
-                        <h3 class="trailer-act-title">Acto I: El Despertar</h3>
-                        <span class="trailer-act-time">0:00 - 0:45</span>
-                    </div>
-                    <div class="trailer-moments">
-                        <div class="trailer-moment" onclick="setTrailerScene('act1', 0)">
-                            <span class="moment-time">0:00</span>
-                            <span class="moment-desc">Apertura con glitch temporal — el logo FRACTURE se forma de fragmentos de realidad</span>
-                            <span class="moment-visual">Efectos de distorsión cromática, sonido de cristales rotos</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act1', 1)">
-                            <span class="moment-time">0:12</span>
-                            <span class="moment-desc">Primer vistazo al mundo: ciudad fracturada entre dos líneas temporales</span>
-                            <span class="moment-visual">Split-screen de día/noche simultáneo, arquitectura distorsionada</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act1', 2)">
-                            <span class="moment-time">0:28</span>
-                            <span class="moment-desc">KAIROS emerge del tiempo congelado — primer uso de habilidad temporal</span>
-                            <span class="moment-visual">Efecto de partículas doradas, cámara lenta extrema</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Act II -->
-                <div class="trailer-act act-2">
-                    <div class="trailer-act-header">
-                        <h3 class="trailer-act-title">Acto II: La Fractura</h3>
-                        <span class="trailer-act-time">0:45 - 1:30</span>
-                    </div>
-                    <div class="trailer-moments">
-                        <div class="trailer-moment" onclick="setTrailerScene('act2', 0)">
-                            <span class="moment-time">0:45</span>
-                            <span class="moment-desc">Combate 5v5 en la Singularidad — el núcleo orbital gira entre dimensiones</span>
-                            <span class="moment-visual">Gameplay rápido, transiciones entre realidades, HUD minimalista</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act2', 1)">
-                            <span class="moment-time">1:02</span>
-                            <span class="moment-desc">ECHO crea su red de ilusiones — 6 clones atacan simultáneamente</span>
-                            <span class="moment-visual">Efecto espejo, reflejos morados, confusión táctica</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act2', 2)">
-                            <span class="moment-time">1:18</span>
-                            <span class="moment-desc">NEXUS abre un portal que dobla el espacio — balas atraviesan dimensiones</span>
-                            <span class="moment-visual">Distorsión gravitacional, lentes de agua, geometría imposible</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Act III -->
-                <div class="trailer-act act-3">
-                    <div class="trailer-act-header">
-                        <h3 class="trailer-act-title">Acto III: El Eco</h3>
-                        <span class="trailer-act-time">1:30 - 2:15</span>
-                    </div>
-                    <div class="trailer-moments">
-                        <div class="trailer-moment" onclick="setTrailerScene('act3', 0)">
-                            <span class="moment-time">1:30</span>
-                            <span class="moment-desc">Clímax: los tres agentes usan habilidades simultáneas — el tiempo se rompe</span>
-                            <span class="moment-visual">Efecto de triple exposición, colores saturados, caos controlado</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act3', 1)">
-                            <span class="moment-time">1:55</span>
-                            <span class="moment-desc">La realidad se recompone — victoria en cámara ultra-lenta</span>
-                            <span class="moment-visual">Partículas regresando al centro, silencio total, impacto final</span>
-                        </div>
-                        <div class="trailer-moment" onclick="setTrailerScene('act3', 2)">
-                            <span class="moment-time">2:08</span>
-                            <span class="moment-desc">Logo FRACTURE + tagline: "El tiempo es tu arma"</span>
-                            <span class="moment-visual">Fade to black, texto glitch, CTA "Juega Gratis"</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- UE5 TUTORIALS SECTION -->
+    <section class="ue5-tutorials">
+        <div class="section-header" style="text-align: center; justify-content: center;">
+            <div class="section-title-group">
+                <div class="section-label">Aprende UE5</div>
+                <h2 class="section-title">Crea Tu Propio Juego</h2>
+                <p class="section-desc">Tutoriales oficiales de Epic Games para desarrollar en Unreal Engine 5.</p>
             </div>
+        </div>
+        
+        <div class="tutorials-grid">
+            <a href="https://dev.epicgames.com/community/learning/tutorials/e2V/your-first-game-in-unreal-engine-5" target="_blank" class="tutorial-card">
+                <div class="tutorial-source">Epic Games Official</div>
+                <div class="tutorial-title">Your First Game in Unreal Engine 5</div>
+                <div class="tutorial-desc">
+                    Tutorial completo paso a paso para crear tu primer juego en UE5. 
+                    Blueprints, cinemáticas y packaging.
+                </div>
+                <div class="tutorial-link">Ver Tutorial →</div>
+            </a>
+
+            <a href="https://www.fab.com/listings/93faede1-4434-47c0-85f1-bf27c0820ad0" target="_blank" class="tutorial-card">
+                <div class="tutorial-source">Fab Marketplace</div>
+                <div class="tutorial-title">UE5 Game Assets & Templates</div>
+                <div class="tutorial-desc">
+                    Assets profesionales, templates y sistemas listos para usar en tu 
+                    proyecto de FRACTURE. Personajes, armas y entornos.
+                </div>
+                <div class="tutorial-link">Explorar Assets →</div>
+            </a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-timestamp">TIMESTAMP: 2026-03-21 14:31 UTC</div>
+        <div class="ue5-powered">◆ Powered by Unreal Engine 5.7</div>
         <p>© 2026 Fracture Game Inc. Todos los derechos reservados.</p>
         <p class="disclaimer">
-            FRACTURE es un juego independiente. No está afiliado, asociado, autorizado, respaldado, 
-            patrocinado o de ninguna manera conectado con Riot Games, Inc., Valorant, o cualquiera 
-            de sus subsidiarias o afiliadas. Valorant es marca registrada de Riot Games, Inc.
+            FRACTURE es un juego independiente desarrollado en Unreal Engine 5. 
+            Unreal Engine es marca registrada de Epic Games, Inc.
         </p>
     </footer>
 
     <!-- JavaScript for Canvas Animation -->
     <script>
-        // Canvas Setup
         const canvas = document.getElementById('trailerCanvas');
         const ctx = canvas.getContext('2d');
         let animationId;
         let isPlaying = true;
         let currentScene = 'act1';
-        let sceneProgress = 0;
 
-        // Scene configurations
         const scenes = {
-            act1: {
-                colors: ['#bd00ff', '#ff4655', '#0f1419'],
-                particles: [],
-                title: 'EL DESPERTAR'
-            },
-            act2: {
-                colors: ['#ff4655', '#00d4aa', '#1a1f2e'],
-                particles: [],
-                title: 'LA FRACTURA'
-            },
-            act3: {
-                colors: ['#00d4aa', '#bd00ff', '#242b3d'],
-                particles: [],
-                title: 'EL ECO'
-            }
+            act1: { colors: ['#00d4ff', '#0066cc', '#0a0e14'], title: 'EL DESPERTAR' },
+            act2: { colors: ['#ff4655', '#00d4aa', '#111820'], title: 'LA FRACTURA' },
+            act3: { colors: ['#00d4aa', '#bd00ff', '#1a2330'], title: 'EL ECO' }
         };
 
-        // Particle class for visual effects
         class Particle {
-            constructor(scene) {
-                this.reset(scene);
-            }
-
+            constructor(scene) { this.reset(scene); }
             reset(scene) {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
@@ -1567,17 +1821,14 @@
                 this.life = 1;
                 this.decay = Math.random() * 0.01 + 0.005;
             }
-
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
                 this.life -= this.decay;
-
                 if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
                     this.reset(currentScene);
                 }
             }
-
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.life;
@@ -1589,38 +1840,23 @@
             }
         }
 
-        // Initialize particles
-        function initParticles() {
-            for (let scene in scenes) {
-                scenes[scene].particles = [];
-                for (let i = 0; i < 100; i++) {
-                    scenes[scene].particles.push(new Particle(scene));
-                }
-            }
+        for (let scene in scenes) {
+            scenes[scene].particles = [];
+            for (let i = 0; i < 100; i++) scenes[scene].particles.push(new Particle(scene));
         }
 
-        // Draw glitch effect
         function drawGlitch(text, x, y, time) {
             const glitchOffset = Math.sin(time * 0.01) * 5;
-            
-            // Red channel offset
             ctx.fillStyle = '#ff4655';
             ctx.fillText(text, x - glitchOffset, y);
-            
-            // Cyan channel offset
             ctx.fillStyle = '#00d4aa';
             ctx.fillText(text, x + glitchOffset, y);
-            
-            // Main text
-            ctx.fillStyle = '#f9f9f9';
+            ctx.fillStyle = '#f0f4f8';
             ctx.fillText(text, x, y);
         }
 
-        // Draw geometric shapes
         function drawGeometricShapes(time, scene) {
             const colors = scenes[scene].colors;
-            
-            // Rotating diamond
             ctx.save();
             ctx.translate(canvas.width / 2, canvas.height / 2);
             ctx.rotate(time * 0.001);
@@ -1635,7 +1871,6 @@
             ctx.stroke();
             ctx.restore();
 
-            // Pulsing circles
             for (let i = 0; i < 3; i++) {
                 const radius = 50 + i * 40 + Math.sin(time * 0.002 + i) * 20;
                 ctx.beginPath();
@@ -1647,69 +1882,34 @@
             ctx.globalAlpha = 1;
         }
 
-        // Draw scene-specific content
         function drawSceneContent(time, scene) {
             ctx.font = 'bold 60px "Space Grotesk", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            
-            // Draw title with glitch effect
             drawGlitch(scenes[scene].title, canvas.width / 2, canvas.height / 2 - 50, time);
-            
-            // Draw subtitle
             ctx.font = '300 20px Inter, sans-serif';
-            ctx.fillStyle = '#8b978b';
-            const subtitles = {
-                act1: 'El tiempo se detiene...',
-                act2: 'La realidad se divide...',
-                act3: 'Todo converge...'
-            };
+            ctx.fillStyle = '#94a3b8';
+            const subtitles = { act1: 'Unreal Engine 5.7', act2: 'Nanite & Lumen', act3: 'Chaos Physics' };
             ctx.fillText(subtitles[scene], canvas.width / 2, canvas.height / 2 + 30);
         }
 
-        // Main animation loop
         function animate(time) {
             if (!isPlaying) return;
-
-            // Clear canvas with fade effect
-            ctx.fillStyle = 'rgba(15, 20, 25, 0.1)';
+            ctx.fillStyle = 'rgba(10, 14, 20, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Update and draw particles
-            scenes[currentScene].particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            // Draw geometric shapes
+            scenes[currentScene].particles.forEach(p => { p.update(); p.draw(); });
             drawGeometricShapes(time, currentScene);
-
-            // Draw scene content
             drawSceneContent(time, currentScene);
-
-            // Update scene progress
-            sceneProgress += 0.001;
-            if (sceneProgress > 1) sceneProgress = 0;
-
             animationId = requestAnimationFrame(animate);
         }
 
-        // Set trailer scene
-        function setTrailerScene(scene, moment = null) {
+        function setTrailerScene(scene) {
             currentScene = scene;
-            sceneProgress = 0;
-            
-            // Update button states
-            document.querySelectorAll('.canvas-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.canvas-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Reset particles for new scene
             scenes[scene].particles.forEach(p => p.reset(scene));
         }
 
-        // Toggle animation
         function toggleAnimation() {
             isPlaying = !isPlaying;
             if (isPlaying) {
@@ -1721,13 +1921,7 @@
             }
         }
 
-        // Canvas click handler
-        canvas.addEventListener('click', () => {
-            toggleAnimation();
-        });
-
-        // Initialize
-        initParticles();
+        canvas.addEventListener('click', toggleAnimation);
         animate(0);
     </script>
 </body>
