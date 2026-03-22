@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FRACTURE | 5v5 Tactical Shooter - Rompe el Tiempo</title>
+    <title>BLOCKS | 5v5 Tactical Shooter - Construye Tu Leyenda</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,8 @@
             --bg-primary: #0a0e14;
             --bg-secondary: #111820;
             --bg-tertiary: #1a2330;
-            --accent-primary: #ff4655;
+            --accent-gold: #ffc107;
+            --accent-orange: #ff6b35;
             --sentinel: #ff6b35;
             --controller: #00d4ff;
             --duelist: #ff4655;
@@ -27,11 +28,30 @@
             --text-secondary: #94a3b8;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
         }
 
         /* Navigation */
@@ -47,6 +67,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s;
         }
 
         .logo {
@@ -63,9 +84,9 @@
         .logo-mark {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--controller), var(--duelist));
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: pulse 2s infinite;
+            animation: pulse-glow 2s infinite;
             position: relative;
         }
 
@@ -77,9 +98,9 @@
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         }
 
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 193, 7, 0.8); }
         }
 
         .nav-links {
@@ -96,16 +117,16 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
-            position: relative;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
-            color: var(--controller);
+            color: var(--accent-gold);
         }
 
         .nav-cta {
             padding: 0.8rem 2rem;
-            background: var(--duelist);
+            background: var(--accent-orange);
             color: white;
             font-size: 0.85rem;
             font-weight: 700;
@@ -119,7 +140,7 @@
 
         .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 70, 85, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
         }
 
         /* Hero Section */
@@ -131,8 +152,8 @@
             padding: 8rem 4% 4rem;
             position: relative;
             background: 
-                radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, rgba(255, 70, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 50%, rgba(255, 193, 7, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
                 var(--bg-primary);
         }
 
@@ -155,7 +176,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--controller);
+            color: var(--accent-gold);
             font-family: 'Rajdhani', sans-serif;
             font-size: 1rem;
             font-weight: 600;
@@ -163,8 +184,8 @@
             letter-spacing: 2px;
             margin-bottom: 1.5rem;
             padding: 0.5rem 1.2rem;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
@@ -178,9 +199,9 @@
             text-transform: uppercase;
         }
 
-        .hero h1 .fracture {
+        .hero h1 .blocks {
             display: block;
-            background: linear-gradient(135deg, #fff 0%, var(--controller) 50%, var(--duelist) 100%);
+            background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 50%, var(--accent-orange) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -204,11 +225,12 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 4rem;
+            flex-wrap: wrap;
         }
 
         .btn-play {
             padding: 1.2rem 3rem;
-            background: var(--duelist);
+            background: var(--accent-orange);
             color: white;
             font-size: 1rem;
             font-weight: 700;
@@ -239,7 +261,7 @@
 
         .btn-play:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 70, 85, 0.5);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
         }
 
         .btn-trailer {
@@ -257,9 +279,9 @@
         }
 
         .btn-trailer:hover {
-            border-color: var(--controller);
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--controller);
+            border-color: var(--accent-gold);
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--accent-gold);
         }
 
         .team-comp {
@@ -268,14 +290,15 @@
             gap: 2rem;
             padding: 1.5rem 2rem;
             background: rgba(17, 24, 32, 0.8);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.2);
             clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+            flex-wrap: wrap;
         }
 
         .comp-label {
             font-family: 'Rajdhani', sans-serif;
             font-size: 0.9rem;
-            color: var(--text-tertiary);
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -298,14 +321,12 @@
         }
 
         .comp-slot.filled {
-            border-color: var(--controller);
-            background: rgba(0, 212, 255, 0.1);
-            animation: slotPulse 2s infinite;
+            animation: slot-pulse 2s infinite;
         }
 
-        @keyframes slotPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
+        @keyframes slot-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 193, 7, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.6); }
         }
 
         /* Roles Section */
@@ -321,7 +342,7 @@
 
         .section-label {
             font-family: 'Rajdhani', sans-serif;
-            color: var(--duelist);
+            color: var(--accent-orange);
             font-size: 1rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -409,10 +430,10 @@
             background: var(--role-color);
             opacity: 0.2;
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: rotateIcon 8s linear infinite;
+            animation: rotate-icon 8s linear infinite;
         }
 
-        @keyframes rotateIcon {
+        @keyframes rotate-icon {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -476,6 +497,7 @@
             font-weight: 700;
             font-size: 0.85rem;
             clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            color: white;
         }
 
         .ability-name {
@@ -516,6 +538,301 @@
             box-shadow: 0 0 10px var(--role-color);
         }
 
+        /* Currency Section */
+        .currency-section {
+            padding: 6rem 4%;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .currency-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .currency-bg::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            filter: blur(128px);
+        }
+
+        .currency-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 20%;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            filter: blur(128px);
+        }
+
+        .currency-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .currency-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .info-card {
+            background: rgba(26, 35, 48, 0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Pricing Plans */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-card {
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 193, 7, 0.5);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gold);
+            color: black;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .plan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blocks-amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0.2rem;
+        }
+
+        .blocks-label {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bonus-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: var(--accent-gold);
+            color: black;
+        }
+
+        .pricing-card.popular .btn-buy {
+            background: var(--accent-gold);
+            color: black;
+        }
+
+        .pricing-card.popular .btn-buy:hover {
+            background: #ffd54f;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            text-align: center;
+        }
+
+        .payment-methods p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-option {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            min-width: 280px;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover {
+            border-color: var(--accent-gold);
+            background: rgba(255,193,7,0.05);
+        }
+
+        .payment-option.paypal {
+            border-left: 4px solid #0070ba;
+        }
+
+        .payment-option.bank {
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .payment-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .payment-option span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .account-number {
+            margin-top: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .account-number span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .account-number code {
+            background: rgba(0,0,0,0.4);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            border: 1px solid rgba(255,193,7,0.3);
+        }
+
+        .copy-btn {
+            margin-top: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-gold);
+            color: black;
+            border-color: var(--accent-gold);
+        }
+
         /* Team Builder */
         .team-builder {
             padding: 4rem 4%;
@@ -540,6 +857,7 @@
             justify-content: center;
             gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .builder-slot {
@@ -558,14 +876,14 @@
         }
 
         .builder-slot:hover {
-            border-color: var(--controller);
-            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--accent-gold);
+            background: rgba(255, 193, 7, 0.05);
         }
 
         .builder-slot.filled {
             border-style: solid;
-            border-color: var(--controller);
-            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-gold);
+            background: rgba(255, 193, 7, 0.1);
         }
 
         .slot-number {
@@ -575,7 +893,7 @@
             width: 24px;
             height: 24px;
             background: var(--bg-primary);
-            border: 2px solid var(--controller);
+            border: 2px solid var(--accent-gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -605,10 +923,42 @@
             font-size: 0.9rem;
         }
 
+        .role-selector {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .role-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .role-btn:hover {
+            border-color: var(--accent-gold);
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .role-btn-icon {
+            width: 16px;
+            height: 16px;
+        }
+
         /* CTA Section */
         .cta-section {
             padding: 6rem 4%;
-            background: linear-gradient(135deg, var(--duelist) 0%, #cc2938 100%);
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #cc2938 100%);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -619,10 +969,10 @@
             inset: 0;
             background: 
                 repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 70px);
-            animation: slideBg 20s linear infinite;
+            animation: slide-bg 20s linear infinite;
         }
 
-        @keyframes slideBg {
+        @keyframes slide-bg {
             0% { transform: translate(0, 0); }
             100% { transform: translate(70px, 70px); }
         }
@@ -651,7 +1001,7 @@
         .cta-btn {
             padding: 1.5rem 4rem;
             background: white;
-            color: var(--duelist);
+            color: var(--accent-orange);
             font-size: 1.1rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -716,7 +1066,7 @@
         }
 
         .footer-col a:hover {
-            color: var(--controller);
+            color: var(--accent-gold);
         }
 
         .footer-bottom {
@@ -727,10 +1077,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .footer-bottom p {
-            color: var(--text-tertiary);
+            color: var(--text-secondary);
             font-size: 0.8rem;
         }
 
@@ -748,28 +1100,146 @@
             justify-content: center;
             transition: all 0.3s;
             border: 1px solid transparent;
+            border-radius: 8px;
         }
 
         .social-icon:hover {
-            border-color: var(--controller);
+            border-color: var(--accent-gold);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
         }
 
-        .social-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--text-secondary);
-            transition: fill 0.3s;
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
         }
 
-        .social-icon:hover svg {
-            fill: var(--controller);
+        .modal-overlay.active {
+            display: flex;
         }
 
+        .modal {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modal-in 0.3s ease;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-blocks {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .modal-btn.cancel {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .modal-btn.cancel:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .modal-btn.confirm {
+            background: var(--accent-gold);
+            color: black;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #ffd54f;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
         @media (max-width: 1200px) {
             .roles-container {
                 grid-template-columns: repeat(3, 1fr);
+            }
+            .pricing-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .currency-info {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -777,13 +1247,18 @@
             .roles-container {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+            .pricing-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .nav-links {
                 display: none;
             }
-            
             .footer-content {
                 grid-template-columns: 1fr 1fr;
+            }
+            .team-comp {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
 
@@ -791,9 +1266,14 @@
             .roles-container {
                 grid-template-columns: 1fr;
             }
-            
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
             .builder-slots {
                 flex-wrap: wrap;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -801,18 +1281,19 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <a href="#" class="logo">
             <div class="logo-mark"></div>
-            FRACTURE
+            BLOCKS
         </a>
         <ul class="nav-links">
-            <li><a href="#roles">Roles</a></li>
-            <li><a href="#arsenal">Arsenal</a></li>
-            <li><a href="#maps">Mapas</a></li>
-            <li><a href="#esports">Esports</a></li>
+            <li><a onclick="scrollToSection('roles')">Roles</a></li>
+            <li><a onclick="scrollToSection('arsenal')">Arsenal</a></li>
+            <li><a onclick="scrollToSection('maps')">Mapas</a></li>
+            <li><a onclick="scrollToSection('currency')">Moneda</a></li>
+            <li><a onclick="scrollToSection('esports')">Esports</a></li>
         </ul>
-        <button class="nav-cta">Juega Gratis</button>
+        <button class="nav-cta" onclick="showToast('¡Descarga iniciada!')">Juega Gratis</button>
     </nav>
 
     <!-- Hero Section -->
@@ -820,18 +1301,24 @@
         <canvas id="particleCanvas"></canvas>
         <div class="hero-content">
             <div class="game-badge">
-                <span>◉</span> 5v5 Tactical Shooter
+                <span>✦</span> 5v5 Tactical Shooter
             </div>
             <h1>
-                <span class="fracture">FRACTURE</span>
-                <span class="tagline">ROMPE EL TIEMPO</span>
+                <span class="blocks">BLOCKS</span>
+                <span class="tagline">CONSTRUYE TU LEYENDA</span>
             </h1>
             <p class="hero-desc">
-                Un shooter táctico 5 contra 5 donde el tiempo es tu arma. Domina 5 roles únicos, cada uno con habilidades que desafían la física. Coordina con tu equipo, ejecuta estrategias perfectas y conquista el campo de batalla.
+                Un shooter táctico 5 contra 5 donde cada bloque cuenta. Domina 5 roles únicos, 
+                cada uno con habilidades que desafían la física. Coordina con tu equipo, 
+                ejecuta estrategias perfectas y conquista el campo de batalla.
             </p>
             <div class="hero-buttons">
-                <button class="btn-play" onclick="createBurst(event)">Descargar Gratis</button>
-                <button class="btn-trailer">Ver Gameplay</button>
+                <button class="btn-play" onclick="createBurst(event); showToast('¡Descarga iniciada!')">
+                    ⚡ Descargar Gratis
+                </button>
+                <button class="btn-trailer" onclick="showToast('Tráiler próximamente')">
+                    ▶ Ver Gameplay
+                </button>
             </div>
             
             <div class="team-comp">
@@ -856,8 +1343,8 @@
         </div>
 
         <div class="roles-container">
-            <!-- SENTINEL - Defensa/Retaguardia -->
-            <div class="role-card" style="--role-color: #ff6b35; --role-glow: rgba(255, 107, 53, 0.4)" onclick="selectRole('sentinel')">
+            <!-- SENTINEL -->
+            <div class="role-card" style="--role-color: #ff6b35; --role-glow: rgba(255, 107, 53, 0.4)">
                 <div class="role-header">
                     <div class="role-icon">
                         <div class="role-icon-bg"></div>
@@ -901,8 +1388,8 @@
                 </div>
             </div>
 
-            <!-- CONTROLLER - Control de Mapa -->
-            <div class="role-card" style="--role-color: #00d4ff; --role-glow: rgba(0, 212, 255, 0.4)" onclick="selectRole('controller')">
+            <!-- CONTROLLER -->
+            <div class="role-card" style="--role-color: #00d4ff; --role-glow: rgba(0, 212, 255, 0.4)">
                 <div class="role-header">
                     <div class="role-icon">
                         <div class="role-icon-bg"></div>
@@ -913,7 +1400,7 @@
                 </div>
                 <div class="role-body">
                     <p class="role-desc">
-                        Domina la visión del campo de batalla. Bloquea líneas de visión, divide el mapa y crea oportunidades para tu equipo.
+                        Domina la visión del campo de batalla. Bloquea líneas de visión, divide el mapa y crea oportunidades.
                     </p>
                     <div class="abilities-list">
                         <div class="ability-row">
@@ -946,8 +1433,8 @@
                 </div>
             </div>
 
-            <!-- DUELIST - Entrada/Frag -->
-            <div class="role-card" style="--role-color: #ff4655; --role-glow: rgba(255, 70, 85, 0.4)" onclick="selectRole('duelist')">
+            <!-- DUELIST -->
+            <div class="role-card" style="--role-color: #ff4655; --role-glow: rgba(255, 70, 85, 0.4)">
                 <div class="role-header">
                     <div class="role-icon">
                         <div class="role-icon-bg"></div>
@@ -958,7 +1445,7 @@
                 </div>
                 <div class="role-body">
                     <p class="role-desc">
-                        Especialista en eliminaciones y entrada agresiva. Alta movilidad y daño. El primero en entrar, el último en salir.
+                        Especialista en eliminaciones y entrada agresiva. Alta movilidad y daño. El primero en entrar.
                     </p>
                     <div class="abilities-list">
                         <div class="ability-row">
@@ -992,8 +1479,8 @@
                 </div>
             </div>
 
-            <!-- INITIATOR - Apertura/Info -->
-            <div class="role-card" style="--role-color: #00ff88; --role-glow: rgba(0, 255, 136, 0.4)" onclick="selectRole('initiator')">
+            <!-- INITIATOR -->
+            <div class="role-card" style="--role-color: #00ff88; --role-glow: rgba(0, 255, 136, 0.4)">
                 <div class="role-header">
                     <div class="role-icon">
                         <div class="role-icon-bg"></div>
@@ -1004,7 +1491,7 @@
                 </div>
                 <div class="role-body">
                     <p class="role-desc">
-                        Abre espacios y revela enemigos. Especialista en información y preparación del terreno para el equipo.
+                        Abre espacios y revela enemigos. Especialista en información y preparación del terreno.
                     </p>
                     <div class="abilities-list">
                         <div class="ability-row">
@@ -1037,8 +1524,8 @@
                 </div>
             </div>
 
-            <!-- FLEX - Híbrido/Adaptativo -->
-            <div class="role-card" style="--role-color: #bd00ff; --role-glow: rgba(189, 0, 255, 0.4)" onclick="selectRole('flex')">
+            <!-- FLEX -->
+            <div class="role-card" style="--role-color: #bd00ff; --role-glow: rgba(189, 0, 255, 0.4)">
                 <div class="role-header">
                     <div class="role-icon">
                         <div class="role-icon-bg"></div>
@@ -1049,7 +1536,7 @@
                 </div>
                 <div class="role-body">
                     <p class="role-desc">
-                        Rol adaptativo que cambia según la necesidad. Soporte táctico con habilidades de utilidad mixta. El comodín del equipo.
+                        Rol adaptativo que cambia según la necesidad. Soporte táctico con habilidades de utilidad mixta.
                     </p>
                     <div class="abilities-list">
                         <div class="ability-row">
@@ -1086,38 +1573,164 @@
         </div>
     </section>
 
+    <!-- Currency Section -->
+    <section class="currency-section" id="currency">
+        <div class="currency-bg"></div>
+        <div class="currency-container">
+            <div class="section-header">
+                <div class="section-label" style="color: var(--accent-gold);">✦ Moneda Oficial</div>
+                <h2 class="section-title">BLOCKS</h2>
+                <p class="section-subtitle">
+                    La moneda premium de BLOCKS. Desbloquea skins, personajes, pases de batalla y más contenido exclusivo.
+                </p>
+            </div>
+
+            <div class="currency-info">
+                <div class="info-card">
+                    <div class="info-icon">🎁</div>
+                    <h3>Recompensas Exclusivas</h3>
+                    <p>Desbloquea skins únicas, animaciones y efectos especiales para tus agentes.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⭐</div>
+                    <h3>Pase de Batalla</h3>
+                    <p>Accede al pase premium con recompensas épicas cada temporada.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <h3>Agentes Nuevos</h3>
+                    <p>Desbloquea instantáneamente a los nuevos agentes sin esperar.</p>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-card">
+                    <div class="plan-icon">🥉</div>
+                    <div class="blocks-amount">475</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="plan-price">$4.99</div>
+                    <button class="btn-buy" onclick="openModal(475, 4.99)">Comprar</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-icon">🥈</div>
+                    <div class="blocks-amount">1,000</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="bonus-badge">+50 BONUS</div>
+                    <div class="plan-price">$9.99</div>
+                    <button class="btn-buy" onclick="openModal(1050, 9.99)">Comprar</button>
+                </div>
+
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Más Popular</div>
+                    <div class="plan-icon">🥇</div>
+                    <div class="blocks-amount">2,050</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="bonus-badge">+150 BONUS</div>
+                    <div class="plan-price">$19.99</div>
+                    <button class="btn-buy" onclick="openModal(2200, 19.99)">Comprar</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-icon">💎</div>
+                    <div class="blocks-amount">3,650</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="bonus-badge">+350 BONUS</div>
+                    <div class="plan-price">$34.99</div>
+                    <button class="btn-buy" onclick="openModal(4000, 34.99)">Comprar</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-icon">👑</div>
+                    <div class="blocks-amount">5,350</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="bonus-badge">+600 BONUS</div>
+                    <div class="plan-price">$49.99</div>
+                    <button class="btn-buy" onclick="openModal(5950, 49.99)">Comprar</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="plan-icon">🔥</div>
+                    <div class="blocks-amount">11,000</div>
+                    <div class="blocks-label">BLOCKS</div>
+                    <div class="bonus-badge">+1,500 BONUS</div>
+                    <div class="plan-price">$99.99</div>
+                    <button class="btn-buy" onclick="openModal(12500, 99.99)">Comprar</button>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <p>Métodos de pago disponibles</p>
+                <div class="payment-options">
+                    <div class="payment-option paypal">
+                        <div class="payment-logo">💳 PayPal</div>
+                        <span>Pago seguro internacional</span>
+                    </div>
+                    <div class="payment-option bank">
+                        <div class="payment-logo">🏦 Transferencia Bancaria USD</div>
+                        <div class="account-number">
+                            <span>Cuenta:</span>
+                            <code>0102 0364390000140240</code>
+                            <button class="copy-btn" onclick="copyAccount()">📋 Copiar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Team Builder -->
     <section class="team-builder">
         <div class="builder-container">
             <h3 class="builder-title">Arma Tu Equipo Perfecto 5v5</h3>
-            <div class="builder-slots">
-                <div class="builder-slot" data-slot="1" onclick="clearSlot(1)">
+            
+            <div class="builder-slots" id="builderSlots">
+                <div class="builder-slot" data-slot="0" onclick="clearSlot(0)">
                     <span class="slot-number">1</span>
                     <span class="slot-icon">?</span>
                     <span class="slot-label">Sentinel</span>
                 </div>
-                <div class="builder-slot" data-slot="2" onclick="clearSlot(2)">
+                <div class="builder-slot" data-slot="1" onclick="clearSlot(1)">
                     <span class="slot-number">2</span>
                     <span class="slot-icon">?</span>
                     <span class="slot-label">Controller</span>
                 </div>
-                <div class="builder-slot" data-slot="3" onclick="clearSlot(3)">
+                <div class="builder-slot" data-slot="2" onclick="clearSlot(2)">
                     <span class="slot-number">3</span>
                     <span class="slot-icon">?</span>
                     <span class="slot-label">Duelist</span>
                 </div>
-                <div class="builder-slot" data-slot="4" onclick="clearSlot(4)">
+                <div class="builder-slot" data-slot="3" onclick="clearSlot(3)">
                     <span class="slot-number">4</span>
                     <span class="slot-icon">?</span>
                     <span class="slot-label">Initiator</span>
                 </div>
-                <div class="builder-slot" data-slot="5" onclick="clearSlot(5)">
+                <div class="builder-slot" data-slot="4" onclick="clearSlot(4)">
                     <span class="slot-number">5</span>
                     <span class="slot-icon">?</span>
                     <span class="slot-label">Flex</span>
                 </div>
             </div>
-            <p class="builder-hint">Haz clic en un rol de arriba para asignarlo a tu equipo</p>
+
+            <div class="role-selector">
+                <button class="role-btn" onclick="selectRole(0)">
+                    <span style="color: #ff6b35;">🛡️</span> Sentinel
+                </button>
+                <button class="role-btn" onclick="selectRole(1)">
+                    <span style="color: #00d4ff;">☁️</span> Controller
+                </button>
+                <button class="role-btn" onclick="selectRole(2)">
+                    <span style="color: #ff4655;">⚔️</span> Duelist
+                </button>
+                <button class="role-btn" onclick="selectRole(3)">
+                    <span style="color: #00ff88;">🔍</span> Initiator
+                </button>
+                <button class="role-btn" onclick="selectRole(4)">
+                    <span style="color: #bd00ff;">🎯</span> Flex
+                </button>
+            </div>
+
+            <p class="builder-hint">Haz clic en un rol para asignarlo a tu equipo. Haz clic en un slot para limpiarlo.</p>
         </div>
     </section>
 
@@ -1127,7 +1740,7 @@
         <div class="cta-content">
             <h2 class="cta-title">Tu Equipo Te Espera</h2>
             <p class="cta-desc">Únete a millones de jugadores. Forma tu squad perfecto 5v5 y conquista el competitivo.</p>
-            <button class="cta-btn">Jugar Ahora Gratis</button>
+            <button class="cta-btn" onclick="showToast('¡Bienvenido a BLOCKS!')">Jugar Ahora Gratis</button>
         </div>
     </section>
 
@@ -1137,9 +1750,9 @@
             <div class="footer-brand">
                 <a href="#" class="logo">
                     <div class="logo-mark"></div>
-                    FRACTURE
+                    BLOCKS
                 </a>
-                <p>El shooter táctico 5v5 definitivo. Donde el tiempo es tu arma y la estrategia es todo.</p>
+                <p>El shooter táctico 5v5 definitivo. Donde cada bloque cuenta y la estrategia es todo.</p>
             </div>
             <div class="footer-col">
                 <h4>Juego</h4>
@@ -1170,23 +1783,36 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Fracture Studios. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Blocks Studios. Todos los derechos reservados.</p>
             <div class="social-links">
-                <a href="#" class="social-icon" aria-label="X">
-                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                <a href="#" class="social-icon" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="#" class="social-icon" aria-label="YouTube">
-                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
-                <a href="#" class="social-icon" aria-label="Discord">
-                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                </a>
+                <a href="#" class="social-icon" aria-label="X">𝕏</a>
+                <a href="#" class="social-icon" aria-label="Instagram">📷</a>
+                <a href="#" class="social-icon" aria-label="YouTube">▶</a>
+                <a href="#" class="social-icon" aria-label="Discord">💬</a>
             </div>
         </div>
     </footer>
+
+    <!-- Purchase Modal -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal">
+            <div class="modal-icon">🎮</div>
+            <h3>Confirmar Compra</h3>
+            <p>Estás a punto de comprar:</p>
+            <div class="modal-blocks" id="modalBlocks">0</div>
+            <div style="color: var(--text-secondary); margin-bottom: 1.5rem;">BLOCKS</div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal()">Cancelar</button>
+                <button class="modal-btn confirm" onclick="confirmPurchase()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">✓</div>
+        <span id="toastMessage">Mensaje</span>
+    </div>
 
     <script>
         // Particle System
@@ -1212,14 +1838,13 @@
                 this.speedX = (Math.random() - 0.5) * 0.3;
                 this.speedY = (Math.random() - 0.5) * 0.3;
                 this.life = Math.random() * 100 + 100;
-                this.hue = Math.random() > 0.5 ? 200 : 340;
+                this.hue = Math.random() > 0.5 ? 45 : 280;
             }
             
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
                 this.life--;
-                
                 if (this.life <= 0) this.reset();
             }
             
@@ -1253,7 +1878,7 @@
                         ctx.beginPath();
                         ctx.moveTo(p1.x, p1.y);
                         ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - dist / 120)})`;
+                        ctx.strokeStyle = `rgba(255, 193, 7, ${0.1 * (1 - dist / 120)})`;
                         ctx.stroke();
                     }
                 });
@@ -1263,52 +1888,12 @@
         }
         animate();
 
-        // Team Builder Logic
-        const roleData = {
-            sentinel: { icon: '🛡️', color: '#ff6b35', name: 'Sentinel' },
-            controller: { icon: '☁️', color: '#00d4ff', name: 'Controller' },
-            duelist: { icon: '⚔️', color: '#ff4655', name: 'Duelist' },
-            initiator: { icon: '🔍', color: '#00ff88', name: 'Initiator' },
-            flex: { icon: '🎯', color: '#bd00ff', name: 'Flex' }
-        };
-
-        let selectedSlots = {};
-
-        function selectRole(role) {
-            // Find first empty slot
-            for (let i = 1; i <= 5; i++) {
-                if (!selectedSlots[i]) {
-                    const slot = document.querySelector(`[data-slot="${i}"]`);
-                    const data = roleData[role];
-                    
-                    slot.classList.add('filled');
-                    slot.style.borderColor = data.color;
-                    slot.querySelector('.slot-icon').textContent = data.icon;
-                    slot.querySelector('.slot-label').textContent = data.name;
-                    
-                    selectedSlots[i] = role;
-                    
-                    // Visual feedback
-                    slot.style.animation = 'none';
-                    slot.offsetHeight;
-                    slot.style.animation = 'slotPulse 0.5s';
-                    
-                    break;
-                }
+        // Scroll to section
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
             }
-        }
-
-        function clearSlot(slotNum) {
-            const slot = document.querySelector(`[data-slot="${slotNum}"]`);
-            slot.classList.remove('filled');
-            slot.style.borderColor = '';
-            slot.style.borderStyle = 'dashed';
-            slot.querySelector('.slot-icon').textContent = '?';
-            
-            const labels = ['Sentinel', 'Controller', 'Duelist', 'Initiator', 'Flex'];
-            slot.querySelector('.slot-label').textContent = labels[slotNum - 1];
-            
-            delete selectedSlots[slotNum];
         }
 
         // Click burst effect
@@ -1324,7 +1909,7 @@
                 particle.style.top = centerY + 'px';
                 particle.style.width = '8px';
                 particle.style.height = '8px';
-                particle.style.background = `hsl(${Math.random() * 60 + 300}, 100%, 50%)`;
+                particle.style.background = `hsl(${Math.random() * 60 + 40}, 100%, 50%)`;
                 particle.style.borderRadius = '50%';
                 particle.style.pointerEvents = 'none';
                 particle.style.zIndex = '9999';
@@ -1334,43 +1919,124 @@
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
                 
-                particle.style.animation = `burst 0.8s ease-out forwards`;
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
+                particle.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 800,
+                    easing: 'ease-out'
+                }).onfinish = () => particle.remove();
                 
                 document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 800);
             }
         }
 
-        // Add burst animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes burst {
-                0% { transform: translate(0, 0) scale(1); opacity: 1; }
-                100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
 
-        // 3D Tilt effect on role cards
-        document.querySelectorAll('.role-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+        // Team Builder
+        const roles = [
+            { id: 'sentinel', name: 'Sentinel', icon: '🛡️', color: '#ff6b35' },
+            { id: 'controller', name: 'Controller', icon: '☁️', color: '#00d4ff' },
+            { id: 'duelist', name: 'Duelist', icon: '⚔️', color: '#ff4655' },
+            { id: 'initiator', name: 'Initiator', icon: '🔍', color: '#00ff88' },
+            { id: 'flex', name: 'Flex', icon: '🎯', color: '#bd00ff' },
+        ];
+
+        let slots = [null, null, null, null, null];
+
+        function selectRole(roleIndex) {
+            const emptySlot = slots.findIndex(s => s === null);
+            if (emptySlot !== -1) {
+                slots[emptySlot] = roles[roleIndex];
+                updateSlots();
+            }
+        }
+
+        function clearSlot(index) {
+            slots[index] = null;
+            updateSlots();
+        }
+
+        function updateSlots() {
+            const slotElements = document.querySelectorAll('.builder-slot');
+            slotElements.forEach((slot, i) => {
+                const role = slots[i];
+                const iconEl = slot.querySelector('.slot-icon');
+                const labelEl = slot.querySelector('.slot-label');
                 
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.02)`;
+                if (role) {
+                    slot.classList.add('filled');
+                    slot.style.borderColor = role.color;
+                    iconEl.textContent = role.icon;
+                    iconEl.style.opacity = '1';
+                    labelEl.textContent = role.name;
+                } else {
+                    slot.classList.remove('filled');
+                    slot.style.borderColor = '';
+                    iconEl.textContent = '?';
+                    iconEl.style.opacity = '0.5';
+                    labelEl.textContent = roles[i].name;
+                }
             });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
+        }
+
+        // Purchase Modal
+        let selectedBlocks = 0;
+        let selectedPrice = 0;
+
+        function openModal(blocks, price) {
+            selectedBlocks = blocks;
+            selectedPrice = price;
+            document.getElementById('modalBlocks').textContent = blocks.toLocaleString();
+            document.getElementById('purchaseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('purchaseModal').classList.remove('active');
+        }
+
+        function confirmPurchase() {
+            showToast(`¡Compra exitosa! Recibiste ${selectedBlocks.toLocaleString()} BLOCKS`);
+            closeModal();
+        }
+
+        // Copy account number to clipboard
+        function copyAccount() {
+            const accountNumber = '0102 0364390000140240';
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                showToast('Número de cuenta copiado al portapapeles');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = accountNumber;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Número de cuenta copiado al portapapeles');
             });
+        }
+
+        // Close modal on overlay click
+        document.getElementById('purchaseModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 14, 20, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(10, 14, 20, 0.8)';
+            }
         });
     </script>
 </body>
