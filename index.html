@@ -3,1828 +3,1944 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ff0055">
-    <meta name="description" content="Shooter táctico 5v5 con clanes, leaderboards y replays">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRlBTIFdlYiBHYW1lIiwic2hvcnRfbmFtZSI6IkZQUyIsInN0YXJ0X3VybCI6Ii4vaW5kZXguaHRtbCIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjBmMjMiLCJ0aGVtZV9jb2xvciI6IiNmZjAwNTUiLCJpY29ucyI6W3sic3JjIjoiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzE5Mi9mZjAwNTUvZmZmL1BORz8xMjh4MTI4Iiwic2l6ZXMiOiIxMjh4MTI4IiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
-    
-    <title>FPS Web Game - Shooter 5v5 Social</title>
+    <title>Godot 4 FPS Shooter - Guía Completa</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         :root {
-            --primary: #ff0055;
-            --secondary: #ff6b6b;
-            --accent: #00ff88;
-            --dark: #0f0f23;
-            --darker: #0a0a1a;
-            --gold: #ffd700;
-            --discord: #5865F2;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f3460;
+            --accent: #e94560;
+            --accent-secondary: #533483;
+            --text: #eaeaea;
+            --text-muted: #a0a0a0;
+            --success: #00d9ff;
+            --warning: #ffc107;
         }
         
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
-            overflow-x: hidden;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text);
+            line-height: 1.6;
             min-height: 100vh;
         }
         
-        /* Auth Screen */
-        .auth-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5000;
-            transition: opacity 0.5s;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
         }
-        .auth-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .auth-container {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,0,85,0.3);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 400px;
+        
+        header {
             text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 2rem;
         }
-        .auth-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        
+        header h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, var(--accent), var(--success));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .auth-tabs {
-            display: flex;
-            gap: 10px;
-            margin: 30px 0;
-        }
-        .auth-tab {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .auth-tab.active {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-color: transparent;
-        }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; }
-        .auth-input {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        .auth-btn {
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent), #00cc6a);
-            color: #000;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,255,136,0.4);
-        }
-        .social-auth {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .social-btn {
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .social-btn.google { background: #db4437; }
-        .social-btn.discord { background: var(--discord); }
-        
-        /* Install PWA Button */
-        .install-pwa {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            display: none;
-            z-index: 4000;
-            animation: slideUp 0.5s;
-        }
-        .install-pwa.show { display: block; }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(255,0,85,0.3);
-        }
-        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #00cc6a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
-        }
-        .user-avatar .status-indicator {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border: 2px solid var(--dark);
-            border-radius: 50%;
-        }
-        .user-avatar .status-indicator.away { background: #ffaa00; }
-        .user-avatar .status-indicator.busy { background: var(--primary); }
-        .nav { display: flex; gap: 15px; align-items: center; }
-        .nav button {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .nav button:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
-        .currency {
-            background: linear-gradient(90deg, var(--gold), #ffaa00);
-            color: #000;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
         
-        /* Main Layout */
-        .main-container {
-            margin-top: 70px;
-            display: flex;
-            min-height: calc(100vh - 70px);
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 350px;
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-right: 1px solid rgba(255,255,255,0.1);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .panel {
-            background: linear-gradient(135deg, rgba(255,0,85,0.1), rgba(255,107,107,0.1));
-            border: 1px solid rgba(255,0,85,0.3);
-            border-radius: 15px;
-            padding: 20px;
-        }
-        .panel h3 {
-            color: var(--secondary);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        /* Friends System */
-        .friends-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-        .friend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-        .friend-item:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateX(5px);
-        }
-        .friend-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #00cc6a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+        header p {
+            color: var(--text-muted);
             font-size: 1.2rem;
-            position: relative;
-        }
-        .friend-status {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid var(--dark);
-        }
-        .friend-status.online { background: var(--accent); }
-        .friend-status.ingame { background: var(--primary); }
-        .friend-status.offline { background: #666; }
-        .friend-info { flex: 1; }
-        .friend-name { font-weight: 600; margin-bottom: 2px; }
-        .friend-status-text {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        .friend-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .friend-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .friend-btn:hover { background: var(--accent); color: #000; }
-        
-        .add-friend {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .add-friend input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
         }
         
-        /* Clan System */
-        .clan-info {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-        .clan-tag {
+        .badge {
             display: inline-block;
-            background: var(--gold);
-            color: #000;
-            padding: 5px 15px;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            margin: 0 0.5rem;
         }
-        .clan-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 5px;
+        
+        nav.toc {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
         }
-        .clan-stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-            font-size: 0.9rem;
+        
+        nav.toc h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
         }
-        .clan-members {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        
+        nav.toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
         }
-        .clan-member {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-        }
-        .member-rank {
-            font-size: 0.8rem;
-            padding: 3px 8px;
+        
+        nav.toc a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem;
             border-radius: 5px;
-            background: var(--primary);
-        }
-        .member-rank.elder { background: #aa00ff; }
-        .member-rank.leader { background: var(--gold); color: #000; }
-        
-        /* Leaderboard */
-        .leaderboard-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .lb-tab {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
             transition: all 0.3s;
-        }
-        .lb-tab.active {
-            background: var(--accent);
-            color: #000;
-            border-color: transparent;
-        }
-        .leaderboard-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .lb-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        .lb-item:hover { background: rgba(255,255,255,0.08); }
-        .lb-item.top3 { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); }
-        .lb-rank {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border-radius: 50%;
-        }
-        .lb-rank.rank-1 { background: var(--gold); color: #000; }
-        .lb-rank.rank-2 { background: #c0c0c0; color: #000; }
-        .lb-rank.rank-3 { background: #cd7f32; color: #000; }
-        .lb-player { flex: 1; }
-        .lb-elo {
-            color: var(--accent);
-            font-weight: bold;
-        }
-        
-        /* Chat */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 300px;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .chat-message {
-            padding: 8px 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
-        .chat-message.system {
-            background: rgba(255,0,85,0.2);
-            text-align: center;
-            font-size: 0.8rem;
-        }
-        .chat-message .author {
-            color: var(--accent);
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        .chat-message .author.clan {
-            color: var(--gold);
-        }
-        .chat-message.filtered {
-            background: rgba(255,0,0,0.2);
-            font-style: italic;
-        }
-        .chat-input-area {
-            display: flex;
-            gap: 10px;
-        }
-        .chat-input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-        }
-        .chat-send {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        /* Game Modes */
-        .game-modes { display: flex; flex-direction: column; gap: 10px; }
-        .mode-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .mode-btn:hover, .mode-btn.active {
-            background: rgba(255,0,85,0.2);
-            border-color: var(--primary);
-        }
-        .mode-btn.active::after { content: "●"; color: var(--accent); }
-        .queue-status {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            text-align: center;
-            display: none;
-        }
-        .queue-status.active { display: block; }
-        .queue-timer {
-            font-size: 2.5rem;
-            color: var(--accent);
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-        }
-        .find-match-btn {
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent), #00cc6a);
-            color: #000;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s;
-        }
-        .find-match-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,255,136,0.4);
-        }
-        .find-match-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .find-match-btn.cancel {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        /* Game Area */
-        .game-area {
-            flex: 1;
-            position: relative;
-            background: #0a0a0a;
-        }
-        #gameCanvas {
-            width: 100%;
-            height: 100%;
             display: block;
         }
-        .game-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
         
-        /* HUD */
-        .hud {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
-        .hud.active { display: block; }
-        .crosshair {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(0,255,136,0.8);
-            border-radius: 50%;
-        }
-        .health-bar {
-            position: absolute;
-            bottom: 30px;
-            left: 30px;
-            width: 220px;
-        }
-        .health-bar .label {
-            font-size: 0.9rem;
-            color: var(--secondary);
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .health-bg {
-            background: rgba(255,255,255,0.1);
-            height: 25px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-        .health-fill {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            height: 100%;
-            width: 100%;
-            transition: width 0.3s ease;
-        }
-        .ammo-counter {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            text-align: right;
-        }
-        .ammo-current { font-size: 4rem; font-weight: bold; color: #fff; line-height: 1; }
-        .ammo-reserve { font-size: 1.3rem; color: rgba(255,255,255,0.5); }
-        .minimap {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 180px;
-            height: 180px;
-            background: rgba(0,0,0,0.6);
-            border: 2px solid rgba(0,255,136,0.3);
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .kill-feed {
-            position: absolute;
-            top: 120px;
-            right: 30px;
-            width: 280px;
-        }
-        .kill-entry {
-            background: rgba(0,0,0,0.7);
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            animation: slideIn 0.3s ease;
-            border-left: 3px solid var(--accent);
-        }
-        
-        /* Replay System */
-        .replay-controls {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            padding: 15px 30px;
-            border-radius: 30px;
-            display: none;
-            gap: 20px;
-            align-items: center;
-        }
-        .replay-controls.active { display: flex; }
-        .replay-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-        .replay-btn:hover { background: var(--accent); color: #000; }
-        .replay-progress {
-            width: 300px;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .replay-progress-bar {
-            height: 100%;
+        nav.toc a:hover {
             background: var(--accent);
-            width: 0%;
-            transition: width 0.1s;
-        }
-        .replay-speed {
             color: white;
-            font-size: 0.9rem;
         }
         
-        /* Store Panel */
-        .store-panel {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(20,20,40,0.98), rgba(10,10,20,0.99));
-            border: 1px solid rgba(255,0,85,0.3);
-            border-radius: 20px;
-            padding: 30px;
-            width: 900px;
-            max-height: 85vh;
-            overflow-y: auto;
-            display: none;
-            pointer-events: auto;
+        section {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .store-panel.active { display: block; }
-        .store-header {
+        
+        section h2 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        section h3 {
+            color: var(--success);
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .code-block {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .code-header span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .copy-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .copy-btn:hover {
+            background: var(--success);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,217,255,0.05));
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255,193,7,0.1), rgba(255,193,7,0.05));
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+        }
+        
+        .error-box {
+            background: linear-gradient(135deg, rgba(233,69,96,0.1), rgba(233,69,96,0.05));
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .store-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .store-tab {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
+        
+        th {
+            background: var(--bg-tertiary);
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .file-tree {
+            font-family: monospace;
+            background: #0d1117;
+            padding: 1.5rem;
+            border-radius: 10px;
+            line-height: 1.8;
+        }
+        
+        .file-tree .folder {
+            color: var(--warning);
+        }
+        
+        .file-tree .file {
+            color: var(--success);
+        }
+        
+        .file-tree .comment {
+            color: var(--text-muted);
+        }
+        
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+        }
+        
+        .step-list li {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--accent);
             color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .store-tab.active {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-color: transparent;
-        }
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .item-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .item-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        .item-image {
-            width: 100%;
-            height: 140px;
-            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-        }
-        .buy-btn {
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent), #00cc6a);
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
             font-weight: bold;
         }
         
-        /* Payment Modal */
-        .payment-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-        }
-        .payment-modal.active { display: flex; }
-        .payment-container {
-            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
-            border: 1px solid rgba(255,0,85,0.3);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-        }
-        .vp-packages {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .vp-package {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.2);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
             cursor: pointer;
         }
-        .vp-package.selected { border-color: var(--gold); }
-        .vp-amount { font-size: 2rem; font-weight: bold; color: var(--gold); }
         
-        /* Match Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
+        .btn:hover {
+            background: var(--success);
+            transform: translateY(-2px);
         }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
-            border: 2px solid var(--accent);
-            border-radius: 25px;
-            padding: 50px;
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+        
+        .card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
             text-align: center;
+            padding: 3rem 0;
+            border-top: 2px solid var(--accent);
+            margin-top: 3rem;
         }
         
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            padding: 20px 30px;
-            border-radius: 12px;
-            transform: translateX(400px);
-            transition: transform 0.3s;
-            z-index: 4000;
-        }
-        .notification.show { transform: translateX(0); }
-        .notification.success { background: linear-gradient(90deg, var(--accent), #00cc6a); color: #000; }
-        .notification.error { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
-        
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .sidebar { width: 300px; }
-            .store-panel { width: 95%; }
-        }
         @media (max-width: 768px) {
-            .main-container { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; }
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            nav.toc ul {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Auth Screen -->
-    <div class="auth-screen" id="authScreen">
-        <div class="auth-container">
-            <h1>🔥 FPS WEB</h1>
-            <p style="color: rgba(255,255,255,0.6);">Shooter táctico 5v5 Social</p>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
-                <button class="auth-tab" onclick="switchAuthTab('register')">Registrarse</button>
-            </div>
-            
-            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
-                <input type="email" class="auth-input" placeholder="Email" id="loginEmail" required>
-                <input type="password" class="auth-input" placeholder="Contraseña" id="loginPassword" required>
-                <button type="submit" class="auth-btn">Entrar</button>
-            </form>
-            
-            <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
-                <input type="text" class="auth-input" placeholder="Nombre de usuario" id="regUsername" required>
-                <input type="email" class="auth-input" placeholder="Email" id="regEmail" required>
-                <input type="password" class="auth-input" placeholder="Contraseña" id="regPassword" required minlength="6">
-                <button type="submit" class="auth-btn">Crear Cuenta</button>
-            </form>
-            
-            <div class="social-auth">
-                <button class="social-btn google" onclick="socialAuth('google')">
-                    <span>🔍</span> Google
-                </button>
-                <button class="social-btn discord" onclick="socialAuth('discord')">
-                    <span>💬</span> Discord
-                </button>
-            </div>
-        </div>
-    </div>
+    <div class="container">
+        <header>
+            <h1>🎮 GODOT 4 FPS SHOOTER</h1>
+            <p>Guía completa de desarrollo con <span class="badge">Vulkan</span> <span class="badge">.NET 8</span> <span class="badge">C#</span></p>
+            <p style="margin-top: 1rem; color: var(--text-muted);">Requisitos: OpenGL 3.3 / OpenGL ES 3.0 compatible</p>
+        </header>
 
-    <!-- Install PWA Button -->
-    <button class="install-pwa" id="installBtn" onclick="installPWA()">📲 Instalar</button>
+        <nav class="toc">
+            <h3>📑 Tabla de Contenidos</h3>
+            <ul>
+                <li><a href="#setup">1. Configuración Inicial</a></li>
+                <li><a href="#project">2. Estructura del Proyecto</a></li>
+                <li><a href="#player">3. Sistema de Jugador</a></li>
+                <li><a href="#weapons">4. Sistema de Armas</a></li>
+                <li><a href="#multiplayer">5. Multiplayer</a></li>
+                <li><a href="#monetization">6. Monetización (DLC/Season Pass)</a></li>
+                <li><a href="#marketing">7. Marketing y Lanzamiento</a></li>
+                <li><a href="#itch">8. Página itch.io</a></li>
+            </ul>
+        </nav>
 
-    <!-- Header -->
-    <div class="header" id="mainHeader" style="display: none;">
-        <div class="logo">🔥 FPS WEB</div>
-        <div class="user-info">
-            <div class="nav">
-                <button onclick="openPaymentModal()">💎 Comprar VP</button>
-                <button onclick="toggleStore()">🛒 Tienda</button>
-                <button onclick="showReplays()">📹 Replays</button>
-            </div>
-            <span class="currency">💎 <span id="vpBalance">1000</span> VP</span>
-            <div class="user-avatar" id="userAvatar" onclick="toggleProfile()">
-                ?
-                <span class="status-indicator online"></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="main-container" id="mainContainer" style="display: none;">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Friends Panel -->
-            <div class="panel">
-                <h3>
-                    👥 AMIGOS
-                    <span style="font-size: 0.8rem; color: var(--accent);" id="onlineCount">3/5 online</span>
-                </h3>
-                <div class="friends-list" id="friendsList">
-                    <!-- Populated by JS -->
-                </div>
-                <div class="add-friend">
-                    <input type="text" placeholder="Añadir amigo..." id="friendInput">
-                    <button class="auth-btn" style="padding: 10px 20px;" onclick="addFriend()">+</button>
-                </div>
+        <!-- SECCIÓN 1: CONFIGURACIÓN -->
+        <section id="setup">
+            <h2>1. Configuración Inicial</h2>
+            
+            <h3>1.1 Crear proyecto Godot 4 con .NET</h3>
+            <div class="info-box">
+                <strong>Nota:</strong> Asegúrate de tener instalado el <strong>Godot 4 .NET version</strong> y el <strong>.NET 8 SDK</strong>.
             </div>
             
-            <!-- Clan Panel -->
-            <div class="panel">
-                <h3>🏴 CLAN</h3>
-                <div class="clan-info" id="clanInfo">
-                    <span class="clan-tag">[ELITE]</span>
-                    <div class="clan-name">Elite Gamers</div>
-                    <div style="opacity: 0.7; font-size: 0.9rem;">Top #42 Mundial</div>
-                    <div class="clan-stats">
-                        <div>🏆 152 Wins</div>
-                        <div>👥 48 Miembros</div>
-                    </div>
-                </div>
-                <div class="clan-members" id="clanMembers">
-                    <!-- Populated by JS -->
-                </div>
+            <div class="step-list">
+                <li>Abre Godot 4 y selecciona "New Project"</li>
+                <li>Renderer: <strong>Forward+</strong> (Vulkan)</li>
+                <li>Version Control: Git</li>
+                <li>Lenguaje: <strong>C#</strong></li>
             </div>
+
+            <h3>1.2 Archivo de proyecto (.csproj)</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>FPS-Vulkan-Game.csproj</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>&lt;Project Sdk="Godot.NET.Sdk/4.2.1"&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+    &lt;EnableDynamicLoading&gt;true&lt;/EnableDynamicLoading&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;LangVersion&gt;12.0&lt;/LangVersion&gt;
+  &lt;/PropertyGroup&gt;
+  
+  &lt;ItemGroup&gt;
+    &lt;!-- Firebase --&gt;
+    &lt;PackageReference Include="FirebaseAdmin" Version="2.4.0" /&gt;
+    &lt;PackageReference Include="Google.Cloud.Firestore" Version="3.5.0" /&gt;
+    
+    &lt;!-- Networking --&gt;
+    &lt;PackageReference Include="LiteNetLib" Version="1.2.0" /&gt;
+    
+    &lt;!-- Steam --&gt;
+    &lt;PackageReference Include="Facepunch.Steamworks" Version="2.3.3" /&gt;
+    
+    &lt;!-- JSON --&gt;
+    &lt;PackageReference Include="Newtonsoft.Json" Version="13.0.3" /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;</pre>
+            </div>
+
+            <h3>1.3 project.godot</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>project.godot</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>; Engine Configuration File
+; Godot version: 4.2.1.stable.mono
+
+[application]
+config/name="FPS Vulkan Game"
+config/description="Shooter táctico 5v5 con Vulkan"
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+
+[display]
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/mode="canvas_items"
+window/vsync/vsync_mode=1
+
+[dotnet]
+project/assembly_name="FPS-Vulkan-Game"
+
+[rendering]
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=2
+environment/ssao/quality=1
+environment/ssil/quality=1
+environment/glow/upscale_mode=1
+
+[physics]
+3d/physics_engine="GodotPhysics3D"
+
+[autoload]
+GameManager="*res://src/Core/GameManager.cs"
+NetworkManager="*res://src/Core/NetworkManager.cs"
+AudioManager="*res://src/Core/AudioManager.cs"
+
+[input]
+move_forward={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"echo":false,"script":null)]
+}
+move_backward={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"echo":false,"script":null)]
+}
+move_left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"echo":false,"script":null)]
+}
+move_right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"echo":false,"script":null)]
+}
+jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)]
+}
+shoot={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)]
+}
+aim={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)]
+}
+reload={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"echo":false,"script":null)]
+}
+weapon_1={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":49,"key_label":0,"unicode":49,"echo":false,"script":null)]
+}
+weapon_2={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":50,"key_label":0,"unicode":50,"echo":false,"script":null)]
+}
+weapon_3={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":51,"key_label":0,"unicode":51,"echo":false,"script":null)]
+}
+scoreboard={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"echo":false,"script":null)]
+}</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: ESTRUCTURA -->
+        <section id="project">
+            <h2>2. Estructura del Proyecto</h2>
             
-            <!-- Leaderboard Panel -->
-            <div class="panel">
-                <h3>🏆 RANKING</h3>
-                <div class="leaderboard-tabs">
-                    <button class="lb-tab active" onclick="switchLB('global')">Global</button>
-                    <button class="lb-tab" onclick="switchLB('clan')">Clan</button>
-                    <button class="lb-tab" onclick="switchLB('friends')">Amigos</button>
-                </div>
-                <div class="leaderboard-list" id="leaderboardList">
-                    <!-- Populated by JS -->
-                </div>
+            <div class="file-tree">
+<span class="folder">📁 FPS-Vulkan-Game/</span>
+├── <span class="file">project.godot</span>              <span class="comment"># Configuración principal</span>
+├── <span class="file">FPS-Vulkan-Game.csproj</span>       <span class="comment"># Proyecto .NET</span>
+├── <span class="folder">📁 assets/</span>
+│   ├── <span class="folder">📁 models/</span>                 <span class="comment"># GLTF/GLB models</span>
+│   ├── <span class="folder">📁 textures/</span>               <span class="comment"># PNG, WebP, EXR</span>
+│   ├── <span class="folder">📁 sounds/</span>                <span class="comment"># OGG, WAV</span>
+│   ├── <span class="folder">📁 shaders/</span>               <span class="comment"># GLSL shaders</span>
+│   └── <span class="folder">📁 fonts/</span>                 <span class="comment"># TTF, OTF</span>
+├── <span class="folder">📁 src/</span>
+│   ├── <span class="folder">📁 Core/</span>                  <span class="comment"># Sistema principal</span>
+│   ├── <span class="folder">📁 Player/</span>                <span class="comment"># Control jugador</span>
+│   ├── <span class="folder">📁 Weapons/</span>              <span class="comment"># Sistema armas</span>
+│   ├── <span class="folder">📁 Multiplayer/</span>          <span class="comment"># Red y matchmaking</span>
+│   ├── <span class="folder">📁 Monetization/</span>        <span class="comment"># DLC, Season Pass</span>
+│   └── <span class="folder">📁 UI/</span>                   <span class="comment"># Interfaces</span>
+├── <span class="folder">📁 scenes/</span>                  <span class="comment"># Escenas .tscn</span>
+├── <span class="folder">📁 dlc/</span>                    <span class="comment"># Contenido descargable</span>
+└── <span class="folder">📁 docs/</span>                   <span class="comment"># Documentación</span>
             </div>
+        </section>
+
+        <!-- SECCIÓN 3: JUGADOR -->
+        <section id="player">
+            <h2>3. Sistema de Jugador</h2>
             
-            <!-- Chat Panel -->
-            <div class="panel">
-                <h3>💬 CHAT</h3>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages"></div>
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Escribe un mensaje..." maxlength="100">
-                        <button class="chat-send" onclick="sendChat()">➤</button>
-                    </div>
+            <h3>3.1 GameManager.cs (Autoload)</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Core/GameManager.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
                 </div>
-            </div>
-            
-            <!-- Matchmaking Panel -->
-            <div class="panel">
-                <h3>🎮 BUSCAR PARTIDA</h3>
-                <div class="game-modes">
-                    <button class="mode-btn active" data-mode="competitive" onclick="selectMode(this)">
-                        <div>
-                            <div>⚔️ Competitivo</div>
-                            <small style="opacity: 0.7;">5v5 · Ranking</small>
-                        </div>
-                    </button>
-                    <button class="mode-btn" data-mode="unrated" onclick="selectMode(this)">
-                        <div>
-                            <div>🎯 Normal</div>
-                            <small style="opacity: 0.7;">5v5 · Casual</small>
-                        </div>
-                    </button>
-                </div>
-                <div class="queue-status" id="queueStatus">
-                    <div>Buscando partida...</div>
-                    <div class="queue-timer" id="queueTimer">00:00</div>
-                </div>
-                <button class="find-match-btn" id="findMatchBtn" onclick="toggleQueue()">JUGAR</button>
-            </div>
-        </div>
+                <pre>using Godot;
+using System;
+using System.Collections.Generic;
 
-        <!-- Game Area -->
-        <div class="game-area">
-            <canvas id="gameCanvas"></canvas>
-            
-            <div class="game-overlay">
-                <div class="hud" id="gameHud">
-                    <div class="crosshair"></div>
-                    <div class="health-bar">
-                        <div class="label">❤️ SALUD</div>
-                        <div class="health-bg">
-                            <div class="health-fill" id="healthFill"></div>
-                        </div>
-                    </div>
-                    <div class="ammo-counter">
-                        <div class="ammo-current" id="ammoCurrent">30</div>
-                        <div class="ammo-reserve" id="ammoReserve">/ 90</div>
-                    </div>
-                    <div class="minimap">
-                        <canvas id="minimapCanvas" width="180" height="180"></canvas>
-                    </div>
-                    <div class="kill-feed" id="killFeed"></div>
-                </div>
-                
-                <!-- Replay Controls -->
-                <div class="replay-controls" id="replayControls">
-                    <button class="replay-btn" onclick="replaySeek(-10)">⏪</button>
-                    <button class="replay-btn" onclick="toggleReplay()" id="playPauseBtn">⏸️</button>
-                    <button class="replay-btn" onclick="replaySeek(10)">⏩</button>
-                    <div class="replay-progress">
-                        <div class="replay-progress-bar" id="replayProgress"></div>
-                    </div>
-                    <span class="replay-speed" id="replaySpeed">1x</span>
-                    <button class="replay-btn" onclick="changeSpeed()">⚡</button>
-                    <button class="replay-btn" onclick="exitReplay()">✕</button>
-                </div>
-            </div>
-            
-            <!-- Store Panel -->
-            <div class="store-panel" id="storePanel">
-                <div class="store-header">
-                    <h2>🛒 TIENDA</h2>
-                    <button onclick="toggleStore()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">✕</button>
-                </div>
-                <div class="store-tabs">
-                    <button class="store-tab active" onclick="switchStoreTab('featured', this)">Destacado</button>
-                    <button class="store-tab" onclick="switchStoreTab('weapons', this)">Armas</button>
-                    <button class="store-tab" onclick="switchStoreTab('agents', this)">Agentes</button>
-                </div>
-                <div class="items-grid" id="itemsGrid"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div class="payment-modal" id="paymentModal">
-        <div class="payment-container">
-            <h2 style="margin-bottom: 20px;">💎 Comprar VP</h2>
-            <div class="vp-packages">
-                <div class="vp-package" onclick="selectVP(475, 4.99, this)">
-                    <div class="vp-amount">475</div>
-                    <div>$4.99</div>
-                </div>
-                <div class="vp-package selected" onclick="selectVP(1000, 9.99, this)">
-                    <div class="vp-amount">1000</div>
-                    <div>$9.99</div>
-                </div>
-                <div class="vp-package" onclick="selectVP(2050, 19.99, this)">
-                    <div class="vp-amount">2050</div>
-                    <div>$19.99</div>
-                </div>
-                <div class="vp-package" onclick="selectVP(5350, 49.99, this)">
-                    <div class="vp-amount">5350</div>
-                    <div>$49.99</div>
-                </div>
-            </div>
-            <button class="auth-btn" onclick="processPayment()">Comprar con Stripe</button>
-        </div>
-    </div>
-
-    <!-- Match Modal -->
-    <div class="modal-overlay" id="matchModal">
-        <div class="modal">
-            <h2>🎯 PARTIDA ENCONTRADA</h2>
-            <div class="match-timer" id="matchTimer">15</div>
-            <button class="auth-btn" onclick="acceptMatch()" style="margin-top: 20px;">ACEPTAR</button>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, onSnapshot, addDoc, serverTimestamp, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-
-        const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "fps-game-XXXX.firebaseapp.com",
-            projectId: "fps-game-XXXX",
-            storageBucket: "fps-game-XXXX.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456",
-            measurementId: "G-XXXXXXXXXX"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const analytics = getAnalytics(app);
+public partial class GameManager : Node
+{
+    public static GameManager Instance { get; private set; }
+    
+    [Signal] public delegate void PlayerSpawnedEventHandler(PlayerController player);
+    [Signal] public delegate void MatchStartedEventHandler(string matchId);
+    [Signal] public delegate void MatchEndedEventHandler(string winner);
+    [Signal] public delegate void CurrencyChangedEventHandler(int amount);
+    
+    // Player Data
+    public PlayerData CurrentPlayer { get; set; } = new();
+    public GameState State { get; private set; } = GameState.MainMenu;
+    
+    // Monetization
+    public int PremiumCurrency { get; set; } = 1000;  // VP
+    public HashSet&lt;string&gt; OwnedDLCs { get; set; } = new();
+    public int BattlePassTier { get; set; } = 0;
+    public bool HasPremiumPass { get; set; } = false;
+    
+    // Settings
+    public float MouseSensitivity { get; set; } = 0.5f;
+    public int TargetFPS { get; set; } = 144;
+    public bool VSync { get; set; } = true;
+    
+    public override void _Ready()
+    {
+        Instance = this;
+        ProcessMode = ProcessModeEnum.Always;
         
-        window.firebaseApp = app;
-        window.firebaseAuth = auth;
-        window.firebaseDb = db;
-        window.firebaseAnalytics = analytics;
+        // Check Vulkan support
+        var renderingDevice = RenderingServer.GetRenderingDevice();
+        if (renderingDevice == null)
+        {
+            PushError("Vulkan rendering device not available!");
+            GetTree().Quit();
+            return;
+        }
+        
+        GD.Print($"GPU: {renderingDevice.GetDeviceName()}");
+        GD.Print($"Driver: {renderingDevice.GetDriverVersion()}");
+        
+        LoadSettings();
+        LoadPlayerData();
+    }
+    
+    public void ChangeState(GameState newState)
+    {
+        var oldState = State;
+        State = newState;
+        GD.Print($"State changed: {oldState} -> {newState}");
+    }
+    
+    public void AddCurrency(int amount)
+    {
+        PremiumCurrency += amount;
+        EmitSignal(SignalName.CurrencyChanged, PremiumCurrency);
+        SavePlayerData();
+    }
+    
+    public bool SpendCurrency(int amount)
+    {
+        if (PremiumCurrency < amount) return false;
+        PremiumCurrency -= amount;
+        EmitSignal(SignalName.CurrencyChanged, PremiumCurrency);
+        SavePlayerData();
+        return true;
+    }
+    
+    public void UnlockDLC(string dlcId)
+    {
+        OwnedDLCs.Add(dlcId);
+        SavePlayerData();
+    }
+    
+    public bool HasDLC(string dlcId) => OwnedDLCs.Contains(dlcId);
+    
+    private void LoadSettings()
+    {
+        // Load from user://settings.cfg
+        var config = new ConfigFile();
+        var err = config.Load("user://settings.cfg");
+        if (err != Error.Ok) return;
+        
+        MouseSensitivity = (float)config.GetValue("input", "mouse_sensitivity", 0.5f);
+        TargetFPS = (int)config.GetValue("video", "target_fps", 144);
+        VSync = (bool)config.GetValue("video", "vsync", true);
+        
+        Engine.MaxFps = TargetFPS;
+    }
+    
+    private void LoadPlayerData()
+    {
+        if (!FileAccess.FileExists("user://player.save")) return;
+        
+        using var file = FileAccess.Open("user://player.save", FileAccess.ModeFlags.Read);
+        var json = file.GetAsText();
+        var data = Json.ParseString(json).AsGodotDictionary();
+        
+        PremiumCurrency = (int)data.GetValueOrDefault("vp", 1000);
+        BattlePassTier = (int)data.GetValueOrDefault("bp_tier", 0);
+        HasPremiumPass = (bool)data.GetValueOrDefault("bp_premium", false);
+        
+        var dlcs = data.GetValueOrDefault("dlcs", new Godot.Collections.Array&lt;string&gt;());
+        foreach (var dlc in dlcs)
+            OwnedDLCs.Add(dlc.ToString());
+    }
+    
+    public void SavePlayerData()
+    {
+        var data = new Godot.Collections.Dictionary
+        {
+            ["vp"] = PremiumCurrency,
+            ["bp_tier"] = BattlePassTier,
+            ["bp_premium"] = HasPremiumPass,
+            ["dlcs"] = new Godot.Collections.Array&lt;string&gt;(OwnedDLCs)
+        };
+        
+        using var file = FileAccess.Open("user://player.save", FileAccess.ModeFlags.Write);
+        file.StoreString(Json.Stringify(data));
+    }
+    
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMCloseRequest)
+        {
+            SavePlayerData();
+            GetTree().Quit();
+        }
+    }
+}
 
-        // Auth state
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                window.currentUser = user;
-                await loadUserData(user.uid);
-                initRealtimeListeners(user.uid);
-                hideAuthScreen();
-                showNotification('Bienvenido, ' + user.displayName, 'success');
-            } else {
-                showAuthScreen();
+public class PlayerData
+{
+    public string UserId { get; set; } = "";
+    public string Username { get; set; } = "Player";
+    public int Elo { get; set; } = 1000;
+    public string Rank { get; set; } = "Unranked";
+    public PlayerStats Stats { get; set; } = new();
+}
+
+public class PlayerStats
+{
+    public int Kills { get; set; }
+    public int Deaths { get; set; }
+    public int Assists { get; set; }
+    public int Wins { get; set; }
+    public int Losses { get; set; }
+    public int Headshots { get; set; }
+    public int DamageDealt { get; set; }
+    
+    public float KDRatio => Deaths == 0 ? Kills : (float)Kills / Deaths;
+    public float WinRate => (Wins + Losses) == 0 ? 0 : (float)Wins / (Wins + Losses);
+    public float HeadshotRate => Kills == 0 ? 0 : (float)Headshots / Kills;
+}
+
+public enum GameState
+{
+    MainMenu,
+    Lobby,
+    Matchmaking,
+    InGame,
+    Replay,
+    Store
+}</pre>
+            </div>
+
+            <h3>3.2 PlayerController.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Player/PlayerController.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System;
+
+[GlobalClass]
+public partial class PlayerController : CharacterBody3D
+{
+    [Export] public float WalkSpeed = 5.0f;
+    [Export] public float SprintSpeed = 8.0f;
+    [Export] public float CrouchSpeed = 2.5f;
+    [Export] public float JumpVelocity = 4.5f;
+    [Export] public float MouseSensitivity = 0.005f;
+    
+    [ExportGroup("Camera")]
+    [Export] public Camera3D Camera;
+    [Export] public Node3D CameraPivot;
+    [Export] public ShapeCast3D CrouchCheck;
+    
+    [ExportGroup("Weapons")]
+    [Export] public Node3D WeaponHolder;
+    [Export] public RayCast3D AimRay;
+    
+    // State
+    public bool IsSprinting { get; private set; }
+    public bool IsCrouching { get; private set; }
+    public bool IsAiming { get; private set; }
+    public bool IsGrounded => IsOnFloor();
+    
+    private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+    private float _currentSpeed;
+    private float _cameraVerticalRotation = 0f;
+    private Vector3 _velocity;
+    
+    // Components
+    private WeaponManager _weaponManager;
+    private HealthSystem _healthSystem;
+    private AnimationPlayer _animPlayer;
+    
+    public override void _Ready()
+    {
+        _currentSpeed = WalkSpeed;
+        _weaponManager = GetNode&lt;WeaponManager&gt;("WeaponManager");
+        _healthSystem = GetNode&lt;HealthSystem&gt;("HealthSystem");
+        _animPlayer = GetNode&lt;AnimationPlayer&gt;("AnimationPlayer");
+        
+        // Lock mouse
+        Input.MouseMode = Input.MouseModeEnum.Captured;
+        
+        // Load sensitivity from settings
+        MouseSensitivity = GameManager.Instance.MouseSensitivity;
+    }
+    
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+        {
+            HandleMouseLook(mouseMotion);
+        }
+        
+        if (@event.IsActionPressed("ui_cancel"))
+        {
+            Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured 
+                ? Input.MouseModeEnum.Visible 
+                : Input.MouseModeEnum.Captured;
+        }
+    }
+    
+    private void HandleMouseLook(InputEventMouseMotion motion)
+    {
+        // Horizontal rotation (player body)
+        RotateY(-motion.Relative.X * MouseSensitivity);
+        
+        // Vertical rotation (camera)
+        _cameraVerticalRotation -= motion.Relative.Y * MouseSensitivity;
+        _cameraVerticalRotation = Mathf.Clamp(_cameraVerticalRotation, -Mathf.Pi / 2, Mathf.Pi / 2);
+        CameraPivot.Rotation = new Vector3(_cameraVerticalRotation, 0, 0);
+    }
+    
+    public override void _PhysicsProcess(double delta)
+    {
+        HandleMovement(delta);
+        HandleActions();
+        ApplyGravity(delta);
+        
+        Velocity = _velocity;
+        MoveAndSlide();
+        
+        // Sync weapon with camera
+        _weaponManager?.UpdateWeaponPosition(IsAiming, (float)delta);
+    }
+    
+    private void HandleMovement(double delta)
+    {
+        Vector3 direction = Vector3.Zero;
+        
+        // Get input
+        if (Input.IsActionPressed("move_forward")) direction -= Transform.Basis.Z;
+        if (Input.IsActionPressed("move_backward")) direction += Transform.Basis.Z;
+        if (Input.IsActionPressed("move_left")) direction -= Transform.Basis.X;
+        if (Input.IsActionPressed("move_right")) direction += Transform.Basis.X;
+        
+        direction = direction.Normalized();
+        
+        // Sprint
+        IsSprinting = Input.IsActionPressed("sprint") && !IsCrouching && direction != Vector3.Zero;
+        _currentSpeed = IsSprinting ? SprintSpeed : (IsCrouching ? CrouchSpeed : WalkSpeed);
+        
+        // Crouch
+        if (Input.IsActionJustPressed("crouch"))
+        {
+            ToggleCrouch();
+        }
+        
+        // Apply movement
+        if (direction != Vector3.Zero)
+        {
+            _velocity.X = direction.X * _currentSpeed;
+            _velocity.Z = direction.Z * _currentSpeed;
+            
+            // Weapon bob
+            _weaponManager?.ApplyWeaponBob(_currentSpeed, IsSprinting);
+        }
+        else
+        {
+            _velocity.X = Mathf.MoveToward(_velocity.X, 0, _currentSpeed);
+            _velocity.Z = Mathf.MoveToward(_velocity.Z, 0, _currentSpeed);
+        }
+        
+        // Jump
+        if (Input.IsActionJustPressed("jump") && IsOnFloor() && !IsCrouching)
+        {
+            _velocity.Y = JumpVelocity;
+            _animPlayer?.Play("jump");
+        }
+    }
+    
+    private void HandleActions()
+    {
+        // Aim
+        IsAiming = Input.IsActionPressed("aim");
+        
+        // Shoot
+        if (Input.IsActionPressed("shoot"))
+        {
+            _weaponManager?.TryShoot(IsAiming);
+        }
+        
+        // Reload
+        if (Input.IsActionJustPressed("reload"))
+        {
+            _weaponManager?.Reload();
+        }
+        
+        // Weapon switch
+        if (Input.IsActionJustPressed("weapon_1")) _weaponManager?.SwitchWeapon(0);
+        if (Input.IsActionJustPressed("weapon_2")) _weaponManager?.SwitchWeapon(1);
+        if (Input.IsActionJustPressed("weapon_3")) _weaponManager?.SwitchWeapon(2);
+    }
+    
+    private void ApplyGravity(double delta)
+    {
+        if (!IsOnFloor())
+        {
+            _velocity.Y -= _gravity * (float)delta;
+        }
+        else if (_velocity.Y < 0)
+        {
+            _velocity.Y = 0;
+        }
+    }
+    
+    private void ToggleCrouch()
+    {
+        IsCrouching = !IsCrouching;
+        
+        // Check if can stand up
+        if (!IsCrouching && CrouchCheck.IsColliding())
+        {
+            IsCrouching = true;
+            return;
+        }
+        
+        // Adjust collision shape
+        var collision = GetNode&lt;CollisionShape3D&gt;("CollisionShape3D");
+        var shape = collision.Shape as CapsuleShape3D;
+        
+        if (IsCrouching)
+        {
+            shape.Height = 1.0f;
+            collision.Position = new Vector3(0, 0.5f, 0);
+        }
+        else
+        {
+            shape.Height = 1.8f;
+            collision.Position = new Vector3(0, 0.9f, 0);
+        }
+        
+        _animPlayer?.Play(IsCrouching ? "crouch" : "uncrouch");
+    }
+    
+    public void TakeDamage(int damage, Vector3 hitPosition, Node3D attacker)
+    {
+        _healthSystem?.TakeDamage(damage);
+        
+        // Hit marker effect
+        Camera.Shake(0.2f, 0.1f);
+        
+        // Blood effect
+        SpawnBloodEffect(hitPosition);
+        
+        if (_healthSystem?.CurrentHealth <= 0)
+        {
+            Die(attacker);
+        }
+    }
+    
+    private void Die(Node3D killer)
+    {
+        GameManager.Instance.CurrentPlayer.Stats.Deaths++;
+        
+        // Death cam
+        Camera.ClearCurrent();
+        
+        // Respawn or spectate
+        EmitSignal(SignalName.Died, killer);
+    }
+    
+    private void SpawnBloodEffect(Vector3 position)
+    {
+        var blood = GD.Load&lt;PackedScene&gt;("res://effects/blood_splash.tscn");
+        var instance = blood.Instantiate&lt;GpuParticles3D&gt;();
+        instance.GlobalPosition = position;
+        GetTree().CurrentScene.AddChild(instance);
+    }
+    
+    [Signal] public delegate void DiedEventHandler(Node3D killer);
+}</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: ARMAS -->
+        <section id="weapons">
+            <h2>4. Sistema de Armas</h2>
+            
+            <h3>4.1 BaseWeapon.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Weapons/BaseWeapon.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System;
+
+[GlobalClass]
+public abstract partial class BaseWeapon : Node3D
+{
+    [ExportGroup("Stats")]
+    [Export] public string WeaponName = "Weapon";
+    [Export] public int Damage = 25;
+    [Export] public int HeadshotDamage = 75;
+    [Export] public int FireRate = 600;  // RPM
+    [Export] public int MagazineSize = 30;
+    [Export] public int ReserveAmmo = 90;
+    [Export] public float ReloadTime = 2.0f;
+    [Export] public float Range = 100f;
+    [Export] public WeaponType Type = WeaponType.Rifle;
+    
+    [ExportGroup("Recoil")]
+    [Export] public float RecoilVertical = 0.5f;
+    [Export] public float RecoilHorizontal = 0.2f;
+    [Export] public float RecoilRecovery = 5f;
+    
+    [ExportGroup("Spread")]
+    [Export] public float BaseSpread = 0.01f;
+    [Export] public float MoveSpread = 0.05f;
+    [Export] public float JumpSpread = 0.1f;
+    
+    [ExportGroup("Audio")]
+    [Export] public AudioStream ShootSound;
+    [Export] public AudioStream ReloadSound;
+    [Export] public AudioStream EmptySound;
+    
+    // State
+    public int CurrentAmmo { get; protected set; }
+    public int CurrentReserve { get; protected set; }
+    public bool IsReloading { get; protected set; }
+    public bool CanShoot => !IsReloading && CurrentAmmo > 0 && _fireTimer <= 0;
+    
+    protected float _fireInterval;
+    protected float _fireTimer = 0f;
+    protected float _recoilAccumulation = 0f;
+    protected RandomNumberGenerator _rng = new();
+    
+    // Components
+    protected AudioStreamPlayer3D _audioPlayer;
+    protected AnimationPlayer _animPlayer;
+    protected GpuParticles3D _muzzleFlash;
+    protected RayCast3D _fireRay;
+    
+    public override void _Ready()
+    {
+        _fireInterval = 60f / FireRate;
+        CurrentAmmo = MagazineSize;
+        CurrentReserve = ReserveAmmo;
+        
+        _audioPlayer = GetNode&lt;AudioStreamPlayer3D&gt;("AudioStreamPlayer3D");
+        _animPlayer = GetNode&lt;AnimationPlayer&gt;("AnimationPlayer");
+        _muzzleFlash = GetNode&lt;GpuParticles3D&gt;("MuzzleFlash");
+        _fireRay = GetNode&lt;RayCast3D&gt;("FireRay");
+    }
+    
+    public override void _Process(double delta)
+    {
+        if (_fireTimer > 0)
+            _fireTimer -= (float)delta;
+        
+        // Recoil recovery
+        _recoilAccumulation = Mathf.MoveToward(_recoilAccumulation, 0, RecoilRecovery * (float)delta);
+    }
+    
+    public virtual bool TryShoot(bool isAiming)
+    {
+        if (!CanShoot) 
+        {
+            if (CurrentAmmo == 0)
+                PlayEmptySound();
+            return false;
+        }
+        
+        _fireTimer = _fireInterval;
+        
+        // Consume ammo
+        CurrentAmmo--;
+        
+        // Effects
+        PlayShootEffects();
+        
+        // Raycast
+        PerformRaycast(isAiming);
+        
+        // Recoil
+        ApplyRecoil();
+        
+        return true;
+    }
+    
+    protected virtual void PerformRaycast(bool isAiming)
+    {
+        var spread = CalculateSpread(isAiming);
+        _fireRay.Rotation = new Vector3(
+            _rng.Randf() * spread - spread / 2,
+            _rng.Randf() * spread - spread / 2,
+            0
+        );
+        
+        _fireRay.ForceRaycastUpdate();
+        
+        if (_fireRay.IsColliding())
+        {
+            var hit = _fireRay.GetCollider() as Node3D;
+            var hitPoint = _fireRay.GetCollisionPoint();
+            var normal = _fireRay.GetCollisionNormal();
+            
+            // Spawn impact effect
+            SpawnImpactEffect(hitPoint, normal);
+            
+            // Deal damage
+            if (hit is PlayerController player)
+            {
+                bool isHeadshot = IsHeadshot(hitPoint, player);
+                int damage = isHeadshot ? HeadshotDamage : Damage;
+                
+                player.TakeDamage(damage, hitPoint, GetParent().GetParent() as Node3D);
+                
+                // Hit marker
+                ShowHitMarker(isHeadshot);
             }
+        }
+    }
+    
+    protected float CalculateSpread(bool isAiming)
+    {
+        float spread = BaseSpread;
+        
+        // Add movement spread
+        var player = GetParent().GetParent() as PlayerController;
+        if (player != null)
+        {
+            if (!player.IsGrounded) spread += JumpSpread;
+            if (player.Velocity.Length() > 0.1f) spread += MoveSpread;
+        }
+        
+        // Aiming reduces spread
+        if (isAiming) spread *= 0.5f;
+        
+        // Add accumulated recoil
+        spread += _recoilAccumulation * 0.1f;
+        
+        return spread;
+    }
+    
+    protected void ApplyRecoil()
+    {
+        _recoilAccumulation += RecoilVertical;
+        
+        // Apply to camera
+        var camera = GetNode&lt;Camera3D&gt;("/root/GameManager/Player/CameraPivot/Camera3D");
+        if (camera != null)
+        {
+            camera.Rotation -= new Vector3(RecoilVertical, 
+                _rng.Randf() * RecoilHorizontal * 2 - RecoilHorizontal, 0);
+        }
+    }
+    
+    public virtual void Reload()
+    {
+        if (IsReloading || CurrentAmmo >= MagazineSize || CurrentReserve <= 0)
+            return;
+        
+        IsReloading = true;
+        _animPlayer?.Play("reload");
+        _audioPlayer?.Stream = ReloadSound;
+        _audioPlayer?.Play();
+        
+        GetTree().CreateTimer(ReloadTime).Timeout += FinishReload;
+    }
+    
+    protected virtual void FinishReload()
+    {
+        int ammoNeeded = MagazineSize - CurrentAmmo;
+        int ammoToLoad = Mathf.Min(ammoNeeded, CurrentReserve);
+        
+        CurrentAmmo += ammoToLoad;
+        CurrentReserve -= ammoToLoad;
+        
+        IsReloading = false;
+    }
+    
+    protected void PlayShootEffects()
+    {
+        _animPlayer?.Play("shoot");
+        _audioPlayer?.Stream = ShootSound;
+        _audioPlayer?.Play();
+        _muzzleFlash?.Restart();
+        _muzzleFlash?.Emitting = true;
+    }
+    
+    protected void PlayEmptySound()
+    {
+        _audioPlayer?.Stream = EmptySound;
+        _audioPlayer?.Play();
+    }
+    
+    protected void SpawnImpactEffect(Vector3 position, Vector3 normal)
+    {
+        var impact = GD.Load&lt;PackedScene&gt;("res://effects/bullet_impact.tscn");
+        var instance = impact.Instantiate&lt;Node3D&gt;();
+        instance.GlobalPosition = position;
+        instance.LookAt(position + normal, Vector3.Up);
+        GetTree().CurrentScene.AddChild(instance);
+    }
+    
+    protected void ShowHitMarker(bool isHeadshot)
+    {
+        // UI hit marker
+        var ui = GetNode&lt;Control&gt;("/root/GameManager/Player/CanvasLayer/HUD");
+        ui?.Call("ShowHitMarker", isHeadshot);
+    }
+    
+    protected bool IsHeadshot(Vector3 hitPoint, PlayerController player)
+    {
+        // Check if hit was in head area
+        var headHeight = player.GlobalPosition.Y + 1.6f;
+        return hitPoint.Y > headHeight - 0.2f;
+    }
+}
+
+public enum WeaponType
+{
+    Pistol,
+    Rifle,
+    Shotgun,
+    Sniper,
+    SMG,
+    LMG,
+    Melee
+}</pre>
+            </div>
+
+            <h3>4.2 WeaponManager.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Weapons/WeaponManager.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System.Collections.Generic;
+
+public partial class WeaponManager : Node3D
+{
+    [Export] public Node3D WeaponHolder;
+    [Export] public float WeaponSwitchTime = 0.3f;
+    
+    private List&lt;BaseWeapon&gt; _weapons = new();
+    private int _currentWeaponIndex = 0;
+    private int _previousWeaponIndex = 0;
+    private bool _isSwitching = false;
+    
+    private float _bobTimer = 0f;
+    private Vector3 _weaponBasePosition;
+    private Vector3 _weaponBaseRotation;
+    
+    public BaseWeapon CurrentWeapon => _weapons.Count > 0 ? _weapons[_currentWeaponIndex] : null;
+    
+    public override void _Ready()
+    {
+        _weaponBasePosition = WeaponHolder.Position;
+        _weaponBaseRotation = WeaponHolder.Rotation;
+        
+        // Load starting weapons
+        AddWeapon(GD.Load&lt;PackedScene&gt;("res://weapons/ak47.tscn"));
+        AddWeapon(GD.Load&lt;PackedScene&gt;("res://weapons/pistol.tscn"));
+        AddWeapon(GD.Load&lt;PackedScene&gt;("res://weapons/knife.tscn"));
+        
+        EquipWeapon(0);
+    }
+    
+    public void AddWeapon(PackedScene weaponScene)
+    {
+        var weapon = weaponScene.Instantiate&lt;BaseWeapon&gt;();
+        WeaponHolder.AddChild(weapon);
+        weapon.Visible = false;
+        _weapons.Add(weapon);
+    }
+    
+    public void SwitchWeapon(int index)
+    {
+        if (_isSwitching || index == _currentWeaponIndex || index < 0 || index >= _weapons.Count)
+            return;
+        
+        _previousWeaponIndex = _currentWeaponIndex;
+        _currentWeaponIndex = index;
+        
+        _isSwitching = true;
+        
+        // Animation
+        var tween = CreateTween();
+        tween.TweenProperty(WeaponHolder, "position", _weaponBasePosition - Vector3.Down * 0.5f, WeaponSwitchTime / 2);
+        tween.TweenCallback(Callable.From(() => EquipWeapon(index)));
+        tween.TweenProperty(WeaponHolder, "position", _weaponBasePosition, WeaponSwitchTime / 2);
+        tween.TweenCallback(Callable.From(() => _isSwitching = false));
+    }
+    
+    private void EquipWeapon(int index)
+    {
+        foreach (var w in _weapons)
+            w.Visible = false;
+        
+        _weapons[index].Visible = true;
+        
+        // Update UI
+        GetNode&lt;Control&gt;("/root/GameManager/Player/CanvasLayer/HUD")?.Call("UpdateWeapon", 
+            _weapons[index].WeaponName, 
+            _weapons[index].CurrentAmmo, 
+            _weapons[index].CurrentReserve);
+    }
+    
+    public void TryShoot(bool isAiming)
+    {
+        if (_isSwitching) return;
+        CurrentWeapon?.TryShoot(isAiming);
+        UpdateAmmoUI();
+    }
+    
+    public void Reload()
+    {
+        if (_isSwitching) return;
+        CurrentWeapon?.Reload();
+        UpdateAmmoUI();
+    }
+    
+    public void UpdateAmmoUI()
+    {
+        if (CurrentWeapon == null) return;
+        
+        GetNode&lt;Control&gt;("/root/GameManager/Player/CanvasLayer/HUD")?.Call("UpdateAmmo",
+            CurrentWeapon.CurrentAmmo,
+            CurrentWeapon.CurrentReserve);
+    }
+    
+    public void ApplyWeaponBob(float speed, bool isSprinting)
+    {
+        _bobTimer += (float)GetProcessDeltaTime() * (isSprinting ? 15f : 10f);
+        
+        float bobAmount = isSprinting ? 0.1f : 0.05f;
+        float bobX = Mathf.Sin(_bobTimer) * bobAmount;
+        float bobY = Mathf.Abs(Mathf.Cos(_bobTimer)) * bobAmount;
+        
+        WeaponHolder.Position = _weaponBasePosition + new Vector3(bobX, bobY, 0);
+    }
+    
+    public void UpdateWeaponPosition(bool isAiming, float delta)
+    {
+        var targetPos = isAiming ? _weaponBasePosition + Vector3.Forward * 0.2f : _weaponBasePosition;
+        WeaponHolder.Position = WeaponHolder.Position.Lerp(targetPos, delta * 10f);
+    }
+}</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: MULTIPLAYER -->
+        <section id="multiplayer">
+            <h2>5. Sistema Multiplayer</h2>
+            
+            <h3>5.1 NetworkManager.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Multiplayer/NetworkManager.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class NetworkManager : Node
+{
+    public static NetworkManager Instance { get; private set; }
+    
+    [Signal] public delegate void PlayerConnectedEventHandler(int peerId);
+    [Signal] public delegate void PlayerDisconnectedEventHandler(int peerId);
+    [Signal] public delegate void ServerDisconnectedEventHandler();
+    [Signal] public delegate void MatchReadyEventHandler();
+    
+    public const int DEFAULT_PORT = 7777;
+    public const int MAX_PLAYERS = 10;
+    
+    public bool IsServer => Multiplayer.IsServer();
+    public bool IsConnected => Multiplayer.HasMultiplayerPeer();
+    public int LocalPeerId => Multiplayer.GetUniqueId();
+    
+    private Dictionary&lt;int, PlayerInfo&gt; _players = new();
+    private ENetMultiplayerPeer _peer;
+    
+    public override void _Ready()
+    {
+        Instance = this;
+        ProcessMode = ProcessModeEnum.Always;
+        
+        Multiplayer.ConnectedToServer += OnConnectedToServer;
+        Multiplayer.ConnectionFailed += OnConnectionFailed;
+        Multiplayer.PeerConnected += OnPeerConnected;
+        Multiplayer.PeerDisconnected += OnPeerDisconnected;
+        Multiplayer.ServerDisconnected += OnServerDisconnected;
+    }
+    
+    public Error CreateServer(int port = DEFAULT_PORT)
+    {
+        _peer = new ENetMultiplayerPeer();
+        var error = _peer.CreateServer(port, MAX_PLAYERS);
+        
+        if (error != Error.Ok)
+        {
+            GD.PushError($"Failed to create server: {error}");
+            return error;
+        }
+        
+        _peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+        Multiplayer.MultiplayerPeer = _peer;
+        
+        // Add host player
+        RegisterPlayer(1, GameManager.Instance.CurrentPlayer);
+        
+        GD.Print($"Server created on port {port}");
+        return Error.Ok;
+    }
+    
+    public Error JoinServer(string address, int port = DEFAULT_PORT)
+    {
+        _peer = new ENetMultiplayerPeer();
+        var error = _peer.CreateClient(address, port);
+        
+        if (error != Error.Ok)
+        {
+            GD.PushError($"Failed to create client: {error}");
+            return error;
+        }
+        
+        _peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+        Multiplayer.MultiplayerPeer = _peer;
+        
+        GD.Print($"Connecting to {address}:{port}...");
+        return Error.Ok;
+    }
+    
+    public void Disconnect()
+    {
+        Multiplayer.MultiplayerPeer = null;
+        _peer?.Close();
+        _peer = null;
+        _players.Clear();
+    }
+    
+    private void OnConnectedToServer()
+    {
+        GD.Print("Connected to server!");
+        
+        // Send player info to server
+        RpcId(1, nameof(RegisterPlayer), LocalPeerId, GameManager.Instance.CurrentPlayer);
+    }
+    
+    private void OnConnectionFailed()
+    {
+        GD.PushError("Connection failed!");
+        Disconnect();
+    }
+    
+    private void OnPeerConnected(long id)
+    {
+        int peerId = (int)id;
+        GD.Print($"Peer connected: {peerId}");
+        EmitSignal(SignalName.PlayerConnected, peerId);
+    }
+    
+    private void OnPeerDisconnected(long id)
+    {
+        int peerId = (int)id;
+        GD.Print($"Peer disconnected: {peerId}");
+        
+        _players.Remove(peerId);
+        EmitSignal(SignalName.PlayerDisconnected, peerId);
+        
+        // Despawn player
+        var playerNode = GetNodeOrNull&lt;Node3D&gt;($"/root/GameWorld/Players/{peerId}");
+        playerNode?.QueueFree();
+    }
+    
+    private void OnServerDisconnected()
+    {
+        GD.Print("Server disconnected!");
+        Disconnect();
+        EmitSignal(SignalName.ServerDisconnected);
+    }
+    
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void RegisterPlayer(int peerId, PlayerInfo info)
+    {
+        _players[peerId] = info;
+        GD.Print($"Player registered: {info.Username} (ID: {peerId})");
+        
+        if (IsServer)
+        {
+            // Broadcast to all clients
+            Rpc(nameof(SyncPlayerList), _players);
+            
+            // Spawn player in world
+            SpawnPlayer(peerId, info);
+        }
+    }
+    
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    private void SyncPlayerList(Dictionary&lt;int, PlayerInfo&gt; players)
+    {
+        _players = players;
+    }
+    
+    private void SpawnPlayer(int peerId, PlayerInfo info)
+    {
+        var spawnPoints = GetTree().GetNodesInGroup("SpawnPoints");
+        var spawnPoint = spawnPoints[_players.Count % spawnPoints.Count] as Node3D;
+        
+        var playerScene = GD.Load&lt;PackedScene&gt;("res://player/multiplayer_player.tscn");
+        var player = playerScene.Instantiate&lt;MultiplayerPlayer&gt;();
+        player.Name = peerId.ToString();
+        player.PeerId = peerId;
+        player.PlayerInfo = info;
+        player.GlobalPosition = spawnPoint?.GlobalPosition ?? Vector3.Zero;
+        
+        GetNode("/root/GameWorld/Players").AddChild(player, true); // Networked spawn
+    }
+    
+    // Server-authoritative shooting
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
+    public void RequestShoot(int peerId, Vector3 origin, Vector3 direction)
+    {
+        if (!IsServer) return;
+        
+        // Validate on server
+        var shooter = GetNodeOrNull&lt;MultiplayerPlayer&gt;($"/root/GameWorld/Players/{peerId}");
+        if (shooter == null) return;
+        
+        // Perform raycast
+        var spaceState = GetWorld3D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters3D.Create(origin, origin + direction * 1000);
+        query.CollisionMask = 0b101; // Players and environment
+        
+        var result = spaceState.IntersectRay(query);
+        
+        if (result.Count > 0)
+        {
+            var hit = result["collider"].AsGodotObject() as Node3D;
+            var hitPoint = result["position"].AsVector3();
+            
+            if (hit is MultiplayerPlayer target && target.PeerId != peerId)
+            {
+                // Apply damage
+                int damage = CalculateDamage(hitPoint, target);
+                target.Rpc(nameof(target.TakeDamage), damage, peerId);
+                
+                // Confirm hit to shooter
+                RpcId(peerId, nameof(ConfirmHit), target.PeerId, damage, true);
+            }
+        }
+    }
+    
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    private void ConfirmHit(int targetId, int damage, bool isKill)
+    {
+        // Show hit marker on client
+        GD.Print($"Hit confirmed: {damage} damage");
+    }
+    
+    private int CalculateDamage(Vector3 hitPoint, MultiplayerPlayer target)
+    {
+        // Headshot check
+        var headPos = target.GlobalPosition + new Vector3(0, 1.6f, 0);
+        if (hitPoint.DistanceTo(headPos) < 0.15f)
+            return 75; // Headshot
+        
+        return 25; // Body shot
+    }
+}
+
+public class PlayerInfo : GodotObject
+{
+    public string UserId { get; set; }
+    public string Username { get; set; }
+    public int Elo { get; set; }
+    public string Rank { get; set; }
+}</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: MONETIZACIÓN -->
+        <section id="monetization">
+            <h2>6. Sistema de Monetización</h2>
+            
+            <h3>6.1 DLCManager.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Monetization/DLCManager.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public partial class DLCManager : Node
+{
+    public static DLCManager Instance { get; private set; }
+    
+    [Signal] public delegate void DLCPurchasedEventHandler(string dlcId);
+    [Signal] public delegate void ContentUnlockedEventHandler(string contentId);
+    
+    private List&lt;DLCInfo&gt; _availableDLCs = new();
+    private Dictionary&lt;string, DLCContent&gt; _loadedContent = new();
+    
+    public override void _Ready()
+    {
+        Instance = this;
+        InitializeDLCs();
+        LoadOwnedContent();
+    }
+    
+    private void InitializeDLCs()
+    {
+        // DLC 1: Winter Warfare
+        _availableDLCs.Add(new DLCInfo
+        {
+            Id = "dlc_winter_warfare",
+            Name = "Winter Warfare",
+            Description = "Mapa ártico + 5 skins de invierno + modo Ice Breaker",
+            Price = 999,
+            IconPath = "res://dlc/winter/icon.png",
+            Contents = new() { DLCContentType.Map, DLCContentType.Skins, DLCContentType.GameMode },
+            ReleaseDate = new DateTime(2026, 4, 15)
         });
-
-        async function loadUserData(uid) {
-            const userDoc = await getDoc(doc(db, 'users', uid));
-            if (userDoc.exists()) {
-                const data = userDoc.data();
-                GameState.vp = data.vp || 1000;
-                GameState.inventory = data.inventory || [];
-                GameState.stats = data.stats || { rank: 'S2', elo: 1200, wins: 0, losses: 0 };
-                GameState.clan = data.clan || null;
-                GameState.friends = data.friends || [];
-                updateUI();
-            } else {
-                await setDoc(doc(db, 'users', uid), {
-                    vp: 1000,
-                    inventory: ['ak47_default'],
-                    stats: { rank: 'U', elo: 1000, wins: 0, losses: 0, kd: 1.0 },
-                    friends: [],
-                    clan: null,
-                    createdAt: serverTimestamp()
-                });
-            }
-        }
-
-        function initRealtimeListeners(uid) {
-            // Friends real-time updates
-            const friendsQuery = query(collection(db, 'users'), where('friends', 'array-contains', uid));
-            onSnapshot(friendsQuery, (snapshot) => {
-                const friends = [];
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    friends.push({
-                        id: doc.id,
-                        name: data.username || 'Unknown',
-                        status: data.status || 'offline',
-                        statusText: data.statusText || 'Offline',
-                        avatar: data.avatar || '👤'
-                    });
-                });
-                updateFriendsList(friends);
-            });
-
-            // Chat messages
-            const chatQuery = query(collection(db, 'chat'), orderBy('timestamp', 'desc'), limit(50));
-            onSnapshot(chatQuery, (snapshot) => {
-                const messages = [];
-                snapshot.forEach(doc => {
-                    messages.push({ id: doc.id, ...doc.data() });
-                });
-                updateChat(messages.reverse());
-            });
-
-            // Leaderboard
-            const lbQuery = query(collection(db, 'users'), orderBy('stats.elo', 'desc'), limit(10));
-            onSnapshot(lbQuery, (snapshot) => {
-                const players = [];
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    players.push({
-                        id: doc.id,
-                        name: data.username,
-                        elo: data.stats?.elo || 1000,
-                        rank: data.stats?.rank || 'U'
-                    });
-                });
-                updateLeaderboard(players);
-            });
-        }
-
-        window.handleLogin = async (e) => {
-            e.preventDefault();
-            try {
-                await signInWithEmailAndPassword(auth, 
-                    document.getElementById('loginEmail').value,
-                    document.getElementById('loginPassword').value
-                );
-            } catch (error) {
-                showNotification(error.message, 'error');
-            }
-        };
-
-        window.handleRegister = async (e) => {
-            e.preventDefault();
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth,
-                    document.getElementById('regEmail').value,
-                    document.getElementById('regPassword').value
-                );
-                await updateDoc(doc(db, 'users', userCredential.user.uid), {
-                    username: document.getElementById('regUsername').value
-                });
-            } catch (error) {
-                showNotification(error.message, 'error');
-            }
-        };
-
-        window.socialAuth = async (provider) => {
-            if (provider === 'google') {
-                try {
-                    await signInWithPopup(auth, new GoogleAuthProvider());
-                } catch (error) {
-                    showNotification(error.message, 'error');
-                }
-            }
-        };
-
-        window.addFriend = async () => {
-            const input = document.getElementById('friendInput');
-            const username = input.value.trim();
-            if (!username) return;
-
-            // Search user by username
-            const q = query(collection(db, 'users'), where('username', '==', username));
-            const snapshot = await getDocs(q);
-            
-            if (snapshot.empty) {
-                showNotification('Usuario no encontrado', 'error');
-                return;
-            }
-
-            const friendId = snapshot.docs[0].id;
-            const userRef = doc(db, 'users', window.currentUser.uid);
-            
-            await updateDoc(userRef, {
-                friends: arrayUnion(friendId)
-            });
-            
-            input.value = '';
-            showNotification('Solicitud enviada', 'success');
-        };
-
-        window.sendChat = async () => {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            // Moderation filter
-            const filtered = moderateText(text);
-            
-            await addDoc(collection(db, 'chat'), {
-                text: filtered.text,
-                original: filtered.wasFiltered ? text : null,
-                author: window.currentUser.uid,
-                authorName: window.currentUser.displayName || 'Anonymous',
-                clanTag: GameState.clan?.tag || null,
-                timestamp: serverTimestamp(),
-                wasFiltered: filtered.wasFiltered
-            });
-            
-            input.value = '';
-        };
-
-        function moderateText(text) {
-            const bannedWords = ['puto', 'mierda', 'estupido', 'idiota', 'tonto', 'gilipollas', 'cabron'];
-            let wasFiltered = false;
-            let filtered = text;
-            
-            bannedWords.forEach(word => {
-                const regex = new RegExp(word, 'gi');
-                if (regex.test(filtered)) {
-                    filtered = filtered.replace(regex, '***');
-                    wasFiltered = true;
-                }
-            });
-            
-            // Spam detection (repeated characters)
-            if (/(.)\1{4,}/.test(filtered)) {
-                filtered = filtered.replace(/(.)\1{4,}/g, '$1$1$1');
-                wasFiltered = true;
-            }
-            
-            // ALL CAPS detection
-            if (filtered === filtered.toUpperCase() && filtered.length > 10) {
-                filtered = filtered.toLowerCase();
-                wasFiltered = true;
-            }
-            
-            return { text: filtered, wasFiltered };
-        }
-
-        window.firebaseModerate = moderateText;
-    </script>
-
-    <!-- Main Game Logic -->
-    <script>
-        // ==========================================
-        // GAME STATE
-        // ==========================================
-        const GameState = {
-            inQueue: false,
-            inMatch: false,
-            inReplay: false,
-            vp: 1000,
-            inventory: [],
-            stats: { rank: 'S2', elo: 1200, wins: 0, losses: 0, kd: 1.0 },
-            clan: null,
-            friends: [],
-            selectedMode: 'competitive',
-            currentReplay: null,
-            replayFrame: 0,
-            replayPlaying: false,
-            replaySpeed: 1
-        };
-
-        // ==========================================
-        // REPLAY SYSTEM - Input Recording
-        // ==========================================
-        const ReplaySystem = {
-            inputs: [],
-            startTime: null,
-            isRecording: false,
-            
-            startRecording() {
-                this.inputs = [];
-                this.startTime = Date.now();
-                this.isRecording = true;
-                console.log('Recording started');
-            },
-            
-            recordInput(type, data) {
-                if (!this.isRecording) return;
-                this.inputs.push({
-                    timestamp: Date.now() - this.startTime,
-                    type,
-                    data
-                });
-            },
-            
-            stopRecording() {
-                this.isRecording = false;
-                const replay = {
-                    id: 'replay_' + Date.now(),
-                    date: new Date().toISOString(),
-                    duration: Date.now() - this.startTime,
-                    inputs: this.inputs,
-                    map: 'ascent',
-                    mode: GameState.selectedMode,
-                    result: 'win'
-                };
-                this.saveReplay(replay);
-                return replay;
-            },
-            
-            saveReplay(replay) {
-                // Save to localStorage (in production: Firebase Storage)
-                const replays = JSON.parse(localStorage.getItem('replays') || '[]');
-                replays.push(replay);
-                localStorage.setItem('replays', JSON.stringify(replays.slice(-10))); // Keep last 10
-                console.log('Replay saved:', replay.id);
-            },
-            
-            loadReplay(replayId) {
-                const replays = JSON.parse(localStorage.getItem('replays') || '[]');
-                return replays.find(r => r.id === replayId);
-            },
-            
-            playReplay(replay) {
-                GameState.currentReplay = replay;
-                GameState.replayFrame = 0;
-                GameState.replayPlaying = true;
-                GameState.inReplay = true;
-                
-                document.getElementById('replayControls').classList.add('active');
-                document.getElementById('gameHud').classList.add('active');
-                
-                this.replayLoop();
-            },
-            
-            replayLoop() {
-                if (!GameState.replayPlaying || !GameState.currentReplay) return;
-                
-                const frame = GameState.currentReplay.inputs[GameState.replayFrame];
-                if (!frame) {
-                    this.pauseReplay();
-                    return;
-                }
-                
-                // Apply input
-                applyReplayInput(frame);
-                
-                // Update progress
-                const progress = (GameState.replayFrame / GameState.currentReplay.inputs.length) * 100;
-                document.getElementById('replayProgress').style.width = progress + '%';
-                
-                GameState.replayFrame += GameState.replaySpeed;
-                
-                setTimeout(() => this.replayLoop(), 16 / GameState.replaySpeed);
-            },
-            
-            pauseReplay() {
-                GameState.replayPlaying = !GameState.replayPlaying;
-                document.getElementById('playPauseBtn').textContent = GameState.replayPlaying ? '⏸️' : '▶️';
-                if (GameState.replayPlaying) this.replayLoop();
-            },
-            
-            seekReplay(seconds) {
-                const frameChange = (seconds * 1000) / 16;
-                GameState.replayFrame = Math.max(0, Math.min(
-                    GameState.currentReplay.inputs.length - 1,
-                    GameState.replayFrame + frameChange
-                ));
-            },
-            
-            changeSpeed() {
-                const speeds = [0.5, 1, 2, 4];
-                const currentIdx = speeds.indexOf(GameState.replaySpeed);
-                GameState.replaySpeed = speeds[(currentIdx + 1) % speeds.length];
-                document.getElementById('replaySpeed').textContent = GameState.replaySpeed + 'x';
-            }
-        };
-
-        function applyReplayInput(frame) {
-            // Apply recorded input to game state
-            if (frame.type === 'move') {
-                player.x = frame.data.x;
-                player.z = frame.data.z;
-            } else if (frame.type === 'shoot') {
-                GameState.firing = true;
-            }
-        }
-
-        function showReplays() {
-            const replays = JSON.parse(localStorage.getItem('replays') || '[]');
-            if (replays.length === 0) {
-                showNotification('No hay replays guardados', 'warning');
-                return;
-            }
-            
-            // Show replay list (simplified - just play latest)
-            const latest = replays[replays.length - 1];
-            ReplaySystem.playReplay(latest);
-            showNotification('Reproduciendo replay...', 'success');
-        }
-
-        function toggleReplay() {
-            ReplaySystem.pauseReplay();
-        }
-
-        function replaySeek(seconds) {
-            ReplaySystem.seekReplay(seconds);
-        }
-
-        function changeSpeed() {
-            ReplaySystem.changeSpeed();
-        }
-
-        function exitReplay() {
-            GameState.inReplay = false;
-            GameState.replayPlaying = false;
-            document.getElementById('replayControls').classList.remove('active');
-            document.getElementById('gameHud').classList.remove('active');
-        }
-
-        // ==========================================
-        // UI FUNCTIONS
-        // ==========================================
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
-        }
-
-        function hideAuthScreen() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('mainHeader').style.display = 'flex';
-            document.getElementById('mainContainer').style.display = 'flex';
-            document.getElementById('userAvatar').textContent = window.currentUser?.displayName?.[0] || '?';
-        }
-
-        function showAuthScreen() {
-            document.getElementById('authScreen').classList.remove('hidden');
-            document.getElementById('mainHeader').style.display = 'none';
-            document.getElementById('mainContainer').style.display = 'none';
-        }
-
-        function showNotification(message, type) {
-            const notif = document.getElementById('notification');
-            notif.textContent = message;
-            notif.className = `notification ${type}`;
-            notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 4000);
-        }
-
-        function updateUI() {
-            document.getElementById('vpBalance').textContent = GameState.vp;
-        }
-
-        function updateFriendsList(friends) {
-            const list = document.getElementById('friendsList');
-            list.innerHTML = '';
-            
-            const onlineCount = friends.filter(f => f.status === 'online' || f.status === 'ingame').length;
-            document.getElementById('onlineCount').textContent = `${onlineCount}/${friends.length} online`;
-            
-            friends.forEach(friend => {
-                const div = document.createElement('div');
-                div.className = 'friend-item';
-                div.innerHTML = `
-                    <div class="friend-avatar">
-                        ${friend.avatar}
-                        <span class="friend-status ${friend.status}"></span>
-                    </div>
-                    <div class="friend-info">
-                        <div class="friend-name">${friend.name}</div>
-                        <div class="friend-status-text">${friend.statusText}</div>
-                    </div>
-                    <div class="friend-actions">
-                        <button class="friend-btn" onclick="inviteFriend('${friend.id}')">🎮</button>
-                        <button class="friend-btn" onclick="messageFriend('${friend.id}')">💬</button>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function updateClanMembers() {
-            const members = [
-                { name: 'ProPlayer', rank: 'leader', status: 'online' },
-                { name: 'SniperElite', rank: 'elder', status: 'ingame' },
-                { name: 'RushB', rank: 'member', status: 'offline' }
-            ];
-            
-            const list = document.getElementById('clanMembers');
-            list.innerHTML = '';
-            members.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'clan-member';
-                div.innerHTML = `
-                    <div class="friend-avatar" style="width: 35px; height: 35px; font-size: 1rem;">
-                        👤
-                        <span class="friend-status ${m.status}"></span>
-                    </div>
-                    <span style="flex: 1;">${m.name}</span>
-                    <span class="member-rank ${m.rank}">${m.rank}</span>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function updateLeaderboard(players) {
-            const list = document.getElementById('leaderboardList');
-            list.innerHTML = '';
-            
-            players.forEach((p, idx) => {
-                const div = document.createElement('div');
-                div.className = `lb-item ${idx < 3 ? 'top3' : ''}`;
-                div.innerHTML = `
-                    <div class="lb-rank ${idx < 3 ? 'rank-' + (idx + 1) : ''}">${idx + 1}</div>
-                    <div class="lb-player">${p.name}</div>
-                    <div class="lb-elo">${p.elo}</div>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function updateChat(messages) {
-            const container = document.getElementById('chatMessages');
-            container.innerHTML = '';
-            
-            messages.forEach(m => {
-                const div = document.createElement('div');
-                div.className = `chat-message ${m.wasFiltered ? 'filtered' : ''} ${m.system ? 'system' : ''}`;
-                
-                if (m.system) {
-                    div.textContent = m.text;
-                } else {
-                    div.innerHTML = `
-                        <span class="author ${m.clanTag ? 'clan' : ''}">
-                            ${m.clanTag ? `[${m.clanTag}] ` : ''}${m.authorName}:
-                        </span>
-                        ${m.text}
-                    `;
-                }
-                container.appendChild(div);
-            });
-            
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function switchLB(type) {
-            document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            // Load different leaderboard data
-        }
-
-        // ==========================================
-        // MATCHMAKING & GAME
-        // ==========================================
-        let queueInterval, matchAcceptTimer;
-
-        function selectMode(btn) {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            GameState.selectedMode = btn.dataset.mode;
-        }
-
-        function toggleQueue() {
-            const btn = document.getElementById('findMatchBtn');
-            const status = document.getElementById('queueStatus');
-            
-            if (!GameState.inQueue) {
-                GameState.inQueue = true;
-                btn.textContent = 'CANCELAR';
-                btn.classList.add('cancel');
-                status.classList.add('active');
-                
-                // Start recording for replay
-                ReplaySystem.startRecording();
-                
-                queueInterval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - (Date.now() - 3000)) / 1000);
-                    const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
-                    const secs = (elapsed % 60).toString().padStart(2, '0');
-                    document.getElementById('queueTimer').textContent = `${mins}:${secs}`;
-                    
-                    if (elapsed > 2) foundMatch();
-                }, 1000);
-            } else {
-                clearInterval(queueInterval);
-                GameState.inQueue = false;
-                btn.textContent = 'JUGAR';
-                btn.classList.remove('cancel');
-                status.classList.remove('active');
-                ReplaySystem.stopRecording(); // Save even if cancelled
-            }
-        }
-
-        function foundMatch() {
-            clearInterval(queueInterval);
-            document.getElementById('matchModal').classList.add('active');
-            
-            let timeLeft = 15;
-            document.getElementById('matchTimer').textContent = timeLeft;
-            
-            matchAcceptTimer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('matchTimer').textContent = timeLeft;
-                if (timeLeft <= 0) declineMatch();
-            }, 1000);
-        }
-
-        function acceptMatch() {
-            clearInterval(matchAcceptTimer);
-            document.getElementById('matchModal').classList.remove('active');
-            startGame();
-        }
-
-        function declineMatch() {
-            clearInterval(matchAcceptTimer);
-            document.getElementById('matchModal').classList.remove('active');
-            toggleQueue();
-        }
-
-        // ==========================================
-        // GAME ENGINE
-        // ==========================================
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const player = { x: 0, y: 1.7, z: 0, angle: 0, health: 100 };
-
-        function resizeCanvas() {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-
-        function startGame() {
-            GameState.inMatch = true;
-            document.getElementById('gameHud').classList.add('active');
-            document.getElementById('findMatchBtn').textContent = 'EN PARTIDA';
-            document.getElementById('findMatchBtn').disabled = true;
-            
-            resizeCanvas();
-            requestAnimationFrame(gameLoop);
-            
-            // Record inputs during match
-            document.addEventListener('keydown', recordInput);
-            canvas.addEventListener('click', () => recordInput('shoot', {}));
-        }
-
-        function recordInput(type, data) {
-            if (!GameState.inMatch) return;
-            
-            const inputData = {
-                x: player.x,
-                z: player.z,
-                angle: player.angle,
-                ...data
+        
+        // DLC 2: Night Ops
+        _availableDLCs.Add(new DLCInfo
+        {
+            Id = "dlc_night_ops",
+            Name = "Night Operations",
+            Description = "3 mapas nocturnos + visión nocturna + rifles silenciados",
+            Price = 1299,
+            IconPath = "res://dlc/night/icon.png",
+            Contents = new() { DLCContentType.Map, DLCContentType.Map, DLCContentType.Map, DLCContentType.Weapons },
+            ReleaseDate = new DateTime(2026, 5, 1),
+            IsLimitedTime = true,
+            AvailableUntil = new DateTime(2026, 6, 1)
+        });
+        
+        // DLC 3: Legendary Arsenal (Cosmético)
+        _availableDLCs.Add(new DLCInfo
+        {
+            Id = "dlc_legendary_arsenal",
+            Name = "Legendary Arsenal",
+            Description = "15 skins legendarias con efectos especiales",
+            Price = 2499,
+            IconPath = "res://dlc/legendary/icon.png",
+            IsCosmeticOnly = true,
+            Contents = new() { DLCContentType.Skins },
+            IncludesBonusCurrency = 500
+        });
+    }
+    
+    public List&lt;DLCInfo&gt; GetAvailableDLCs()
+    {
+        var now = DateTime.UtcNow;
+        return _availableDLCs.Where(d => 
+            d.ReleaseDate <= now && 
+            (!d.IsLimitedTime || d.AvailableUntil > now)
+        ).ToList();
+    }
+    
+    public bool PurchaseDLC(string dlcId)
+    {
+        var dlc = _availableDLCs.FirstOrDefault(d => d.Id == dlcId);
+        if (dlc == null) return false;
+        
+        if (!GameManager.Instance.SpendCurrency(dlc.Price))
+            return false;
+        
+        UnlockDLC(dlcId);
+        
+        if (dlc.IncludesBonusCurrency > 0)
+            GameManager.Instance.AddCurrency(dlc.IncludesBonusCurrency);
+        
+        return true;
+    }
+    
+    private void UnlockDLC(string dlcId)
+    {
+        GameManager.Instance.UnlockDLC(dlcId);
+        LoadDLCContent(dlcId);
+        EmitSignal(SignalName.DLCPurchased, dlcId);
+    }
+    
+    private void LoadDLCContent(string dlcId)
+    {
+        var dlc = _availableDLCs.First(d => d.Id == dlcId);
+        
+        foreach (var content in dlc.Contents)
+        {
+            var contentId = $"{dlcId}_{content}_{Guid.NewGuid().ToString()[..8]}";
+            var contentData = new DLCContent
+            {
+                Id = contentId,
+                Type = content,
+                SourceDLC = dlcId,
+                IsLoaded = true
             };
             
-            ReplaySystem.recordInput(type || 'move', inputData);
+            _loadedContent[contentId] = contentData;
+            EmitSignal(SignalName.ContentUnlocked, contentId);
         }
-
-        function gameLoop() {
-            if (!GameState.inMatch) return;
-            
-            ctx.fillStyle = '#0a0a0a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Simple 3D rendering
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            
-            // Sky
-            const grad = ctx.createLinearGradient(0, 0, 0, cy);
-            grad.addColorStop(0, '#1a1a3e');
-            grad.addColorStop(1, '#2a2a5e');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, cy);
-            
-            // Ground
-            ctx.fillStyle = '#1a1a3e';
-            ctx.fillRect(0, cy, canvas.width, cy);
-            
-            // Crosshair
-            ctx.strokeStyle = '#00ff88';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(cx, cy, 10, 0, Math.PI * 2);
-            ctx.stroke();
-            
-            requestAnimationFrame(gameLoop);
+        
+        GD.Print($"DLC {dlcId} loaded with {dlc.Contents.Count} content items");
+    }
+    
+    private void LoadOwnedContent()
+    {
+        foreach (var dlcId in GameManager.Instance.OwnedDLCs)
+        {
+            if (_availableDLCs.Any(d => d.Id == dlcId))
+                LoadDLCContent(dlcId);
         }
+    }
+    
+    public bool IsContentAvailable(string contentId)
+    {
+        return _loadedContent.ContainsKey(contentId);
+    }
+}
 
-        // ==========================================
-        // STORE
-        // ==========================================
-        function toggleStore() {
-            const store = document.getElementById('storePanel');
-            store.classList.toggle('active');
+public class DLCInfo
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Price { get; set; }
+    public string IconPath { get; set; }
+    public List&lt;DLCContentType&gt; Contents { get; set; } = new();
+    public DateTime ReleaseDate { get; set; }
+    public bool IsLimitedTime { get; set; }
+    public DateTime AvailableUntil { get; set; }
+    public bool IsCosmeticOnly { get; set; }
+    public int IncludesBonusCurrency { get; set; }
+}
+
+public class DLCContent
+{
+    public string Id { get; set; }
+    public DLCContentType Type { get; set; }
+    public string SourceDLC { get; set; }
+    public bool IsLoaded { get; set; }
+}
+
+public enum DLCContentType
+{
+    Map,
+    Skins,
+    Weapons,
+    Agent,
+    GameMode,
+    Feature
+}</pre>
+            </div>
+
+            <h3>6.2 SeasonPass.cs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>src/Monetization/SeasonPass.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                </div>
+                <pre>using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class SeasonPass : Node
+{
+    [Signal] public delegate void TierUnlockedEventHandler(int tier);
+    [Signal] public delegate void PremiumUnlockedEventHandler();
+    [Signal] public delegate void SeasonCompletedEventHandler();
+    
+    public int CurrentSeason { get; set; } = 1;
+    public string SeasonName { get; set; } = "First Blood";
+    public DateTime SeasonEnd { get; set; } = new DateTime(2026, 6, 28);
+    
+    public int CurrentTier { get; private set; } = 0;
+    public int CurrentXP { get; private set; } = 0;
+    public bool HasPremium { get; set; } = false;
+    public const int MAX_TIER = 100;
+    
+    private List&lt;SeasonReward&gt; _rewards = new();
+    
+    public override void _Ready()
+    {
+        InitializeRewards();
+        LoadProgress();
+    }
+    
+    private void InitializeRewards()
+    {
+        for (int tier = 1; tier <= MAX_TIER; tier++)
+        {
+            _rewards.Add(new SeasonReward
+            {
+                Tier = tier,
+                FreeReward = GenerateFreeReward(tier),
+                PremiumReward = GeneratePremiumReward(tier),
+                XpRequired = CalculateXP(tier)
+            });
         }
-
-        function switchStoreTab(tab, btn) {
-            document.querySelectorAll('.store-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
+    }
+    
+    private Reward GenerateFreeReward(int tier)
+    {
+        return tier switch
+        {
+            1 => new Reward(RewardType.Currency, 100, "100 VP"),
+            10 => new Reward(RewardType.Skin, 1, "Classic S1"),
+            25 => new Reward(RewardType.Agent, 1, "Agent Token"),
+            50 => new Reward(RewardType.Skin, 1, "AK-47 First Blood", Rarity.Epic),
+            100 => new Reward(RewardType.Skin, 1, "Karambit Bloodied", Rarity.Legendary),
+            _ => new Reward(RewardType.Currency, tier % 5 == 0 ? 50 : 25, $"{(tier % 5 == 0 ? 50 : 25)} VP")
+        };
+    }
+    
+    private Reward GeneratePremiumReward(int tier)
+    {
+        return tier switch
+        {
+            1 => new Reward(RewardType.Skin, 1, "Premium S1", Rarity.Rare),
+            50 => new Reward(RewardType.Skin, 1, "AWP Dragon Lite", Rarity.Legendary),
+            100 => new Reward(RewardType.Skin, 1, "Karambit Fade", Rarity.Mythic),
+            _ => new Reward(RewardType.Currency, tier * 5, $"{tier * 5} VP")
+        };
+    }
+    
+    private int CalculateXP(int tier) => (int)(1000 * Math.Pow(tier, 1.2));
+    
+    public void AddXP(int amount, XPSource source)
+    {
+        if (CurrentTier >= MAX_TIER) return;
+        
+        CurrentXP += amount;
+        
+        while (CurrentTier < MAX_TIER && CurrentXP >= XpForNextTier)
+        {
+            CurrentXP -= XpForNextTier;
+            UnlockTier(++CurrentTier);
         }
-
-        function openPaymentModal() {
-            document.getElementById('paymentModal').classList.add('active');
+        
+        SaveProgress();
+    }
+    
+    private void UnlockTier(int tier)
+    {
+        var reward = _rewards[tier - 1];
+        GrantReward(reward.FreeReward);
+        
+        if (HasPremium && reward.PremiumReward != null)
+            GrantReward(reward.PremiumReward);
+        
+        EmitSignal(SignalName.TierUnlocked, tier);
+        
+        if (tier == MAX_TIER)
+            EmitSignal(SignalName.SeasonCompleted);
+    }
+    
+    private void GrantReward(Reward reward)
+    {
+        switch (reward.Type)
+        {
+            case RewardType.Currency:
+                GameManager.Instance.AddCurrency(reward.Amount);
+                break;
+            case RewardType.Skin:
+            case RewardType.Agent:
+                GD.Print($"Unlocked: {reward.Name}");
+                break;
         }
-
-        function selectVP(amount, price, el) {
-            document.querySelectorAll('.vp-package').forEach(p => p.classList.remove('selected'));
-            el.classList.add('selected');
+    }
+    
+    public bool PurchasePremium()
+    {
+        const int PRICE = 1000;
+        if (!GameManager.Instance.SpendCurrency(PRICE)) return false;
+        
+        HasPremium = true;
+        
+        // Retroactive rewards
+        for (int i = 1; i <= CurrentTier; i++)
+        {
+            var premium = _rewards[i - 1].PremiumReward;
+            if (premium != null) GrantReward(premium);
         }
+        
+        EmitSignal(SignalName.PremiumUnlocked);
+        SaveProgress();
+        return true;
+    }
+    
+    public void PurchaseTierSkip(int tiers)
+    {
+        int maxSkip = MAX_TIER - CurrentTier;
+        tiers = Math.Min(tiers, maxSkip);
+        int price = tiers * 150;
+        
+        if (!GameManager.Instance.SpendCurrency(price)) return;
+        
+        for (int i = 0; i < tiers; i++)
+            AddXP(XpForNextTier - CurrentXP, XPSource.Purchase);
+    }
+    
+    private void SaveProgress()
+    {
+        GameManager.Instance.BattlePassTier = CurrentTier;
+        GameManager.Instance.HasPremiumPass = HasPremium;
+        GameManager.Instance.SavePlayerData();
+    }
+    
+    private void LoadProgress()
+    {
+        CurrentTier = GameManager.Instance.BattlePassTier;
+        HasPremium = GameManager.Instance.HasPremiumPass;
+    }
+    
+    public int XpForNextTier => CalculateXP(CurrentTier + 1);
+    public TimeSpan TimeRemaining => SeasonEnd - DateTime.UtcNow;
+}
 
-        function processPayment() {
-            showNotification('Procesando pago...', 'success');
-            setTimeout(() => {
-                document.getElementById('paymentModal').classList.remove('active');
-                showNotification('¡Compra exitosa!', 'success');
-            }, 1500);
-        }
+public class SeasonReward
+{
+    public int Tier { get; set; }
+    public int XpRequired { get; set; }
+    public Reward FreeReward { get; set; }
+    public Reward PremiumReward { get; set; }
+}
 
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        window.addEventListener('load', () => {
-            updateClanMembers();
+public class Reward
+{
+    public RewardType Type { get; set; }
+    public int Amount { get; set; }
+    public string Name { get; set; }
+    public Rarity Rarity { get; set; }
+    
+    public Reward(RewardType type, int amount, string name, Rarity rarity = Rarity.Common)
+    {
+        Type = type;
+        Amount = amount;
+        Name = name;
+        Rarity = rarity;
+    }
+}
+
+public enum RewardType { Currency, Skin, Agent, Weapon, Emote }
+public enum Rarity { Common, Uncommon, Rare, Epic, Legendary, Mythic }
+public enum XPSource { Match, Win, Kill, Assist, Objective, Challenge, Purchase }</pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 7: MARKETING -->
+        <section id="marketing">
+            <h2>7. Marketing y Lanzamiento</h2>
             
-            // Simulate incoming friend requests
-            setTimeout(() => {
-                showNotification('🔔 Nueva solicitud de amistad', 'success');
-            }, 5000);
-        });
-
-        // Expose functions
-        window.toggleStore = toggleStore;
-        window.switchStoreTab = switchStoreTab;
-        window.switchLB = switchLB;
-        window.toggleQueue = toggleQueue;
-        window.acceptMatch = acceptMatch;
-        window.openPaymentModal = openPaymentModal;
-        window.selectVP = selectVP;
-        window.processPayment = processPayment;
-        window.showReplays = showReplays;
-        window.toggleReplay = toggleReplay;
-        window.replaySeek = replaySeek;
-        window.changeSpeed = changeSpeed;
-        window.exitReplay = exitReplay;
-        window.addFriend = () => {}; // Defined in Firebase module
-        window.sendChat = () => {}; // Defined in Firebase module
-    </script>
-</body>
-</html>
+            <h3>7.1 Estrategia Pre-Lanzamiento</h3>
+            
+            <table>
+                <tr>
+                    <th>Fase</th>
+                    <th>Tiempo</th>
+                    <th>Acciones</th>
+                    <th>Plataformas</th>
+                </tr>
+                <tr>
+                    <td>Alpha Cerrada</td>
+                    <td>3-4 meses antes</td>
+                    <td>Test con 100-500 jugadores</td>
+                    <td>Discord, Reddit</td>
+                </tr>
+                <tr>
+                    <td>Beta Abierta</td>
+                    <td>1-2 meses antes</td>
+                    <td>Free weekend, streamers</td>
+                    <td>Steam, itch.io</td>
+                </tr>
+                <tr>
+                    <td>Early Access</td>
+                    <td>Lanzamiento suave</td>
+                    <td>Feedback continuo</td>
+                    <td>Steam Early Access</td>
+                </tr>
+                <tr>
+                    <td>Launch</td>
+                    <td>D
