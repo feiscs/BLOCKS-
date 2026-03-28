@@ -3,2041 +3,1336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOCKS | 5v5 Tactical Shooter - Construye Tu Leyenda</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>FPS Web Game - Shooter 5v5</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0a0e14;
-            --bg-secondary: #111820;
-            --bg-tertiary: #1a2330;
-            --accent-gold: #ffc107;
-            --accent-orange: #ff6b35;
-            --sentinel: #ff6b35;
-            --controller: #00d4ff;
-            --duelist: #ff4655;
-            --initiator: #00ff88;
-            --flex: #bd00ff;
-            --text-primary: #f0f4f8;
-            --text-secondary: #94a3b8;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
             overflow-x: hidden;
         }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-gold);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 4%;
-            background: rgba(10, 14, 20, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
+        
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #ff0055, #ff6b6b);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s;
-        }
-
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
-        .logo-mark {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: pulse-glow 2s infinite;
-            position: relative;
-        }
-
-        .logo-mark::after {
-            content: '';
-            position: absolute;
-            inset: 6px;
-            background: var(--bg-primary);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 193, 7, 0.8); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-gold);
-        }
-
-        .nav-cta {
-            padding: 0.8rem 2rem;
-            background: var(--accent-orange);
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 8rem 4% 4rem;
-            position: relative;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(255, 193, 7, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-                var(--bg-primary);
-        }
-
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
             width: 100%;
-            height: 100%;
-            z-index: 0;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(255,0,85,0.3);
         }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-        }
-
-        .game-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-gold);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 1.2rem;
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3.5rem, 10vw, 7rem);
-            font-weight: 900;
-            line-height: 0.9;
-            letter-spacing: -2px;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        .hero h1 .blocks {
-            display: block;
-            background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 50%, var(--accent-orange) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero h1 .tagline {
-            font-size: 0.4em;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 8px;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-play {
-            padding: 1.2rem 3rem;
-            background: var(--accent-orange);
+        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
+        .nav { display: flex; gap: 20px; align-items: center; }
+        .nav button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-            position: relative;
-            overflow: hidden;
         }
-
-        .btn-play::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
+        .nav button:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+        .currency {
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
         }
-
-        .btn-play:hover::before {
-            left: 100%;
-        }
-
-        .btn-play:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
-        }
-
-        .btn-trailer {
-            padding: 1.2rem 3rem;
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .btn-trailer:hover {
-            border-color: var(--accent-gold);
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--accent-gold);
-        }
-
-        .team-comp {
+        
+        /* Main Container */
+        .main-container {
+            margin-top: 70px;
             display: flex;
-            align-items: center;
-            gap: 2rem;
-            padding: 1.5rem 2rem;
-            background: rgba(17, 24, 32, 0.8);
-            border: 1px solid rgba(255, 193, 7, 0.2);
-            clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
-            flex-wrap: wrap;
+            min-height: calc(100vh - 70px);
         }
-
-        .comp-label {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .comp-slots {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .comp-slot {
-            width: 50px;
-            height: 50px;
-            background: var(--bg-tertiary);
-            border: 2px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .comp-slot.filled {
-            animation: slot-pulse 2s infinite;
-        }
-
-        @keyframes slot-pulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 193, 7, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.6); }
-        }
-
-        /* Roles Section */
-        .roles-section {
-            padding: 6rem 4%;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--accent-orange);
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .roles-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.5rem;
-        }
-
-        .role-card {
-            background: var(--bg-tertiary);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
-        }
-
-        .role-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--role-color);
-            transform: scaleX(0);
-            transition: transform 0.4s;
-        }
-
-        .role-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--role-color);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
-                        0 0 80px var(--role-glow);
-            z-index: 10;
-        }
-
-        .role-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .role-header {
-            padding: 2rem 1.5rem;
-            text-align: center;
-            position: relative;
-            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-        }
-
-        .role-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-        }
-
-        .role-icon-bg {
-            position: absolute;
-            inset: 0;
-            background: var(--role-color);
-            opacity: 0.2;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: rotate-icon 8s linear infinite;
-        }
-
-        @keyframes rotate-icon {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .role-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--role-color);
-            margin-bottom: 0.3rem;
-        }
-
-        .role-type {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .role-body {
-            padding: 0 1.5rem 2rem;
-        }
-
-        .role-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .abilities-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .ability-row {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.6rem;
+        
+        /* Sidebar - Matchmaking */
+        .sidebar {
+            width: 300px;
             background: rgba(0,0,0,0.3);
-            transition: all 0.3s;
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
-
-        .ability-row:hover {
+        .matchmaking-panel {
+            background: linear-gradient(135deg, rgba(255,0,85,0.1), rgba(255,107,107,0.1));
+            border: 1px solid rgba(255,0,85,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .matchmaking-panel h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .game-modes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .mode-btn {
             background: rgba(255,255,255,0.05);
-            transform: translateX(5px);
-        }
-
-        .ability-key {
-            width: 28px;
-            height: 28px;
-            background: var(--role-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 0.85rem;
-            clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            border: 1px solid rgba(255,255,255,0.2);
             color: white;
-        }
-
-        .ability-name {
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .role-footer {
-            padding: 1rem 1.5rem;
-            background: rgba(0,0,0,0.3);
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .role-difficulty {
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
         }
-
-        .difficulty-dots {
-            display: flex;
-            gap: 3px;
+        .mode-btn:hover, .mode-btn.active {
+            background: rgba(255,0,85,0.2);
+            border-color: #ff0055;
         }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
+        .mode-btn.active::after {
+            content: "●";
+            color: #00ff88;
         }
-
-        .dot.filled {
-            background: var(--role-color);
-            box-shadow: 0 0 10px var(--role-color);
+        .queue-status {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: center;
         }
-
-        /* Currency Section */
-        .currency-section {
-            padding: 6rem 4%;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        .queue-timer {
+            font-size: 2rem;
+            color: #00ff88;
+            font-family: monospace;
+        }
+        .find-match-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        .find-match-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,255,136,0.4);
+        }
+        .find-match-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Game Area */
+        .game-area {
+            flex: 1;
             position: relative;
-            overflow: hidden;
         }
-
-        .currency-bg {
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            cursor: crosshair;
+        }
+        .game-overlay {
             position: absolute;
-            inset: 0;
-            opacity: 0.1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
         }
-
-        .currency-bg::before {
-            content: '';
+        
+        /* HUD */
+        .hud {
             position: absolute;
-            top: 20%;
-            left: 10%;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-gold);
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        .hud.active { display: block; }
+        
+        .crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0,255,136,0.8);
             border-radius: 50%;
-            filter: blur(128px);
         }
-
-        .currency-bg::after {
-            content: '';
+        .crosshair::before, .crosshair::after {
+            content: "";
             position: absolute;
-            bottom: 20%;
-            right: 10%;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-orange);
-            border-radius: 50%;
-            filter: blur(128px);
+            background: rgba(0,255,136,0.8);
         }
-
-        .currency-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .currency-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .info-card {
-            background: rgba(26, 35, 48, 0.8);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 2rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .info-card:hover {
-            border-color: rgba(255, 193, 7, 0.3);
-        }
-
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .info-card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Pricing Plans */
-        .pricing-container {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .pricing-card {
-            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .pricing-card:hover {
-            transform: scale(1.05);
-            border-color: rgba(255, 193, 7, 0.5);
-        }
-
-        .pricing-card.popular {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
-        }
-
-        .popular-badge {
-            position: absolute;
+        .crosshair::before {
+            width: 2px;
+            height: 8px;
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--accent-gold);
-            color: black;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
         }
-
-        .plan-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .blocks-amount {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 0.2rem;
-        }
-
-        .blocks-label {
-            color: var(--accent-gold);
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .bonus-badge {
-            display: inline-block;
-            background: rgba(0, 255, 136, 0.2);
-            color: #00ff88;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .plan-price {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .btn-buy {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-buy:hover {
-            background: var(--accent-gold);
-            color: black;
-        }
-
-        .pricing-card.popular .btn-buy {
-            background: var(--accent-gold);
-            color: black;
-        }
-
-        .pricing-card.popular .btn-buy:hover {
-            background: #ffd54f;
-        }
-
-        /* Payment Methods */
-        .payment-methods {
-            text-align: center;
-        }
-
-        .payment-methods p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .payment-options {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .payment-option {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.5rem 2rem;
-            min-width: 280px;
-            transition: all 0.3s;
-        }
-
-        .payment-option:hover {
-            border-color: var(--accent-gold);
-            background: rgba(255,193,7,0.05);
-        }
-
-        .payment-option.paypal {
-            border-left: 4px solid #0070ba;
-        }
-
-        .payment-option.bank {
-            border-left: 4px solid var(--accent-gold);
-        }
-
-        .payment-logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: white;
-        }
-
-        .payment-option span {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .account-number {
-            margin-top: 0.8rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .account-number span {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .account-number code {
-            background: rgba(0,0,0,0.4);
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-            border: 1px solid rgba(255,193,7,0.3);
-        }
-
-        .copy-btn {
-            margin-top: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 6px;
-            color: white;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: var(--accent-gold);
-            color: black;
-            border-color: var(--accent-gold);
-        }
-
-        /* Team Builder */
-        .team-builder {
-            padding: 4rem 4%;
-            background: var(--bg-primary);
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .builder-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .builder-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .builder-slots {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .builder-slot {
-            width: 100px;
-            height: 120px;
-            background: var(--bg-tertiary);
-            border: 2px dashed rgba(255,255,255,0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .builder-slot:hover {
-            border-color: var(--accent-gold);
-            background: rgba(255, 193, 7, 0.05);
-        }
-
-        .builder-slot.filled {
-            border-style: solid;
-            border-color: var(--accent-gold);
-            background: rgba(255, 193, 7, 0.1);
-        }
-
-        .slot-number {
-            position: absolute;
-            top: -10px;
+        .crosshair::after {
+            width: 8px;
+            height: 2px;
             left: -10px;
-            width: 24px;
-            height: 24px;
-            background: var(--bg-primary);
-            border: 2px solid var(--accent-gold);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .health-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            width: 200px;
+        }
+        .health-bar .label {
+            font-size: 0.9rem;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        .health-bg {
+            background: rgba(255,255,255,0.1);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .health-fill {
+            background: linear-gradient(90deg, #ff0055, #ff6b6b);
+            height: 100%;
+            width: 100%;
+            transition: width 0.3s;
+        }
+        
+        .ammo-counter {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            text-align: right;
+        }
+        .ammo-current {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .ammo-reserve {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .minimap {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(0,255,136,0.3);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .kill-feed {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            width: 250px;
+        }
+        .kill-entry {
+            background: rgba(0,0,0,0.6);
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Store Panel */
+        .store-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(10,10,20,0.98));
+            border: 1px solid rgba(255,0,85,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+            pointer-events: auto;
+        }
+        .store-panel.active { display: block; }
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .store-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .store-tab {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .store-tab.active {
+            background: linear-gradient(90deg, #ff0055, #ff6b6b);
+            border-color: transparent;
+        }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .item-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff0055;
+            background: rgba(255,0,85,0.1);
+        }
+        .item-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .item-name { font-weight: bold; margin-bottom: 5px; }
+        .item-price {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .buy-btn:hover { transform: scale(1.05); }
+        .buy-btn:disabled {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.3);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Voice Chat UI */
+        .voice-panel {
+            position: absolute;
+            bottom: 100px;
+            left: 30px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            padding: 15px;
+            display: none;
+        }
+        .voice-panel.active { display: block; }
+        .voice-users {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .voice-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        .voice-user.speaking {
+            background: rgba(0,255,136,0.2);
+            border: 1px solid #00ff88;
+        }
+        .voice-icon {
+            width: 30px;
+            height: 30px;
+            background: #333;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
         }
-
-        .slot-icon {
-            font-size: 2rem;
-            opacity: 0.5;
-        }
-
-        .builder-slot.filled .slot-icon {
-            opacity: 1;
-        }
-
-        .slot-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-
-        .builder-hint {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .role-selector {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .role-btn {
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-radius: 6px;
-        }
-
-        .role-btn:hover {
-            border-color: var(--accent-gold);
-            background: rgba(255, 193, 7, 0.1);
-        }
-
-        .role-btn-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 6rem 4%;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, #cc2938 100%);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-bg {
+        
+        /* Ad Container */
+        .ad-container {
             position: absolute;
-            inset: 0;
-            background: 
-                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 70px);
-            animation: slide-bg 20s linear infinite;
-        }
-
-        @keyframes slide-bg {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(70px, 70px); }
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .cta-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .cta-desc {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-        }
-
-        .cta-btn {
-            padding: 1.5rem 4rem;
-            background: white;
-            color: var(--accent-orange);
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--bg-primary);
-            padding: 4rem 4% 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr repeat(3, 1fr);
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-top: 1rem;
-        }
-
-        .footer-col h4 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-col a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .footer-col a:hover {
-            color: var(--accent-gold);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-bottom p {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-tertiary);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 728px;
+            height: 90px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            border-radius: 8px;
+            color: rgba(255,255,255,0.3);
         }
-
-        .social-icon:hover {
-            border-color: var(--accent-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
+        .rewarded-ad-btn {
+            position: absolute;
+            top: 100px;
+            left: 30px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: none;
         }
-
-        /* Modal */
+        .rewarded-ad-btn.active { display: block; }
+        
+        /* Match Found Modal */
         .modal-overlay {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.8);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            backdrop-filter: blur(10px);
         }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
+        .modal-overlay.active { display: flex; }
         .modal {
-            background: var(--bg-tertiary);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
+            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
+            border: 2px solid #00ff88;
+            border-radius: 20px;
+            padding: 40px;
             text-align: center;
-            animation: modal-in 0.3s ease;
+            animation: pulse 2s infinite;
         }
-
-        @keyframes modal-in {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.3); }
+            50% { box-shadow: 0 0 40px rgba(0,255,136,0.6); }
         }
-
-        .modal h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .modal h2 {
+            color: #00ff88;
+            font-size: 2rem;
+            margin-bottom: 20px;
         }
-
-        .modal p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .modal-blocks {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-buttons {
+        .match-teams {
             display: flex;
-            gap: 1rem;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
         }
-
-        .modal-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
+        .team {
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 150px;
+        }
+        .team.attack { background: rgba(255,0,85,0.2); border: 1px solid #ff0055; }
+        .team.defense { background: rgba(0,100,255,0.2); border: 1px solid #0064ff; }
+        .accept-btn {
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
             border: none;
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
         }
-
-        .modal-btn.cancel {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        .modal-btn.cancel:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .modal-btn.confirm {
-            background: var(--accent-gold);
-            color: black;
-        }
-
-        .modal-btn.confirm:hover {
-            background: #ffd54f;
-        }
-
-        /* Toast */
-        .toast {
+        
+        /* Anti-Cheat Notifications */
+        .cheat-warning {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--bg-tertiary);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
+            top: 100px;
+            right: 30px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
             z-index: 3000;
         }
-
-        .toast.show {
-            transform: translateX(0);
+        .cheat-warning.active { display: block; animation: shake 0.5s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
-
-        .toast-icon {
-            width: 24px;
-            height: 24px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-
+        
         /* Responsive */
-        @media (max-width: 1200px) {
-            .roles-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .pricing-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .currency-info {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 1024px) {
+            .sidebar { width: 250px; }
+            .store-panel { width: 90%; }
         }
-
         @media (max-width: 768px) {
-            .roles-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .pricing-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .nav-links {
-                display: none;
-            }
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-            .team-comp {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .roles-container {
-                grid-template-columns: 1fr;
-            }
-            .pricing-container {
-                grid-template-columns: 1fr;
-            }
-            .builder-slots {
-                flex-wrap: wrap;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; }
+            .ad-container { width: 320px; height: 50px; }
         }
     </style>
 <base target="_blank">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="navbar">
-        <a href="#" class="logo">
-            <div class="logo-mark"></div>
-            BLOCKS
-        </a>
-        <ul class="nav-links">
-            <li><a onclick="scrollToSection('roles')">Roles</a></li>
-            <li><a onclick="scrollToSection('arsenal')">Arsenal</a></li>
-            <li><a onclick="scrollToSection('maps')">Mapas</a></li>
-            <li><a onclick="scrollToSection('currency')">Moneda</a></li>
-            <li><a onclick="scrollToSection('esports')">Esports</a></li>
-        </ul>
-        <button class="nav-cta" onclick="showToast('¡Descarga iniciada!')">Juega Gratis</button>
-    </nav>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">🔥 FPS WEB</div>
+        <div class="nav">
+            <span class="currency">💎 <span id="vpBalance">1000</span> VP</span>
+            <button onclick="toggleStore()">🛒 Tienda</button>
+            <button onclick="toggleSettings()">⚙️</button>
+        </div>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <canvas id="particleCanvas"></canvas>
-        <div class="hero-content">
-            <div class="game-badge">
-                <span>✦</span> 5v5 Tactical Shooter
-            </div>
-            <h1>
-                <span class="blocks">BLOCKS</span>
-                <span class="tagline">CONSTRUYE TU LEYENDA</span>
-            </h1>
-            <p class="hero-desc">
-                Un shooter táctico 5 contra 5 donde cada bloque cuenta. Domina 5 roles únicos, 
-                cada uno con habilidades que desafían la física. Coordina con tu equipo, 
-                ejecuta estrategias perfectas y conquista el campo de batalla.
-            </p>
-            <div class="hero-buttons">
-                <button class="btn-play" onclick="createBurst(event); showToast('¡Descarga iniciada!')">
-                    ⚡ Descargar Gratis
-                </button>
-                <button class="btn-trailer" onclick="showToast('Tráiler próximamente')">
-                    ▶ Ver Gameplay
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar - Matchmaking -->
+        <div class="sidebar">
+            <div class="matchmaking-panel">
+                <h3>🎮 BUSCAR PARTIDA</h3>
+                <div class="game-modes">
+                    <button class="mode-btn active" data-mode="unrated">
+                        <span>⚔️ Competitivo</span>
+                        <small>5v5 · Ranking</small>
+                    </button>
+                    <button class="mode-btn" data-mode="deathmatch">
+                        <span>🔫 Deathmatch</span>
+                        <small>Todos vs Todos</small>
+                    </button>
+                    <button class="mode-btn" data-mode="spike-rush">
+                        <span>💣 Spike Rush</span>
+                        <small>Rápido · 4 rondas</small>
+                    </button>
+                </div>
+                <div class="queue-status" id="queueStatus" style="display:none;">
+                    <div>Buscando partida...</div>
+                    <div class="queue-timer" id="queueTimer">00:00</div>
+                    <div id="queueInfo">0 jugadores en cola</div>
+                </div>
+                <button class="find-match-btn" id="findMatchBtn" onclick="toggleQueue()">
+                    JUGAR
                 </button>
             </div>
             
-            <div class="team-comp">
-                <span class="comp-label">Composición Ideal 5v5:</span>
-                <div class="comp-slots">
-                    <div class="comp-slot filled" style="border-color: #ff6b35;">🛡️</div>
-                    <div class="comp-slot filled" style="border-color: #00d4ff;">☁️</div>
-                    <div class="comp-slot filled" style="border-color: #ff4655;">⚔️</div>
-                    <div class="comp-slot filled" style="border-color: #00ff88;">🔍</div>
-                    <div class="comp-slot filled" style="border-color: #bd00ff;">🎯</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Roles Section -->
-    <section class="roles-section" id="roles">
-        <div class="section-header">
-            <div class="section-label">Sistema de Roles</div>
-            <h2 class="section-title">5 Roles. Infinitas Estrategias.</h2>
-            <p class="section-subtitle">Cada rol es esencial para la victoria. La combinación perfecta determina el destino de la partida.</p>
-        </div>
-
-        <div class="roles-container">
-            <!-- SENTINEL -->
-            <div class="role-card" style="--role-color: #ff6b35; --role-glow: rgba(255, 107, 53, 0.4)">
-                <div class="role-header">
-                    <div class="role-icon">
-                        <div class="role-icon-bg"></div>
-                        <span>🛡️</span>
+            <div class="matchmaking-panel">
+                <h3>📊 ESTADÍSTICAS</h3>
+                <div style="display:grid; gap:10px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>Rank:</span>
+                        <span style="color:#ffd700;">Plata II</span>
                     </div>
-                    <div class="role-name">SENTINEL</div>
-                    <div class="role-type">Defensor</div>
-                </div>
-                <div class="role-body">
-                    <p class="role-desc">
-                        Especialista en control de áreas y protección del equipo. Crea fortalezas impenetrables y revive aliados caídos.
-                    </p>
-                    <div class="abilities-list">
-                        <div class="ability-row">
-                            <span class="ability-key">Q</span>
-                            <span class="ability-name">Barrier - Muro de energía</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">E</span>
-                            <span class="ability-name">Sentry - Torreta auto</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">C</span>
-                            <span class="ability-name">Slow Field - Zona de ralentización</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">X</span>
-                            <span class="ability-name">Resurrect - Revive a un aliado</span>
-                        </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>WR:</span>
+                        <span style="color:#00ff88;">52%</span>
                     </div>
-                </div>
-                <div class="role-footer">
-                    <div class="role-difficulty">
-                        <span>Dificultad:</span>
-                        <div class="difficulty-dots">
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot"></div>
-                        </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>K/D:</span>
+                        <span style="color:#ff6b6b;">1.2</span>
                     </div>
                 </div>
             </div>
-
-            <!-- CONTROLLER -->
-            <div class="role-card" style="--role-color: #00d4ff; --role-glow: rgba(0, 212, 255, 0.4)">
-                <div class="role-header">
-                    <div class="role-icon">
-                        <div class="role-icon-bg"></div>
-                        <span>☁️</span>
-                    </div>
-                    <div class="role-name">CONTROLLER</div>
-                    <div class="role-type">Estratega</div>
-                </div>
-                <div class="role-body">
-                    <p class="role-desc">
-                        Domina la visión del campo de batalla. Bloquea líneas de visión, divide el mapa y crea oportunidades.
-                    </p>
-                    <div class="abilities-list">
-                        <div class="ability-row">
-                            <span class="ability-key">Q</span>
-                            <span class="ability-name">Smoke Screen - Cortina de humo</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">E</span>
-                            <span class="ability-name">Wall - Muro táctico</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">C</span>
-                            <span class="ability-name">Decoy - Señuelo radar</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">X</span>
-                            <span class="ability-name">Blackout - Oscurece el mapa</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="role-footer">
-                    <div class="role-difficulty">
-                        <span>Dificultad:</span>
-                        <div class="difficulty-dots">
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DUELIST -->
-            <div class="role-card" style="--role-color: #ff4655; --role-glow: rgba(255, 70, 85, 0.4)">
-                <div class="role-header">
-                    <div class="role-icon">
-                        <div class="role-icon-bg"></div>
-                        <span>⚔️</span>
-                    </div>
-                    <div class="role-name">DUELIST</div>
-                    <div class="role-type">Asesino</div>
-                </div>
-                <div class="role-body">
-                    <p class="role-desc">
-                        Especialista en eliminaciones y entrada agresiva. Alta movilidad y daño. El primero en entrar.
-                    </p>
-                    <div class="abilities-list">
-                        <div class="ability-row">
-                            <span class="ability-key">Q</span>
-                            <span class="ability-name">Dash - Esquiva rápida</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">E</span>
-                            <span class="ability-name">Flash - Ceguera táctica</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">C</span>
-                            <span class="ability-name">Molly - Daño en área</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">X</span>
-                            <span class="ability-name">Overdrive - Modo berserker</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="role-footer">
-                    <div class="role-difficulty">
-                        <span>Dificultad:</span>
-                        <div class="difficulty-dots">
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- INITIATOR -->
-            <div class="role-card" style="--role-color: #00ff88; --role-glow: rgba(0, 255, 136, 0.4)">
-                <div class="role-header">
-                    <div class="role-icon">
-                        <div class="role-icon-bg"></div>
-                        <span>🔍</span>
-                    </div>
-                    <div class="role-name">INITIATOR</div>
-                    <div class="role-type">Iniciador</div>
-                </div>
-                <div class="role-body">
-                    <p class="role-desc">
-                        Abre espacios y revela enemigos. Especialista en información y preparación del terreno.
-                    </p>
-                    <div class="abilities-list">
-                        <div class="ability-row">
-                            <span class="ability-key">Q</span>
-                            <span class="ability-name">Drone - Reconocimiento aéreo</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">E</span>
-                            <span class="ability-name">Scan - Revela enemigos</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">C</span>
-                            <span class="ability-name">Concuss - Aturdimiento</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">X</span>
-                            <span class="ability-name">EMP - Desactiva habilidades</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="role-footer">
-                    <div class="role-difficulty">
-                        <span>Dificultad:</span>
-                        <div class="difficulty-dots">
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FLEX -->
-            <div class="role-card" style="--role-color: #bd00ff; --role-glow: rgba(189, 0, 255, 0.4)">
-                <div class="role-header">
-                    <div class="role-icon">
-                        <div class="role-icon-bg"></div>
-                        <span>🎯</span>
-                    </div>
-                    <div class="role-name">FLEX</div>
-                    <div class="role-type">Versátil</div>
-                </div>
-                <div class="role-body">
-                    <p class="role-desc">
-                        Rol adaptativo que cambia según la necesidad. Soporte táctico con habilidades de utilidad mixta.
-                    </p>
-                    <div class="abilities-list">
-                        <div class="ability-row">
-                            <span class="ability-key">Q</span>
-                            <span class="ability-name">Clone - Duplicado táctico</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">E</span>
-                            <span class="ability-name">Teleport - Salto corto</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">C</span>
-                            <span class="ability-name">Heal - Cura aliado</span>
-                        </div>
-                        <div class="ability-row">
-                            <span class="ability-key">X</span>
-                            <span class="ability-name">Copy - Copia última habilidad</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="role-footer">
-                    <div class="role-difficulty">
-                        <span>Dificultad:</span>
-                        <div class="difficulty-dots">
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                            <div class="dot filled"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Currency Section -->
-    <section class="currency-section" id="currency">
-        <div class="currency-bg"></div>
-        <div class="currency-container">
-            <div class="section-header">
-                <div class="section-label" style="color: var(--accent-gold);">✦ Moneda Oficial</div>
-                <h2 class="section-title">BLOCKS</h2>
-                <p class="section-subtitle">
-                    La moneda premium de BLOCKS. Desbloquea skins, personajes, pases de batalla y más contenido exclusivo.
-                </p>
-            </div>
-
-            <div class="currency-info">
-                <div class="info-card">
-                    <div class="info-icon">🎁</div>
-                    <h3>Recompensas Exclusivas</h3>
-                    <p>Desbloquea skins únicas, animaciones y efectos especiales para tus agentes.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">⭐</div>
-                    <h3>Pase de Batalla</h3>
-                    <p>Accede al pase premium con recompensas épicas cada temporada.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">⚡</div>
-                    <h3>Agentes Nuevos</h3>
-                    <p>Desbloquea instantáneamente a los nuevos agentes sin esperar.</p>
-                </div>
-            </div>
-
-            <div class="pricing-container">
-                <div class="pricing-card">
-                    <div class="plan-icon">🥉</div>
-                    <div class="blocks-amount">475</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="plan-price">$4.99</div>
-                    <button class="btn-buy" onclick="openModal(475, 4.99)">Comprar</button>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="plan-icon">🥈</div>
-                    <div class="blocks-amount">1,000</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="bonus-badge">+50 BONUS</div>
-                    <div class="plan-price">$9.99</div>
-                    <button class="btn-buy" onclick="openModal(1050, 9.99)">Comprar</button>
-                </div>
-
-                <div class="pricing-card popular">
-                    <div class="popular-badge">Más Popular</div>
-                    <div class="plan-icon">🥇</div>
-                    <div class="blocks-amount">2,050</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="bonus-badge">+150 BONUS</div>
-                    <div class="plan-price">$19.99</div>
-                    <button class="btn-buy" onclick="openModal(2200, 19.99)">Comprar</button>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="plan-icon">💎</div>
-                    <div class="blocks-amount">3,650</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="bonus-badge">+350 BONUS</div>
-                    <div class="plan-price">$34.99</div>
-                    <button class="btn-buy" onclick="openModal(4000, 34.99)">Comprar</button>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="plan-icon">👑</div>
-                    <div class="blocks-amount">5,350</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="bonus-badge">+600 BONUS</div>
-                    <div class="plan-price">$49.99</div>
-                    <button class="btn-buy" onclick="openModal(5950, 49.99)">Comprar</button>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="plan-icon">🔥</div>
-                    <div class="blocks-amount">11,000</div>
-                    <div class="blocks-label">BLOCKS</div>
-                    <div class="bonus-badge">+1,500 BONUS</div>
-                    <div class="plan-price">$99.99</div>
-                    <button class="btn-buy" onclick="openModal(12500, 99.99)">Comprar</button>
-                </div>
-            </div>
-
-            <div class="payment-methods">
-                <p>Métodos de pago disponibles</p>
-                <div class="payment-options">
-                    <div class="payment-option paypal">
-                        <div class="payment-logo">💳 PayPal</div>
-                        <span>Pago seguro internacional</span>
-                    </div>
-                    <div class="payment-option bank">
-                        <div class="payment-logo">🏦 Transferencia Bancaria USD</div>
-                        <div class="account-number">
-                            <span>Cuenta:</span>
-                            <code>0102 0364390000140240</code>
-                            <button class="copy-btn" onclick="copyAccount()">📋 Copiar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Builder -->
-    <section class="team-builder">
-        <div class="builder-container">
-            <h3 class="builder-title">Arma Tu Equipo Perfecto 5v5</h3>
             
-            <div class="builder-slots" id="builderSlots">
-                <div class="builder-slot" data-slot="0" onclick="clearSlot(0)">
-                    <span class="slot-number">1</span>
-                    <span class="slot-icon">?</span>
-                    <span class="slot-label">Sentinel</span>
+            <!-- Voice Panel -->
+            <div class="voice-panel active" id="voicePanel">
+                <h4 style="margin-bottom:10px; color:#00ff88;">🎤 VOZ EQUIPO</h4>
+                <div class="voice-users" id="voiceUsers">
+                    <div class="voice-user speaking">
+                        <div class="voice-icon">🎙️</div>
+                        <span>Tú</span>
+                        <button onclick="toggleMute()" id="muteBtn" style="margin-left:auto; background:none; border:none; color:#00ff88; cursor:pointer;">🔊</button>
+                    </div>
                 </div>
-                <div class="builder-slot" data-slot="1" onclick="clearSlot(1)">
-                    <span class="slot-number">2</span>
-                    <span class="slot-icon">?</span>
-                    <span class="slot-label">Controller</span>
-                </div>
-                <div class="builder-slot" data-slot="2" onclick="clearSlot(2)">
-                    <span class="slot-number">3</span>
-                    <span class="slot-icon">?</span>
-                    <span class="slot-label">Duelist</span>
-                </div>
-                <div class="builder-slot" data-slot="3" onclick="clearSlot(3)">
-                    <span class="slot-number">4</span>
-                    <span class="slot-icon">?</span>
-                    <span class="slot-label">Initiator</span>
-                </div>
-                <div class="builder-slot" data-slot="4" onclick="clearSlot(4)">
-                    <span class="slot-number">5</span>
-                    <span class="slot-icon">?</span>
-                    <span class="slot-label">Flex</span>
-                </div>
-            </div>
-
-            <div class="role-selector">
-                <button class="role-btn" onclick="selectRole(0)">
-                    <span style="color: #ff6b35;">🛡️</span> Sentinel
-                </button>
-                <button class="role-btn" onclick="selectRole(1)">
-                    <span style="color: #00d4ff;">☁️</span> Controller
-                </button>
-                <button class="role-btn" onclick="selectRole(2)">
-                    <span style="color: #ff4655;">⚔️</span> Duelist
-                </button>
-                <button class="role-btn" onclick="selectRole(3)">
-                    <span style="color: #00ff88;">🔍</span> Initiator
-                </button>
-                <button class="role-btn" onclick="selectRole(4)">
-                    <span style="color: #bd00ff;">🎯</span> Flex
-                </button>
-            </div>
-
-            <p class="builder-hint">Haz clic en un rol para asignarlo a tu equipo. Haz clic en un slot para limpiarlo.</p>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-bg"></div>
-        <div class="cta-content">
-            <h2 class="cta-title">Tu Equipo Te Espera</h2>
-            <p class="cta-desc">Únete a millones de jugadores. Forma tu squad perfecto 5v5 y conquista el competitivo.</p>
-            <button class="cta-btn" onclick="showToast('¡Bienvenido a BLOCKS!')">Jugar Ahora Gratis</button>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <a href="#" class="logo">
-                    <div class="logo-mark"></div>
-                    BLOCKS
-                </a>
-                <p>El shooter táctico 5v5 definitivo. Donde cada bloque cuenta y la estrategia es todo.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Juego</h4>
-                <ul>
-                    <li><a href="#">Agentes</a></li>
-                    <li><a href="#">Mapas</a></li>
-                    <li><a href="#">Arsenal</a></li>
-                    <li><a href="#">Modos</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Competitivo</h4>
-                <ul>
-                    <li><a href="#">Clasificatorias</a></li>
-                    <li><a href="#">Torneos</a></li>
-                    <li><a href="#">Esports</a></li>
-                    <li><a href="#">Leaderboards</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Soporte</h4>
-                <ul>
-                    <li><a href="#">Centro de Ayuda</a></li>
-                    <li><a href="#">Código de Conducta</a></li>
-                    <li><a href="#">Estado del Servidor</a></li>
-                    <li><a href="#">Contacto</a></li>
-                </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Blocks Studios. Todos los derechos reservados.</p>
-            <div class="social-links">
-                <a href="#" class="social-icon" aria-label="X">𝕏</a>
-                <a href="#" class="social-icon" aria-label="Instagram">📷</a>
-                <a href="#" class="social-icon" aria-label="YouTube">▶</a>
-                <a href="#" class="social-icon" aria-label="Discord">💬</a>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- Game Overlay -->
+            <div class="game-overlay">
+                <!-- HUD -->
+                <div class="hud" id="gameHud">
+                    <div class="crosshair"></div>
+                    
+                    <div class="health-bar">
+                        <div class="label">❤️ SALUD</div>
+                        <div class="health-bg">
+                            <div class="health-fill" id="healthFill" style="width:100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="ammo-counter">
+                        <div class="ammo-current" id="ammoCurrent">30</div>
+                        <div class="ammo-reserve" id="ammoReserve">/ 90</div>
+                    </div>
+                    
+                    <div class="minimap" id="minimap"></div>
+                    
+                    <div class="kill-feed" id="killFeed"></div>
+                </div>
+                
+                <!-- Rewarded Ad Button -->
+                <button class="rewarded-ad-btn active" id="adBtn" onclick="showRewardedAd()">
+                    📺 Ver anuncio +50 VP
+                </button>
+                
+                <!-- Ad Container -->
+                <div class="ad-container" id="adContainer">
+                    <span>Publicidad (Simulado)</span>
+                </div>
+            </div>
+            
+            <!-- Store Panel -->
+            <div class="store-panel" id="storePanel">
+                <div class="store-header">
+                    <h2>🛒 TIENDA DE OBJETOS</h2>
+                    <button onclick="toggleStore()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">✕</button>
+                </div>
+                <div class="store-tabs">
+                    <button class="store-tab active" onclick="switchTab('featured')">Destacado</button>
+                    <button class="store-tab" onclick="switchTab('weapons')">Armas</button>
+                    <button class="store-tab" onclick="switchTab('agents')">Agentes</button>
+                    <button class="store-tab" onclick="switchTab('pass')">Pase de Batalla</button>
+                </div>
+                <div class="items-grid" id="itemsGrid">
+                    <!-- Items generados por JS -->
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Purchase Modal -->
-    <div class="modal-overlay" id="purchaseModal">
+    <!-- Match Found Modal -->
+    <div class="modal-overlay" id="matchModal">
         <div class="modal">
-            <div class="modal-icon">🎮</div>
-            <h3>Confirmar Compra</h3>
-            <p>Estás a punto de comprar:</p>
-            <div class="modal-blocks" id="modalBlocks">0</div>
-            <div style="color: var(--text-secondary); margin-bottom: 1.5rem;">BLOCKS</div>
-            <div class="modal-buttons">
-                <button class="modal-btn cancel" onclick="closeModal()">Cancelar</button>
-                <button class="modal-btn confirm" onclick="confirmPurchase()">Confirmar</button>
+            <h2>🎯 PARTIDA ENCONTRADA</h2>
+            <div class="match-teams">
+                <div class="team attack">
+                    <h3>ATAQUE</h3>
+                    <p>5 jugadores</p>
+                </div>
+                <div style="font-size:2rem;">VS</div>
+                <div class="team defense">
+                    <h3>DEFENSA</h3>
+                    <p>5 jugadores</p>
+                </div>
             </div>
+            <div id="matchTimer" style="font-size:1.5rem; color:#ffd700; margin-bottom:20px;">15</div>
+            <button class="accept-btn" onclick="acceptMatch()">ACEPTAR</button>
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <div class="toast-icon">✓</div>
-        <span id="toastMessage">Mensaje</span>
+    <!-- Anti-Cheat Warning -->
+    <div class="cheat-warning" id="cheatWarning">
+        ⚠️ Comportamiento sospechoso detectado
     </div>
 
+    <!-- Scripts -->
     <script>
-        // Particle System
-        const canvas = document.getElementById('particleCanvas');
+        // ==========================================
+        // GAME STATE & CONFIG
+        // ==========================================
+        const GameConfig = {
+            player: {
+                health: 100,
+                maxHealth: 100,
+                speed: 5,
+                position: { x: 0, y: 1.7, z: 0 },
+                rotation: { x: 0, y: 0 }
+            },
+            weapons: {
+                ak47: { damage: 35, fireRate: 600, ammo: 30, reserve: 90, reload: 2.5 },
+                m4a4: { damage: 33, fireRate: 666, ammo: 30, reserve: 90, reload: 2.2 },
+                awp: { damage: 115, fireRate: 41, ammo: 5, reserve: 30, reload: 3.7 },
+                pistol: { damage: 25, fireRate: 400, ammo: 12, reserve: 36, reload: 1.5 }
+            },
+            economy: {
+                startVP: 1000,
+                adReward: 50,
+                matchReward: { win: 100, loss: 50, kill: 10 }
+            }
+        };
+
+        const GameState = {
+            inQueue: false,
+            inMatch: false,
+            queueStartTime: null,
+            currentWeapon: 'ak47',
+            ammo: { current: 30, reserve: 90 },
+            health: 100,
+            vp: 1000,
+            inventory: ['ak47_default', 'm4a4_default'],
+            muted: false,
+            speaking: false
+        };
+
+        // ==========================================
+        // MATCHMAKING SYSTEM (Simulado)
+        // ==========================================
+        let queueInterval;
+        let matchAcceptTimer;
+
+        function toggleQueue() {
+            const btn = document.getElementById('findMatchBtn');
+            const status = document.getElementById('queueStatus');
+            const timer = document.getElementById('queueTimer');
+            
+            if (!GameState.inQueue) {
+                // Entrar a cola
+                GameState.inQueue = true;
+                GameState.queueStartTime = Date.now();
+                btn.textContent = 'CANCELAR';
+                btn.style.background = 'linear-gradient(90deg, #ff0055, #ff6b6b)';
+                status.style.display = 'block';
+                
+                // Simular búsqueda
+                queueInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - GameState.queueStartTime) / 1000);
+                    const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                    const secs = (elapsed % 60).toString().padStart(2, '0');
+                    timer.textContent = `${mins}:${secs}`;
+                    
+                    // Simular encontrar partida después de 5-15 segundos
+                    if (elapsed > 5 && Math.random() > 0.7) {
+                        foundMatch();
+                    }
+                }, 1000);
+                
+            } else {
+                // Salir de cola
+                clearInterval(queueInterval);
+                GameState.inQueue = false;
+                btn.textContent = 'JUGAR';
+                btn.style.background = 'linear-gradient(90deg, #00ff88, #00cc6a)';
+                status.style.display = 'none';
+                timer.textContent = '00:00';
+            }
+        }
+
+        function foundMatch() {
+            clearInterval(queueInterval);
+            document.getElementById('matchModal').classList.add('active');
+            
+            let timeLeft = 15;
+            matchAcceptTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('matchTimer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    declineMatch();
+                }
+            }, 1000);
+        }
+
+        function acceptMatch() {
+            clearInterval(matchAcceptTimer);
+            document.getElementById('matchModal').classList.remove('active');
+            startGame();
+        }
+
+        function declineMatch() {
+            clearInterval(matchAcceptTimer);
+            document.getElementById('matchModal').classList.remove('active');
+            toggleQueue(); // Volver a cola
+        }
+
+        // ==========================================
+        // GAME ENGINE (Canvas 3D Simulado)
+        // ==========================================
+        const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
         }
-        resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
-                this.life = Math.random() * 100 + 100;
-                this.hue = Math.random() > 0.5 ? 45 : 280;
-            }
-            
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.life--;
-                if (this.life <= 0) this.reset();
-            }
-            
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life / 200})`;
-                ctx.fill();
-            }
+        // Jugadores simulados
+        const bots = [];
+        for (let i = 0; i < 9; i++) {
+            bots.push({
+                x: Math.random() * 100 - 50,
+                z: Math.random() * 100 - 50,
+                team: i < 4 ? 'attack' : 'defense',
+                health: 100,
+                color: i < 4 ? '#ff0055' : '#0064ff'
+            });
         }
 
-        const particles = Array.from({ length: 80 }, () => new Particle());
+        function startGame() {
+            GameState.inMatch = true;
+            document.getElementById('gameHud').classList.add('active');
+            document.getElementById('findMatchBtn').textContent = 'EN PARTIDA';
+            document.getElementById('findMatchBtn').disabled = true;
+            document.getElementById('adBtn').classList.remove('active');
+            
+            // Iniciar loop de juego
+            requestAnimationFrame(gameLoop);
+            
+            // Simular daño recibido
+            setInterval(() => {
+                if (Math.random() > 0.8 && GameState.health > 0) {
+                    takeDamage(Math.floor(Math.random() * 20) + 10);
+                }
+            }, 3000);
+            
+            // Simular kills
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    addKillFeed(`Jugador${Math.floor(Math.random()*10)}`, `Jugador${Math.floor(Math.random()*10)}`, 'ak47');
+                }
+            }, 5000);
+        }
 
-        function animate() {
-            ctx.fillStyle = 'rgba(10, 14, 20, 0.05)';
+        function gameLoop() {
+            if (!GameState.inMatch) return;
+            
+            // Clear canvas
+            ctx.fillStyle = '#1a1a2e';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            // Dibujar "mundo" 3D simplificado
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
             
-            // Connections
-            particles.forEach((p1, i) => {
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
+            // Suelo
+            const gradient = ctx.createLinearGradient(0, centerY, 0, canvas.height);
+            gradient.addColorStop(0, '#2a2a4e');
+            gradient.addColorStop(1, '#0f0f23');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, centerY, canvas.width, canvas.height / 2);
+            
+            // Dibujar bots como círculos
+            bots.forEach(bot => {
+                const screenX = centerX + (bot.x - GameConfig.player.position.x) * 10;
+                const screenY = centerY + (bot.z - GameConfig.player.position.z) * 5;
+                
+                if (screenX > 0 && screenX < canvas.width && screenY > 0 && screenY < canvas.height) {
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, 15, 0, Math.PI * 2);
+                    ctx.fillStyle = bot.color;
+                    ctx.fill();
                     
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(255, 193, 7, ${0.1 * (1 - dist / 120)})`;
-                        ctx.stroke();
-                    }
-                });
+                    // Barra de vida
+                    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                    ctx.fillRect(screenX - 20, screenY - 25, 40, 5);
+                    ctx.fillStyle = '#00ff88';
+                    ctx.fillRect(screenX - 20, screenY - 25, 40 * (bot.health / 100), 5);
+                }
             });
             
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Scroll to section
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+            // Efecto de disparo
+            if (GameState.firing) {
+                ctx.strokeStyle = '#ffff00';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + (Math.random() - 0.5) * 50, centerY + (Math.random() - 0.5) * 50);
+                ctx.stroke();
+                GameState.firing = false;
             }
-        }
-
-        // Click burst effect
-        function createBurst(e) {
-            const rect = e.target.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
             
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = centerX + 'px';
-                particle.style.top = centerY + 'px';
-                particle.style.width = '8px';
-                particle.style.height = '8px';
-                particle.style.background = `hsl(${Math.random() * 60 + 40}, 100%, 50%)`;
-                particle.style.borderRadius = '50%';
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '9999';
-                
-                const angle = (Math.PI * 2 * i) / 30;
-                const velocity = 100 + Math.random() * 100;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-                
-                particle.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 800,
-                    easing: 'ease-out'
-                }).onfinish = () => particle.remove();
-                
-                document.body.appendChild(particle);
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Controles
+        canvas.addEventListener('click', () => {
+            if (GameState.inMatch) {
+                fire();
             }
-        }
+        });
 
-        // Toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Team Builder
-        const roles = [
-            { id: 'sentinel', name: 'Sentinel', icon: '🛡️', color: '#ff6b35' },
-            { id: 'controller', name: 'Controller', icon: '☁️', color: '#00d4ff' },
-            { id: 'duelist', name: 'Duelist', icon: '⚔️', color: '#ff4655' },
-            { id: 'initiator', name: 'Initiator', icon: '🔍', color: '#00ff88' },
-            { id: 'flex', name: 'Flex', icon: '🎯', color: '#bd00ff' },
-        ];
-
-        let slots = [null, null, null, null, null];
-
-        function selectRole(roleIndex) {
-            const emptySlot = slots.findIndex(s => s === null);
-            if (emptySlot !== -1) {
-                slots[emptySlot] = roles[roleIndex];
-                updateSlots();
+        document.addEventListener('keydown', (e) => {
+            if (!GameState.inMatch) return;
+            
+            switch(e.key.toLowerCase()) {
+                case 'w':
+                    GameConfig.player.position.z += 1;
+                    break;
+                case 's':
+                    GameConfig.player.position.z -= 1;
+                    break;
+                case 'a':
+                    GameConfig.player.position.x -= 1;
+                    break;
+                case 'd':
+                    GameConfig.player.position.x += 1;
+                    break;
+                case 'r':
+                    reload();
+                    break;
+                case 'b':
+                    toggleStore();
+                    break;
             }
-        }
+            
+            // Anti-cheat: detectar inputs imposibles
+            checkForCheats(e);
+        });
 
-        function clearSlot(index) {
-            slots[index] = null;
-            updateSlots();
-        }
-
-        function updateSlots() {
-            const slotElements = document.querySelectorAll('.builder-slot');
-            slotElements.forEach((slot, i) => {
-                const role = slots[i];
-                const iconEl = slot.querySelector('.slot-icon');
-                const labelEl = slot.querySelector('.slot-label');
+        function fire() {
+            if (GameState.ammo.current <= 0) {
+                reload();
+                return;
+            }
+            
+            GameState.ammo.current--;
+            GameState.firing = true;
+            updateAmmo();
+            
+            // Simular hit
+            bots.forEach(bot => {
+                const dx = bot.x - GameConfig.player.position.x;
+                const dz = bot.z - GameConfig.player.position.z;
+                const dist = Math.sqrt(dx*dx + dz*dz);
                 
-                if (role) {
-                    slot.classList.add('filled');
-                    slot.style.borderColor = role.color;
-                    iconEl.textContent = role.icon;
-                    iconEl.style.opacity = '1';
-                    labelEl.textContent = role.name;
-                } else {
-                    slot.classList.remove('filled');
-                    slot.style.borderColor = '';
-                    iconEl.textContent = '?';
-                    iconEl.style.opacity = '0.5';
-                    labelEl.textContent = roles[i].name;
+                if (dist < 10 && Math.random() > 0.5) {
+                    bot.health -= GameConfig.weapons[GameState.currentWeapon].damage;
+                    if (bot.health <= 0) {
+                        bot.health = 100;
+                        bot.x = Math.random() * 100 - 50;
+                        bot.z = Math.random() * 100 - 50;
+                        addKillFeed('Tú', `Bot${bots.indexOf(bot)}`, GameState.currentWeapon);
+                        addVP(GameConfig.economy.matchReward.kill);
+                    }
                 }
             });
         }
 
-        // Purchase Modal
-        let selectedBlocks = 0;
-        let selectedPrice = 0;
-
-        function openModal(blocks, price) {
-            selectedBlocks = blocks;
-            selectedPrice = price;
-            document.getElementById('modalBlocks').textContent = blocks.toLocaleString();
-            document.getElementById('purchaseModal').classList.add('active');
+        function reload() {
+            const weapon = GameConfig.weapons[GameState.currentWeapon];
+            const needed = weapon.ammo - GameState.ammo.current;
+            const available = Math.min(needed, GameState.ammo.reserve);
+            
+            GameState.ammo.current += available;
+            GameState.ammo.reserve -= available;
+            updateAmmo();
         }
 
-        function closeModal() {
-            document.getElementById('purchaseModal').classList.remove('active');
+        function takeDamage(amount) {
+            GameState.health = Math.max(0, GameState.health - amount);
+            document.getElementById('healthFill').style.width = `${GameState.health}%`;
+            
+            if (GameState.health <= 0) {
+                respawn();
+            }
         }
 
-        function confirmPurchase() {
-            showToast(`¡Compra exitosa! Recibiste ${selectedBlocks.toLocaleString()} BLOCKS`);
-            closeModal();
+        function respawn() {
+            GameState.health = 100;
+            GameConfig.player.position = { x: 0, y: 1.7, z: 0 };
+            document.getElementById('healthFill').style.width = '100%';
         }
 
-        // Copy account number to clipboard
-        function copyAccount() {
-            const accountNumber = '0102 0364390000140240';
-            navigator.clipboard.writeText(accountNumber).then(() => {
-                showToast('Número de cuenta copiado al portapapeles');
-            }).catch(() => {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = accountNumber;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showToast('Número de cuenta copiado al portapapeles');
+        function updateAmmo() {
+            document.getElementById('ammoCurrent').textContent = GameState.ammo.current;
+            document.getElementById('ammoReserve').textContent = `/ ${GameState.ammo.reserve}`;
+        }
+
+        function addKillFeed(killer, victim, weapon) {
+            const feed = document.getElementById('killFeed');
+            const entry = document.createElement('div');
+            entry.className = 'kill-entry';
+            entry.innerHTML = `<span style="color:#ff6b6b">${killer}</span> 💀 <span style="color:#fff">${victim}</span> <span style="color:#888">[${weapon}]</span>`;
+            feed.appendChild(entry);
+            
+            if (feed.children.length > 5) {
+                feed.removeChild(feed.firstChild);
+            }
+            
+            setTimeout(() => entry.remove(), 5000);
+        }
+
+        // ==========================================
+        // ANTI-CHEAT CLIENT-SIDE (Básico)
+        // ==========================================
+        const inputHistory = [];
+        const MAX_HISTORY = 100;
+
+        function checkForCheats(e) {
+            const now = Date.now();
+            inputHistory.push({ key: e.key, time: now, timestamp: now });
+            
+            if (inputHistory.length > MAX_HISTORY) {
+                inputHistory.shift();
+            }
+            
+            // Detectar autoclickers (inputs perfectamente espaciados)
+            const recent = inputHistory.filter(i => now - i.time < 1000);
+            if (recent.length > 10) {
+                const intervals = [];
+                for (let i = 1; i < recent.length; i++) {
+                    intervals.push(recent[i].time - recent[i-1].time);
+                }
+                
+                const variance = calculateVariance(intervals);
+                if (variance < 5) { // Muy consistente = bot
+                    triggerAntiCheat('AUTOMATION_DETECTED');
+                }
+            }
+            
+            // Detectar aim snap (cambios de rotación imposibles)
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const rotationSpeed = Math.abs(GameConfig.player.rotation.y - (GameConfig.player.rotation.y + (e.key === 'ArrowLeft' ? -30 : 30)));
+                if (rotationSpeed > 180) {
+                    triggerAntiCheat('SPINBOT_DETECTED');
+                }
+            }
+        }
+
+        function calculateVariance(arr) {
+            const mean = arr.reduce((a, b) => a + b) / arr.length;
+            return arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / arr.length;
+        }
+
+        function triggerAntiCheat(reason) {
+            console.warn('Anti-cheat:', reason);
+            const warning = document.getElementById('cheatWarning');
+            warning.classList.add('active');
+            warning.textContent = `⚠️ ${reason}`;
+            
+            setTimeout(() => warning.classList.remove('active'), 3000);
+            
+            // En producción, enviar al servidor
+            // fetch('/api/anticheat/report', { method: 'POST', body: JSON.stringify({ reason, history: inputHistory }) });
+        }
+
+        // ==========================================
+        // STORE & MONETIZATION
+        // ==========================================
+        const storeItems = [
+            { id: 'ak47_dragon', name: 'AK-47 Dragon', price: 975, type: 'weapon', icon: '🔥', owned: false },
+            { id: 'm4a4_prime', name: 'M4A4 Prime', price: 875, type: 'weapon', icon: '✨', owned: false },
+            { id: 'awp_wildfire', name: 'AWP Wildfire', price: 1200, type: 'weapon', icon: '🎯', owned: false },
+            { id: 'agent_phoenix', name: 'Agente Phoenix', price: 1000, type: 'agent', icon: '🔥', owned: false },
+            { id: 'agent_jett', name: 'Agente Jett', price: 1000, type: 'agent', icon: '💨', owned: false },
+            { id: 'battle_pass', name: 'Pase Batalla S1', price: 1000, type: 'pass', icon: '🎫', owned: false, featured: true },
+            { id: 'starter_pack', name: 'Pack Inicio', price: 499, type: 'bundle', icon: '🎁', owned: false, featured: true, discount: 0.5 }
+        ];
+
+        function toggleStore() {
+            const store = document.getElementById('storePanel');
+            store.classList.toggle('active');
+            if (store.classList.contains('active')) {
+                renderStore('featured');
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.store-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderStore(tab);
+        }
+
+        function renderStore(category) {
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = '';
+            
+            const items = category === 'featured' 
+                ? storeItems.filter(i => i.featured || !i.owned)
+                : storeItems.filter(i => i.type === category && !i.owned);
+            
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                const price = item.discount ? Math.floor(item.price * (1 - item.discount)) : item.price;
+                
+                card.innerHTML = `
+                    <div class="item-image">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">
+                        ${item.discount ? `<span style="text-decoration:line-through;opacity:0.5;">${item.price}</span> ` : ''}
+                        ${price} VP
+                    </div>
+                    <button class="buy-btn" onclick="buyItem('${item.id}')" ${GameState.vp < price ? 'disabled' : ''}>
+                        ${GameState.vp < price ? 'Insuficiente VP' : 'Comprar'}
+                    </button>
+                `;
+                grid.appendChild(card);
             });
         }
 
-        // Close modal on overlay click
-        document.getElementById('purchaseModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeModal();
+        function buyItem(itemId) {
+            const item = storeItems.find(i => i.id === itemId);
+            if (!item || item.owned) return;
+            
+            const price = item.discount ? Math.floor(item.price * (1 - item.discount)) : item.price;
+            if (GameState.vp < price) return;
+            
+            GameState.vp -= price;
+            item.owned = true;
+            GameState.inventory.push(itemId);
+            
+            updateVP();
+            renderStore(document.querySelector('.store-tab.active').textContent.toLowerCase());
+            
+            // Notificación
+            alert(`✅ Comprado: ${item.name}`);
+        }
+
+        function addVP(amount) {
+            GameState.vp += amount;
+            updateVP();
+        }
+
+        function updateVP() {
+            document.getElementById('vpBalance').textContent = GameState.vp;
+        }
+
+        // ==========================================
+        // ADVERTISING INTEGRATION
+        // ==========================================
+        function showRewardedAd() {
+            // Simulación - En producción usar AdinPlay/AppLixir
+            const btn = document.getElementById('adBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Cargando anuncio...';
+            
+            setTimeout(() => {
+                // Simular video de 30s
+                let timeLeft = 30;
+                const interval = setInterval(() => {
+                    timeLeft--;
+                    btn.textContent = `📺 Anuncio en ${timeLeft}s...`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        addVP(GameConfig.economy.adReward);
+                        btn.textContent = '✅ +50 VP Ganados';
+                        
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.textContent = '📺 Ver anuncio +50 VP';
+                        }, 2000);
+                    }
+                }, 1000);
+            }, 1000);
+        }
+
+        // Banner ads simulación
+        function initAds() {
+            // En producción: cargar AdSense o AdinPlay
+            console.log('Ads initialized');
+        }
+
+        // ==========================================
+        // VOICE CHAT (WebRTC Simulado)
+        // ==========================================
+        let localStream = null;
+        let peerConnections = {};
+        let isMuted = false;
+
+        async function initVoiceChat() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: { 
+                        echoCancellation: true, 
+                        noiseSuppression: true,
+                        autoGainControl: true 
+                    } 
+                });
+                
+                // Simular detección de voz
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(localStream);
+                microphone.connect(analyser);
+                
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                
+                function checkVoice() {
+                    analyser.getByteFrequencyData(dataArray);
+                    const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+                    
+                    // Umbral de voz detectada
+                    const speaking = average > 30;
+                    if (speaking !== GameState.speaking) {
+                        GameState.speaking = speaking;
+                        updateVoiceUI();
+                    }
+                    
+                    requestAnimationFrame(checkVoice);
+                }
+                checkVoice();
+                
+            } catch (err) {
+                console.error('Voice chat error:', err);
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            if (localStream) {
+                localStream.getAudioTracks().forEach(track => track.enabled = !isMuted);
+            }
+            document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊';
+        }
+
+        function updateVoiceUI() {
+            const users = document.getElementById('voiceUsers');
+            const userDiv = users.firstElementChild;
+            if (GameState.speaking) {
+                userDiv.classList.add('speaking');
+            } else {
+                userDiv.classList.remove('speaking');
+            }
+        }
+
+        // Simular otros jugadores hablando
+        setInterval(() => {
+            if (!GameState.inMatch) return;
+            
+            const users = document.getElementById('voiceUsers');
+            // Añadir/quitar jugadores simulados hablando
+            if (Math.random() > 0.7 && users.children.length < 5) {
+                const div = document.createElement('div');
+                div.className = 'voice-user';
+                div.innerHTML = `
+                    <div class="voice-icon">🎙️</div>
+                    <span>Compañero${users.children.length}</span>
+                `;
+                users.appendChild(div);
+                
+                // Simular que hablan
+                setTimeout(() => div.classList.add('speaking'), 1000);
+                setTimeout(() => div.classList.remove('speaking'), 4000);
+            }
+        }, 3000);
+
+        // ==========================================
+        // WEBSOCKET CONNECTION (Simulado)
+        // ==========================================
+        class GameSocket {
+            constructor() {
+                this.connected = false;
+                this.listeners = {};
+                
+                // En producción: conectar a servidor real
+                // this.ws = new WebSocket('wss://tu-servidor.com');
+            }
+            
+            on(event, callback) {
+                this.listeners[event] = callback;
+            }
+            
+            emit(event, data) {
+                // Simular respuesta del servidor
+                setTimeout(() => {
+                    if (this.listeners[event]) {
+                        this.listeners[event](data);
+                    }
+                }, 100);
+            }
+            
+            // Simular eventos del servidor
+            simulateServerEvents() {
+                setInterval(() => {
+                    // Simular actualizaciones de posición de otros jugadores
+                    if (GameState.inMatch && this.listeners['player:moved']) {
+                        bots.forEach(bot => {
+                            // Movimiento simple de bots
+                            bot.x += (Math.random() - 0.5) * 2;
+                            bot.z += (Math.random() - 0.5) * 2;
+                            
+                            this.listeners['player:moved']({
+                                playerId: `bot_${bots.indexOf(bot)}`,
+                                position: { x: bot.x, y: 0, z: bot.z },
+                                rotation: { y: Math.random() * 360 }
+                            });
+                        });
+                    }
+                }, 100);
+            }
+        }
+
+        const socket = new GameSocket();
+        socket.simulateServerEvents();
+
+        // ==========================================
+        // GAME MODE SELECTION
+        // ==========================================
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
         });
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(10, 14, 20, 0.98)';
-            } else {
-                navbar.style.background = 'rgba(10, 14, 20, 0.8)';
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        window.onload = () => {
+            updateVP();
+            initVoiceChat();
+            initAds();
+            
+            // Cargar anuncios reales si existen
+            if (window.adinplay) {
+                adinplay.init({ gameId: 'fps_web_game' });
+            }
+        };
+
+        // Prevenir trampa: desactivar clic derecho en juego
+        canvas.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // Detectar cambio de pestaña (anti-AFK)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && GameState.inMatch) {
+                console.log('Player tabbed out during match');
+                // En ranked: penalización
             }
         });
     </script>
+    
+    <!-- Ad Scripts (Descomentar en producción) -->
+    <!-- <script src="https://adinplay.com/sdk.js"></script> -->
+    <!-- <script src="https://cdn.applixir.com/applixir.sdk.js"></script> -->
 </body>
 </html>
